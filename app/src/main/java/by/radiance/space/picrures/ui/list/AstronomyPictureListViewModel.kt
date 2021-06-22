@@ -15,13 +15,15 @@ class AstronomyPictureListViewModel(
 
     override val pictures: LiveData<List<AstronomyPicture>> = MediatorLiveData<List<AstronomyPicture>>().apply {
         addSource(_todayPicture) {
-            val current = value?.toMutableList()
-            current?.add(0, it)
+            val current = mutableListOf(it)
+            current.addAll(_pictures.value?: emptyList())
             postValue(current)
         }
         addSource(_pictures) {
-            val current = value?.toMutableList()
-            current?.addAll(it)
+            val current = it.toMutableList()
+            _todayPicture.value?.let {
+                current.add(0, it)
+            }
             postValue(current)
         }
     }

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import by.radiance.space.picrures.R
 import by.radiance.space.pictures.domain.entity.Image
@@ -35,6 +36,10 @@ class AstronomyPictureFragment : Fragment(), KoinComponent {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initViewModels()
         observeViewModels()
+
+        iv_picture.setOnClickListener {
+            findNavController().navigate(AstronomyPictureFragmentDirections.actionAstronomyPictureFragmentToAstronomyPictureListFragment())
+        }
     }
 
     private fun initViewModels() {
