@@ -16,7 +16,7 @@ class TodayAstronomyPictureUseCase(
 
         val today = todayAstronomyPictureRepository.get()
 
-        return if (today == null || today.date != today()) {
+        return if (today == null || !today.id.isToday) {
             val remote = remoteAstronomyPictureRepository.get(today(), token)
             todayAstronomyPictureRepository.save(remote)
         } else {
