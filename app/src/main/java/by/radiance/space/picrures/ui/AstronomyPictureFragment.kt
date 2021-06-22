@@ -11,6 +11,7 @@ import by.radiance.space.picrures.R
 import by.radiance.space.pictures.domain.entity.Image
 import by.radiance.space.pictures.domain.usecase.today.TodayAstronomyPictureUseCase
 import com.bumptech.glide.Glide
+import kotlinx.android.synthetic.main.astronomy_picture_fragment.*
 import kotlinx.coroutines.*
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
@@ -39,20 +40,15 @@ class AstronomyPictureFragment : Fragment(), KoinComponent {
         GlobalScope.launch(Dispatchers.IO) {
             val data = todayAstronomyPictureUseCase.get()
 
-            val title = view.findViewById<TextView>(R.id.tv_title)
-            val explanation = view.findViewById<TextView>(R.id.tv_explanation)
-            val copyright = view.findViewById<TextView>(R.id.tv_copyright)
-            val picture = view.findViewById<ImageView>(R.id.iv_picture)
-
             launch(Dispatchers.Main) {
-                title.text = data.title
-                explanation.text = data.explanation
-                copyright.text = data.copyright
+                tv_title.text = data.title
+                tv_explanation.text = data.explanation
+                tv_copyright.text = data.copyright
 
                 Glide
                     .with(view)
                     .load((data.source as Image).light)
-                    .into(picture)
+                    .into(iv_picture)
             }
         }
     }
