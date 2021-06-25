@@ -8,4 +8,5 @@ interface PictureViewModel {
     val picture: LiveData<AstronomyPicture>
 
     fun setPicture(id: PictureId)
+    fun onSaveClicked()
 }

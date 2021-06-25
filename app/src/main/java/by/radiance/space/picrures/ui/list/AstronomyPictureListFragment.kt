@@ -6,11 +6,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import by.radiance.space.picrures.R
 import by.radiance.space.picrures.ui.list.recycler.AstronomyPictureAdapter
 import by.radiance.space.picrures.ui.list.recycler.AstronomyPictureAdapter.Companion.PICTURE
 import by.radiance.space.picrures.ui.list.recycler.AstronomyPictureAdapter.Companion.TODAY_PICTURE
+import by.radiance.space.picrures.ui.picture.AstronomyPictureFragmentDirections
 import by.radiance.space.pictures.domain.entity.PictureId
 import kotlinx.android.synthetic.main.astronomy_picture_list_fragment.*
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -59,6 +61,7 @@ class AstronomyPictureListFragment : Fragment() {
     }
 
     private fun onClick(id: PictureId) {
-
+        val destination = AstronomyPictureListFragmentDirections.actionAstronomyPictureListFragmentToAstronomyPictureFragment2(id)
+        findNavController().navigate(destination)
     }
 }

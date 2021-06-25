@@ -12,7 +12,7 @@
 
     <ImageView
         android:id="@+id/iv_is_saved"
-        android:src="@drawable/outline_favorite_24"
+        android:src="@drawable/ic_baseline_favorite_24"
         android:layout_margin="10dp"
         android:layout_gravity="top|end"
         android:layout_width="wrap_content"

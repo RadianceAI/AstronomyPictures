@@ -37,7 +37,7 @@ class RoomAstronomyPicturesRepository(
     }
 
     override suspend fun getSavedPictureById(id: PictureId): AstronomyPicture? {
-        return pictureDAO.getPicture(id.date).firstOrNull()?.let {
+        return pictureDAO.getPicture(Date(id.date.time)).firstOrNull()?.let {
             AstronomyPicture(
                 id = PictureId(it.id),
                 title = it.title?:"",
@@ -63,7 +63,7 @@ class RoomAstronomyPicturesRepository(
     }
 
     override suspend fun delete(astronomyPicture: AstronomyPicture) {
-        pictureDAO.delete(astronomyPicture.id.date)
+        pictureDAO.delete(Date(astronomyPicture.id.date.time))
     }
 
 

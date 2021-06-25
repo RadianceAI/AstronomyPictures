@@ -37,8 +37,11 @@ class AstronomyPictureFragment : Fragment(), KoinComponent {
         initViewModels()
         observeViewModels()
 
-        iv_picture.setOnClickListener {
+        tv_collection.setOnClickListener {
             findNavController().navigate(AstronomyPictureFragmentDirections.actionAstronomyPictureFragmentToAstronomyPictureListFragment())
+        }
+        iv_is_saved.setOnClickListener {
+            pictureViewModel.onSaveClicked()
         }
     }
 
@@ -54,6 +57,8 @@ class AstronomyPictureFragment : Fragment(), KoinComponent {
                     .load((picture.source as Image).huge)
                     .into(iv_picture)
             }
+
+            iv_is_saved.setImageResource(if (picture.isSaved) R.drawable.ic_baseline_favorite_24 else R.drawable.ic_baseline_favorite_24 )
         }
     }
 }

@@ -22,5 +22,9 @@
         android:id="@+id/astronomyPictureListFragment"
         android:name="by.radiance.space.picrures.ui.list.AstronomyPictureListFragment"
         android:label="astronomy_picture_list_fragment"
-        tools:layout="@layout/astronomy_picture_list_fragment" />
+        tools:layout="@layout/astronomy_picture_list_fragment" >
+        <action
+            android:id="@+id/action_astronomyPictureListFragment_to_astronomyPictureFragment2"
+            app:destination="@id/astronomyPictureFragment" />
+    </fragment>
 </navigation>

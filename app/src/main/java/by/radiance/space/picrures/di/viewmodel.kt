@@ -7,5 +7,5 @@ import org.koin.dsl.module
 
 val viewModel = module {
     viewModel { AstronomyPictureListViewModel(get(), get()) }
-    viewModel { AstronomyPictureViewModel(get(), get()) }
+    viewModel { AstronomyPictureViewModel(get(), get(), get()) }
 }

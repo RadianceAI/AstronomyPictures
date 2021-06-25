@@ -23,7 +23,7 @@ class AstronomyPictureAdapter(
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (data[position].id.isToday) TODAY_PICTURE else PICTURE
+        return if (position == 0) TODAY_PICTURE else PICTURE
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -57,9 +57,13 @@ class AstronomyPictureAdapter(
         return PictureHolder(view, onClick)
     }
 
-    class TodayPictureHolder(view: View, onClick: ((id: PictureId) -> Unit)): RecyclerView.ViewHolder(view) {
+    class TodayPictureHolder(view: View, private val onClick: ((id: PictureId) -> Unit)): RecyclerView.ViewHolder(view) {
 
         fun bind(astronomyPicture: AstronomyPicture) {
+            itemView.iv_today_picture.setOnClickListener {
+                onClick.invoke(astronomyPicture.id)
+            }
+
             Glide
                 .with(itemView)
                 .load((astronomyPicture.source as Image).huge)
@@ -69,9 +73,13 @@ class AstronomyPictureAdapter(
         }
     }
 
-    class PictureHolder(view: View, onClick: ((id: PictureId) -> Unit)): RecyclerView.ViewHolder(view) {
+    class PictureHolder(view: View, private val onClick: ((id: PictureId) -> Unit)): RecyclerView.ViewHolder(view) {
 
         fun bind(astronomyPicture: AstronomyPicture) {
+            itemView.iv_picture.setOnClickListener {
+                onClick.invoke(astronomyPicture.id)
+            }
+
             Glide
                 .with(itemView)
                 .load((astronomyPicture.source as Image).huge)

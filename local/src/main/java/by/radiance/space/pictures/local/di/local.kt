@@ -7,7 +7,7 @@ import org.koin.android.ext.koin.androidApplication
 import org.koin.dsl.module
 
 val local = module {
-    single { RoomAstronomyPicturesRepository() as SavedAstronomyPicturesRepository }
+    single { RoomAstronomyPicturesRepository(get()) as SavedAstronomyPicturesRepository }
 
     single { AppDatabase.getInstance(androidApplication()) }
     single { get<AppDatabase>().pictureDao() }
