@@ -28,7 +28,9 @@ class AstronomyPictureViewModel(
             }
 
             todayPicture?.let {
-                _picture.postValue(it)
+                launch(Dispatchers.Main) {
+                    _picture.postValue(it)
+                }
             }
         }
     }

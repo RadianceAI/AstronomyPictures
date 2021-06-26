@@ -6,7 +6,7 @@ import by.radiance.space.pictures.domain.usecase.today.TodayAstronomyPictureUseC
 import org.koin.dsl.module
 
 val usecase = module {
-    single { TodayAstronomyPictureUseCase(get(), get(), get()) }
+    single { TodayAstronomyPictureUseCase(get(), get(), get(), get()) }
     single { SavedAstronomyPicturesUseCase(get()) }
     single { SaveAstronomyPictureUseCase(get()) }
 }
