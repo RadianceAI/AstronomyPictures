@@ -54,7 +54,7 @@ class RoomAstronomyPicturesRepository(
             id = Date(astronomyPicture.id.date.time),
             title = astronomyPicture.title,
             explanation = astronomyPicture.explanation,
-            copyright = astronomyPicture.copyright,
+            copyright = astronomyPicture.copyright?:"",
             src = if(astronomyPicture.source is Image) (astronomyPicture.source as Image).light else "",
             hsrc = if(astronomyPicture.source is Image) (astronomyPicture.source as Image).huge else "",
         )).let {
