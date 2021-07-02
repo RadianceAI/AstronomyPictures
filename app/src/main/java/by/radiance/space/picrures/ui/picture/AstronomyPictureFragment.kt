@@ -4,23 +4,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import by.radiance.space.picrures.R
+import by.radiance.space.picrures.ui.picture.viewModel.AstronomyPictureViewModel
 import by.radiance.space.pictures.domain.entity.Image
 import by.radiance.space.pictures.domain.entity.PictureId
-import by.radiance.space.pictures.domain.usecase.today.TodayAstronomyPictureUseCase
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.astronomy_picture_fragment.*
-import kotlinx.coroutines.*
 import org.koin.core.component.KoinComponent
-import org.koin.core.component.get
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class AstronomyPictureFragment : Fragment(), KoinComponent {
+class AstronomyPictureFragment : Fragment() {
 
     private val pictureViewModel: AstronomyPictureViewModel by viewModel()
     val args: AstronomyPictureFragmentArgs by navArgs()
@@ -41,16 +37,16 @@ class AstronomyPictureFragment : Fragment(), KoinComponent {
             findNavController().navigate(AstronomyPictureFragmentDirections.actionAstronomyPictureFragmentToAstronomyPictureListFragment())
         }
         iv_is_saved.setOnClickListener {
-            pictureViewModel.onSaveClicked()
+            pictureViewModel.save()
         }
     }
 
     private fun initViewModels() {
-        pictureViewModel.setPicture(args.id?: PictureId.today)
+        pictureViewModel.init(args.id?: PictureId.today)
     }
 
     private fun observeViewModels() {
-        pictureViewModel.picture.observe(viewLifecycleOwner) { picture ->
+        pictureViewModel.astronomyPicture.observe(viewLifecycleOwner) { picture ->
             view?.let { view ->
                 Glide
                     .with(view)

@@ -20,7 +20,7 @@ class TodayAstronomyPictureUseCase(
 
         val today = if (savedToday == null || !savedToday.id.isToday) {
             val remote = remoteAstronomyPictureRepository.get(today(), token)
-            todayAstronomyPictureRepository.save(remote)
+            todayAstronomyPictureRepository.saveTodayPicture(remote)
         } else {
             savedToday
         }

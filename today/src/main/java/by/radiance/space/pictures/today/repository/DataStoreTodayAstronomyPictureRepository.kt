@@ -35,7 +35,7 @@ class DataStoreTodayAstronomyPictureRepository(
         }.first()
     }
 
-    override suspend fun save(picture: AstronomyPicture): AstronomyPicture {
+    override suspend fun saveTodayPicture(picture: AstronomyPicture): AstronomyPicture {
         dataStore.edit { preference ->
             preference[ID_KEY] = getDate(picture.id.date)
             preference[TITLE_KEY] = picture.title?:""
@@ -48,6 +48,11 @@ class DataStoreTodayAstronomyPictureRepository(
             preference[HSRC_KEY] = if (source is Image) source.huge else ""
             preference[IS_SAVED_KEY] = picture.isSaved
         }
+        return picture
+    }
+
+    override suspend fun saveRandomPicture(picture: AstronomyPicture): AstronomyPicture {
+        //todo
         return picture
     }
 

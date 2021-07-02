@@ -8,7 +8,7 @@ import retrofit2.http.Query
 interface GetAstronomyPicture {
 
     @GET("/planetary/apod")
-    suspend fun getAstronomyPictures(
+    suspend fun get(
         @Query("api_key") apiKey: String,
         @Query("date") date: String,
         @Query("thumbs") thumbnail: Boolean

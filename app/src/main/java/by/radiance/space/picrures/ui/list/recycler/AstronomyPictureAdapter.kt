@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.item_picture.view.*
 import kotlinx.android.synthetic.main.item_today_picture.view.*
 
 class AstronomyPictureAdapter(
-    var data: List<AstronomyPicture>,
+    var data: List<AstronomyPicture?>,
     private val onClick: (id: PictureId) -> Unit
 ): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -23,7 +23,7 @@ class AstronomyPictureAdapter(
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (position == 0) TODAY_PICTURE else PICTURE
+        return if (position in 0..1) TODAY_PICTURE else PICTURE
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -59,33 +59,37 @@ class AstronomyPictureAdapter(
 
     class TodayPictureHolder(view: View, private val onClick: ((id: PictureId) -> Unit)): RecyclerView.ViewHolder(view) {
 
-        fun bind(astronomyPicture: AstronomyPicture) {
-            itemView.iv_today_picture.setOnClickListener {
-                onClick.invoke(astronomyPicture.id)
+        fun bind(astronomyPicture: AstronomyPicture?) {
+            if (astronomyPicture != null) {
+                itemView.iv_today_picture.setOnClickListener {
+                    onClick.invoke(astronomyPicture.id)
+                }
+
+                Glide
+                        .with(itemView)
+                        .load((astronomyPicture.source as Image).huge)
+                        .into(itemView.iv_today_picture)
+
+                itemView.tv_today_title.text = astronomyPicture.title
             }
-
-            Glide
-                .with(itemView)
-                .load((astronomyPicture.source as Image).huge)
-                .into(itemView.iv_today_picture)
-
-            itemView.tv_today_title.text = astronomyPicture.title
         }
     }
 
     class PictureHolder(view: View, private val onClick: ((id: PictureId) -> Unit)): RecyclerView.ViewHolder(view) {
 
-        fun bind(astronomyPicture: AstronomyPicture) {
-            itemView.iv_picture.setOnClickListener {
-                onClick.invoke(astronomyPicture.id)
+        fun bind(astronomyPicture: AstronomyPicture?) {
+            if (astronomyPicture != null) {
+                itemView.iv_picture.setOnClickListener {
+                    onClick.invoke(astronomyPicture.id)
+                }
+
+                Glide
+                        .with(itemView)
+                        .load((astronomyPicture.source as Image).huge)
+                        .into(itemView.iv_picture)
+
+                itemView.tv_title.text = astronomyPicture.title
             }
-
-            Glide
-                .with(itemView)
-                .load((astronomyPicture.source as Image).huge)
-                .into(itemView.iv_picture)
-
-            itemView.tv_title.text = astronomyPicture.title
         }
     }
 }
