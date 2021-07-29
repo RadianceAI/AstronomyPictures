@@ -5,16 +5,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import by.radiance.space.picrures.R
-import by.radiance.space.pictures.domain.entity.AstronomyPicture
+import by.radiance.space.pictures.domain.entity.Picture
 import by.radiance.space.pictures.domain.entity.Image
-import by.radiance.space.pictures.domain.entity.PictureId
+import by.radiance.space.pictures.domain.entity.Id
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.item_picture.view.*
 import kotlinx.android.synthetic.main.item_today_picture.view.*
 
 class AstronomyPictureAdapter(
-    var data: List<AstronomyPicture?>,
-    private val onClick: (id: PictureId) -> Unit
+        var data: List<Picture?>,
+        private val onClick: (id: Id) -> Unit
 ): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
@@ -57,38 +57,38 @@ class AstronomyPictureAdapter(
         return PictureHolder(view, onClick)
     }
 
-    class TodayPictureHolder(view: View, private val onClick: ((id: PictureId) -> Unit)): RecyclerView.ViewHolder(view) {
+    class TodayPictureHolder(view: View, private val onClick: ((id: Id) -> Unit)): RecyclerView.ViewHolder(view) {
 
-        fun bind(astronomyPicture: AstronomyPicture?) {
-            if (astronomyPicture != null) {
+        fun bind(picture: Picture?) {
+            if (picture != null) {
                 itemView.iv_today_picture.setOnClickListener {
-                    onClick.invoke(astronomyPicture.id)
+                    onClick.invoke(picture.id)
                 }
 
                 Glide
                         .with(itemView)
-                        .load((astronomyPicture.source as Image).huge)
+                        .load((picture.source as Image).huge)
                         .into(itemView.iv_today_picture)
 
-                itemView.tv_today_title.text = astronomyPicture.title
+                itemView.tv_today_title.text = picture.title
             }
         }
     }
 
-    class PictureHolder(view: View, private val onClick: ((id: PictureId) -> Unit)): RecyclerView.ViewHolder(view) {
+    class PictureHolder(view: View, private val onClick: ((id: Id) -> Unit)): RecyclerView.ViewHolder(view) {
 
-        fun bind(astronomyPicture: AstronomyPicture?) {
-            if (astronomyPicture != null) {
+        fun bind(picture: Picture?) {
+            if (picture != null) {
                 itemView.iv_picture.setOnClickListener {
-                    onClick.invoke(astronomyPicture.id)
+                    onClick.invoke(picture.id)
                 }
 
                 Glide
                         .with(itemView)
-                        .load((astronomyPicture.source as Image).huge)
+                        .load((picture.source as Image).huge)
                         .into(itemView.iv_picture)
 
-                itemView.tv_title.text = astronomyPicture.title
+                itemView.tv_title.text = picture.title
             }
         }
     }

@@ -14,8 +14,8 @@ import by.radiance.space.picrures.ui.list.recycler.AstronomyPictureAdapter.Compa
 import by.radiance.space.picrures.ui.list.viewModel.AstronomyPictureListViewModel
 import by.radiance.space.picrures.ui.list.viewModel.RandomAstronomyPictureViewModel
 import by.radiance.space.picrures.ui.list.viewModel.TodayAstronomyPictureViewModel
-import by.radiance.space.pictures.domain.entity.AstronomyPicture
-import by.radiance.space.pictures.domain.entity.PictureId
+import by.radiance.space.pictures.domain.entity.Picture
+import by.radiance.space.pictures.domain.entity.Id
 import by.radiance.space.pictures.domain.presenter.PictureListViewModel
 import by.radiance.space.pictures.domain.presenter.RandomPictureViewModel
 import by.radiance.space.pictures.domain.presenter.TodayPictureViewModel
@@ -28,9 +28,9 @@ class AstronomyPictureListFragment : Fragment() {
     private val todayViewModel: TodayPictureViewModel by viewModel<TodayAstronomyPictureViewModel>()
     private val randomViewModel: RandomPictureViewModel by viewModel<RandomAstronomyPictureViewModel>()
 
-    private var currentList: List<AstronomyPicture?> = emptyList()
-    private var todayPicture: AstronomyPicture? = null
-    private var randomPicture: AstronomyPicture? = null
+    private var currentList: List<Picture?> = emptyList()
+    private var todayPicture: Picture? = null
+    private var randomPicture: Picture? = null
 
     private val adapter: AstronomyPictureAdapter = AstronomyPictureAdapter(emptyList(), ::onClick)
 
@@ -66,7 +66,7 @@ class AstronomyPictureListFragment : Fragment() {
     }
 
     private fun observeViewModels() {
-        listViewModel.astronomyPictureList.observe(viewLifecycleOwner) { pictures ->
+        listViewModel.pictureList.observe(viewLifecycleOwner) { pictures ->
             pictures?.let {
                 currentList = pictures
                 updateAdapterData()
@@ -90,7 +90,7 @@ class AstronomyPictureListFragment : Fragment() {
         adapter.notifyDataSetChanged()
     }
 
-    private fun onClick(id: PictureId) {
+    private fun onClick(id: Id) {
         val destination = AstronomyPictureListFragmentDirections.actionAstronomyPictureListFragmentToAstronomyPictureFragment2(id)
         findNavController().navigate(destination)
     }

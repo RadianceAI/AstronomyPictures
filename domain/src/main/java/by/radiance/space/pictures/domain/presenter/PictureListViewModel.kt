@@ -1,10 +1,15 @@
 package by.radiance.space.pictures.domain.presenter
 
-import androidx.lifecycle.LiveData
-import by.radiance.space.pictures.domain.entity.AstronomyPicture
+import by.radiance.space.pictures.domain.entity.Picture
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.StateFlow
+import java.util.*
 
+@ExperimentalCoroutinesApi
 interface PictureListViewModel {
-    val astronomyPictureList: LiveData<List<AstronomyPicture>>
+    val today: StateFlow<Picture>
+    val random: StateFlow<Picture>
+    val list: StateFlow<List<Picture>>
 
-    fun init()
+    fun filter(stateDate: Date, endDate: Date)
 }

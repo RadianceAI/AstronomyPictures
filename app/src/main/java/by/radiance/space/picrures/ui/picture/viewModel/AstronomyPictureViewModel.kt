@@ -1,8 +1,8 @@
 package by.radiance.space.picrures.ui.picture.viewModel
 
 import androidx.lifecycle.*
-import by.radiance.space.pictures.domain.entity.AstronomyPicture
-import by.radiance.space.pictures.domain.entity.PictureId
+import by.radiance.space.pictures.domain.entity.Picture
+import by.radiance.space.pictures.domain.entity.Id
 import by.radiance.space.pictures.domain.entity.QrCode
 import by.radiance.space.pictures.domain.presenter.PictureDetailsViewModel
 import by.radiance.space.pictures.domain.usecase.save.SaveAstronomyPictureUseCase
@@ -16,13 +16,13 @@ class AstronomyPictureViewModel(
     private val saveAstronomyPictureUseCase: SaveAstronomyPictureUseCase,
     private val todayAstronomyPictureUseCase: TodayAstronomyPictureUseCase,
 ): PictureDetailsViewModel, ViewModel() {
-    private val _astronomyPicture = MutableLiveData<AstronomyPicture>()
-    override val astronomyPicture: LiveData<AstronomyPicture> = _astronomyPicture
+    private val _astronomyPicture = MutableLiveData<Picture>()
+    override val picture: LiveData<Picture> = _astronomyPicture
 
     private val _qrCode = MutableLiveData<QrCode>()
     override val qrCode: LiveData<QrCode> = _qrCode
 
-    override fun init(id: PictureId) {
+    override fun init(id: Id) {
         viewModelScope.launch {
             val todayPicture = if (id.isToday) {
                 todayAstronomyPictureUseCase.get()

@@ -10,10 +10,9 @@ import androidx.navigation.fragment.navArgs
 import by.radiance.space.picrures.R
 import by.radiance.space.picrures.ui.picture.viewModel.AstronomyPictureViewModel
 import by.radiance.space.pictures.domain.entity.Image
-import by.radiance.space.pictures.domain.entity.PictureId
+import by.radiance.space.pictures.domain.entity.Id
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.astronomy_picture_fragment.*
-import org.koin.core.component.KoinComponent
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class AstronomyPictureFragment : Fragment() {
@@ -42,11 +41,11 @@ class AstronomyPictureFragment : Fragment() {
     }
 
     private fun initViewModels() {
-        pictureViewModel.init(args.id?: PictureId.today)
+        pictureViewModel.init(args.id?: Id.today)
     }
 
     private fun observeViewModels() {
-        pictureViewModel.astronomyPicture.observe(viewLifecycleOwner) { picture ->
+        pictureViewModel.picture.observe(viewLifecycleOwner) { picture ->
             view?.let { view ->
                 Glide
                     .with(view)

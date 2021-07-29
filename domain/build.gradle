@@ -47,4 +47,7 @@ dependencies {
     implementation "org.koin:koin-core:2.2.2"
     implementation "org.koin:koin-android:2.2.2"
     implementation "org.koin:koin-android-architecture:0.9.3"
+
+    //Coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
 }

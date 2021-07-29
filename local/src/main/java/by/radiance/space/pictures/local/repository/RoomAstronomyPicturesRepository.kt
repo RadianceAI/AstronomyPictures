@@ -1,25 +1,23 @@
 package by.radiance.space.pictures.local.repository
 
-import by.radiance.space.pictures.domain.entity.AstronomyPicture
 import by.radiance.space.pictures.domain.entity.Image
-import by.radiance.space.pictures.domain.entity.PictureId
+import by.radiance.space.pictures.domain.entity.Id
 import by.radiance.space.pictures.domain.repository.saved.SavedAstronomyPicturesRepository
-import by.radiance.space.pictures.local.entity.Picture
 import by.radiance.space.pictures.local.entity.PictureDAO
 import java.sql.Date
 
 class RoomAstronomyPicturesRepository(
     private val pictureDAO: PictureDAO
 ): SavedAstronomyPicturesRepository {
-    override suspend fun getSavedPictures(): List<AstronomyPicture> {
+    override suspend fun getSavedPictures(): List<by.radiance.space.pictures.domain.entity.Picture> {
         return pictureDAO.getAll().map {
-            AstronomyPicture(
-                id = PictureId(it.id),
-                title = it.title?:"",
-                explanation = it.explanation?:"",
-                copyright = it.copyright,
-                source = Image(huge = it.hsrc?:"", light = it.src?:""),
-                isSaved = true
+            by.radiance.space.pictures.domain.entity.Picture(
+                    id = Id(it.id),
+                    title = it.title?:"",
+                    explanation = it.explanation?:"",
+                    copyright = it.copyright,
+                    source = Image(huge = it.hsrc?:"", light = it.src?:""),
+                    isSaved = true
             )
         }
 //        return listOf(
@@ -36,34 +34,34 @@ class RoomAstronomyPicturesRepository(
 //        )
     }
 
-    override suspend fun getSavedPictureById(id: PictureId): AstronomyPicture? {
+    override suspend fun getSavedPictureById(id: Id): by.radiance.space.pictures.domain.entity.Picture? {
         return pictureDAO.getPicture(Date(id.date.time)).firstOrNull()?.let {
-            AstronomyPicture(
-                id = PictureId(it.id),
-                title = it.title?:"",
-                explanation = it.explanation?:"",
-                copyright = it.copyright,
-                source = Image(huge = it.hsrc?:"", light = it.src?:""),
-                isSaved = true
+            by.radiance.space.pictures.domain.entity.Picture(
+                    id = Id(it.id),
+                    title = it.title?:"",
+                    explanation = it.explanation?:"",
+                    copyright = it.copyright,
+                    source = Image(huge = it.hsrc?:"", light = it.src?:""),
+                    isSaved = true
             )
         }
     }
 
-    override suspend fun save(astronomyPicture: AstronomyPicture): AstronomyPicture {
+    override suspend fun save(picture: by.radiance.space.pictures.domain.entity.Picture): by.radiance.space.pictures.domain.entity.Picture {
         return pictureDAO.insert(Picture(
-            id = Date(astronomyPicture.id.date.time),
-            title = astronomyPicture.title,
-            explanation = astronomyPicture.explanation,
-            copyright = astronomyPicture.copyright?:"",
-            src = if(astronomyPicture.source is Image) (astronomyPicture.source as Image).light else "",
-            hsrc = if(astronomyPicture.source is Image) (astronomyPicture.source as Image).huge else "",
+            id = Date(picture.id.date.time),
+            title = picture.title,
+            explanation = picture.explanation,
+            copyright = picture.copyright?:"",
+            src = if(picture.source is Image) (picture.source as Image).light else "",
+            hsrc = if(picture.source is Image) (picture.source as Image).huge else "",
         )).let {
-            astronomyPicture
+            picture
         }
     }
 
-    override suspend fun delete(astronomyPicture: AstronomyPicture) {
-        pictureDAO.delete(Date(astronomyPicture.id.date.time))
+    override suspend fun delete(picture: by.radiance.space.pictures.domain.entity.Picture) {
+        pictureDAO.delete(Date(picture.id.date.time))
     }
 
 

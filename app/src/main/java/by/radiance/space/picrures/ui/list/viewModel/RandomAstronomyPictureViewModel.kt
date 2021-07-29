@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import by.radiance.space.pictures.domain.entity.AstronomyPicture
+import by.radiance.space.pictures.domain.entity.Picture
 import by.radiance.space.pictures.domain.presenter.RandomPictureViewModel
 import by.radiance.space.pictures.domain.usecase.random.RandomAstronomyPictureUseCase
 import kotlinx.coroutines.launch
@@ -12,8 +12,8 @@ import kotlinx.coroutines.launch
 class RandomAstronomyPictureViewModel(
     private val randomAstronomyPictureUseCase: RandomAstronomyPictureUseCase,
 ) : ViewModel(), RandomPictureViewModel {
-    private val _randomPicture = MutableLiveData<AstronomyPicture>()
-    override val randomPicture: LiveData<AstronomyPicture> = _randomPicture
+    private val _randomPicture = MutableLiveData<Picture>()
+    override val randomPicture: LiveData<Picture> = _randomPicture
 
     override fun init() {
         viewModelScope.launch {

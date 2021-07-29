@@ -1,11 +1,10 @@
 package by.radiance.space.pictures.today.repository
 import android.annotation.SuppressLint
-import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
-import by.radiance.space.pictures.domain.entity.AstronomyPicture
+import by.radiance.space.pictures.domain.entity.Picture
 import by.radiance.space.pictures.domain.entity.Image
-import by.radiance.space.pictures.domain.entity.PictureId
+import by.radiance.space.pictures.domain.entity.Id
 import by.radiance.space.pictures.domain.repository.today.TodayAstronomyPictureRepository
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -15,16 +14,16 @@ import java.util.*
 class DataStoreTodayAstronomyPictureRepository(
     private val dataStore: DataStore<Preferences>
 ): TodayAstronomyPictureRepository {
-    private var todayPicture: AstronomyPicture? = null
+    private var todayPicture: Picture? = null
 
-    override suspend fun get(): AstronomyPicture? {
+    override suspend fun get(): Picture? {
         return dataStore.data.map { preferences ->
             val id = preferences[ID_KEY]
             if (id == null) {
                 null
             } else {
-                AstronomyPicture(
-                    id = PictureId(getDate(id)),
+                Picture(
+                    id = Id(getDate(id)),
                     title = preferences[TITLE_KEY],
                     explanation = preferences[EXPLANATION_KEY],
                     copyright = preferences[COPYRIGHT_KEY],
@@ -35,7 +34,7 @@ class DataStoreTodayAstronomyPictureRepository(
         }.first()
     }
 
-    override suspend fun saveTodayPicture(picture: AstronomyPicture): AstronomyPicture {
+    override suspend fun saveTodayPicture(picture: Picture): Picture {
         dataStore.edit { preference ->
             preference[ID_KEY] = getDate(picture.id.date)
             preference[TITLE_KEY] = picture.title?:""
@@ -51,7 +50,7 @@ class DataStoreTodayAstronomyPictureRepository(
         return picture
     }
 
-    override suspend fun saveRandomPicture(picture: AstronomyPicture): AstronomyPicture {
+    override suspend fun saveRandomPicture(picture: Picture): Picture {
         //todo
         return picture
     }

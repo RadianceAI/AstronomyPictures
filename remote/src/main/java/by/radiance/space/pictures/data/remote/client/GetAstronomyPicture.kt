@@ -1,7 +1,6 @@
 package by.radiance.space.pictures.data.remote.client
 
 import by.radiance.space.pictures.data.remote.entity.NasaAstronomyPicture
-import by.radiance.space.pictures.domain.entity.AstronomyPicture
 import retrofit2.http.GET
 import retrofit2.http.Query
 
