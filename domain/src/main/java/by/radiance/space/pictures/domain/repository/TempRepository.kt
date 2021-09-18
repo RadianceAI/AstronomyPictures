@@ -6,6 +6,5 @@ import java.util.*
 
 interface TempRepository {
     suspend fun getAll(): Flow<List<Picture>>
-    suspend fun getPicture(date: Date): Flow<Picture>
-    suspend fun save(picture: Picture): Picture
+    suspend fun save(picture: Picture)
 }

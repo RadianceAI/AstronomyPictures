@@ -6,7 +6,7 @@ import by.radiance.space.pictures.domain.repository.LocalRepository
 class DeletePictureUseCase(
     private val localRepository: LocalRepository,
 ) {
-    suspend fun delete(picture: Picture): Picture {
+    suspend fun delete(picture: Picture) {
         return localRepository.delete(picture)
     }
 }

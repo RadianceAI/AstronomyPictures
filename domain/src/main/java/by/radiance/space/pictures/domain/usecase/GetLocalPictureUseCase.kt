@@ -8,11 +8,11 @@ import java.util.*
 class GetLocalPictureUseCase(
     private val localRepository: LocalRepository,
 ) {
-    suspend fun get(): Flow<List<Picture>> {
+    fun get(): Flow<List<Picture>> {
         return localRepository.getAll()
     }
 
-    suspend fun get(date: Date): Picture {
+    fun get(date: Date): Flow<Picture> {
         return localRepository.getPicture(date)
     }
 }
