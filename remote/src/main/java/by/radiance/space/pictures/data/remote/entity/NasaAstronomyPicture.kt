@@ -12,6 +12,9 @@ data class NasaAstronomyPicture(
 	@field:Json(name="copyright")
 	val copyright: String?,
 
+	// "other"
+	// "image"
+	// "video"
 	@field:Json(name="media_type")
 	val mediaType: String,
 

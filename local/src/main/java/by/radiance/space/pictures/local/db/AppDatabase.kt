@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import by.radiance.space.pictures.local.converter.SqlConverter
-import by.radiance.space.pictures.local.entity.Picture
+import by.radiance.space.pictures.local.entity.AstronomyPicture
 import by.radiance.space.pictures.local.entity.PictureDAO
 
 
@@ -16,7 +16,7 @@ import by.radiance.space.pictures.local.entity.PictureDAO
     exportSchema = false,
     entities =
     [
-        Picture::class
+        AstronomyPicture::class
     ]
 )
 abstract class AppDatabase: RoomDatabase() {

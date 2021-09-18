@@ -5,9 +5,9 @@ import kotlinx.coroutines.flow.Flow
 import java.util.*
 
 interface LocalRepository {
-    suspend fun getAll(): Flow<List<Picture>>
-    suspend fun find(startDate: Date, endDate: Date): Flow<List<Picture>>
-    suspend fun getPicture(data: Date): Picture
+    fun getAll(): Flow<List<Picture>>
+    fun find(startDate: Date, endDate: Date): Flow<List<Picture>>
+    fun getPicture(data: Date): Flow<Picture>
     suspend fun save(picture: Picture): Picture
-    suspend fun delete(picture: Picture): Picture
+    suspend fun delete(picture: Picture)
 }
