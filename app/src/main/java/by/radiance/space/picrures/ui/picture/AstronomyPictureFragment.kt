@@ -36,24 +36,24 @@ class AstronomyPictureFragment : Fragment() {
             findNavController().navigate(AstronomyPictureFragmentDirections.actionAstronomyPictureFragmentToAstronomyPictureListFragment())
         }
         iv_is_saved.setOnClickListener {
-            pictureViewModel.save()
+            //pictureViewModel.save()
         }
     }
 
     private fun initViewModels() {
-        pictureViewModel.init(args.id?: Id.today)
+//        pictureViewModel.init(args.id?: Id.today)
     }
 
     private fun observeViewModels() {
-        pictureViewModel.picture.observe(viewLifecycleOwner) { picture ->
-            view?.let { view ->
-                Glide
-                    .with(view)
-                    .load((picture.source as Image).huge)
-                    .into(iv_picture)
-            }
-
-            iv_is_saved.setImageResource(if (picture.isSaved) R.drawable.ic_baseline_favorite_24 else R.drawable.ic_baseline_favorite_border_24 )
-        }
+//        pictureViewModel.picture.observe(viewLifecycleOwner) { picture ->
+//            view?.let { view ->
+//                Glide
+//                    .with(view)
+//                    .load((picture.source as Image).huge)
+//                    .into(iv_picture)
+//            }
+//
+//            iv_is_saved.setImageResource(if (picture.isSaved) R.drawable.ic_baseline_favorite_24 else R.drawable.ic_baseline_favorite_border_24 )
+//        }
     }
 }

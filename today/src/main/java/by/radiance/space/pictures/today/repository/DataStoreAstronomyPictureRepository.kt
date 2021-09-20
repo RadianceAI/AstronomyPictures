@@ -64,7 +64,7 @@ class DataStoreAstronomyPictureRepository(
                 Gson().fromJson(listJson, PictureList::class.java)
             }
 
-            pictures.list.add(PictureMapper().map(picture))
+            pictures.list.add(PictureMapper().map(picture).copy(date = DateUtils.getDate(Date())))
 
             preference[PICTURES_KEY] = Gson().toJson(pictures)
         }

@@ -13,13 +13,13 @@ class PictureMapper {
 
     fun map(picture: NasaAstronomyPicture): Picture {
         return Picture(
-            id = Id(DateUtils.getDate(picture.date)),
+            id = Id(DateUtils.getDate(picture.date?:"")),
             title = picture.title,
             explanation = picture.explanation,
             copyright = picture.copyright,
             source = when (picture.mediaType) {
-                MediaType.Image -> Image(huge = picture.hdurl, light = picture.url)
-                MediaType.Video -> Video(thumbnail = picture.url, src = picture.url)
+                MediaType.Image -> Image(huge = picture.hdurl?:"", light = picture.url?:"")
+                MediaType.Video -> Video(thumbnail = picture.url?:"", src = picture.url?:"")
                 else -> Image(huge = "", light = "")
             },
             isSaved = false,

@@ -1,14 +1,13 @@
 package by.radiance.space.pictures.domain.di
 
-import by.radiance.space.pictures.domain.usecase.random.RandomAstronomyPictureUseCase
-import by.radiance.space.pictures.domain.usecase.save.SaveAstronomyPictureUseCase
-import by.radiance.space.pictures.domain.usecase.saved.SavedAstronomyPicturesUseCase
-import by.radiance.space.pictures.domain.usecase.today.TodayAstronomyPictureUseCase
+import by.radiance.space.pictures.domain.usecase.GetLocalPictureUseCase
+import by.radiance.space.pictures.domain.usecase.GetRandomPictureUseCase
+import by.radiance.space.pictures.domain.usecase.GetTodayPictureUseCase
 import org.koin.dsl.module
 
+
 val usecase = module {
-    single { TodayAstronomyPictureUseCase(get(), get(), get(), get()) }
-    single { SavedAstronomyPicturesUseCase(get()) }
-    single { SaveAstronomyPictureUseCase(get()) }
-    single { RandomAstronomyPictureUseCase(get(), get()) }
+    single { GetTodayPictureUseCase(get(), get()) }
+    single { GetRandomPictureUseCase(get(), get()) }
+    single { GetLocalPictureUseCase(get()) }
 }

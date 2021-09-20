@@ -11,7 +11,7 @@
         android:label="astronomy_picture_fragment">
         <argument
             android:name="id"
-            app:argType="by.radiance.space.pictures.domain.entity.PictureId"
+            app:argType="by.radiance.space.pictures.domain.entity.Id"
             app:nullable="true"
             android:defaultValue="@null" />
         <action

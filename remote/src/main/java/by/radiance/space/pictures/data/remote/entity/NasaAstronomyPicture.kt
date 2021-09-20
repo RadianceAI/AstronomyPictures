@@ -7,29 +7,23 @@ import com.squareup.moshi.JsonClass
 data class NasaAstronomyPicture(
 
 	@field:Json(name="date")
-	val date: String,
+	val date: String?,
 
 	@field:Json(name="copyright")
 	val copyright: String?,
 
-	// "other"
-	// "image"
-	// "video"
 	@field:Json(name="media_type")
-	val mediaType: String,
+	val mediaType: String?,
 
 	@field:Json(name="hdurl")
-	val hdurl: String,
-
-	@field:Json(name="service_version")
-	val serviceVersion: String,
+	val hdurl: String?,
 
 	@field:Json(name="explanation")
-	val explanation: String,
+	val explanation: String?,
 
 	@field:Json(name="title")
-	val title: String,
+	val title: String?,
 
 	@field:Json(name="url")
-	val url: String
+	val url: String?
 )
