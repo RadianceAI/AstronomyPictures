@@ -1,4 +1,4 @@
-package by.radiance.space.picrures.ui.list.viewModel
+package by.radiance.space.picrures.presenter.viewModel
 
 import androidx.lifecycle.*
 import by.radiance.space.pictures.domain.presenter.PictureListViewModel
@@ -11,10 +11,11 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import java.util.*
 
-class PicturesListViewModel(
+class ListViewModel(
     private val todayPictureUseCase: GetTodayPictureUseCase,
     private val randomPictureUseCase: GetRandomPictureUseCase,
     private val localPictureUseCase: GetLocalPictureUseCase,
@@ -43,9 +44,11 @@ class PicturesListViewModel(
         }
 
         viewModelScope.launch {
-            localPictureUseCase.get().collect { list ->
-                _list.value = PicturesListUiState.Success(list)
-            }
+            localPictureUseCase.get()
+                .onEach { list ->
+                    _list.value = PicturesListUiState.Success(list)
+                }
+                .collect()
         }
     }
 }

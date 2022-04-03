@@ -19,6 +19,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import by.radiance.space.pictures.domain.entity.Image
+import by.radiance.space.pictures.domain.entity.Picture
 import by.radiance.space.pictures.local.entity.AstronomyPicture
 import by.radiance.space.pictures.local.entity.SourceType
 import coil.compose.SubcomposeAsyncImage
@@ -27,9 +29,9 @@ import java.sql.Date
 @Composable
 fun Picture(
     modifier: Modifier = Modifier,
-    picture: AstronomyPicture,
-    onClick: (AstronomyPicture) -> Unit,
-    onLike: (AstronomyPicture) -> Unit
+    picture: Picture,
+    onClick: (Picture) -> Unit,
+    onLike: (Picture) -> Unit
 ) {
     Card(
         modifier = modifier
@@ -41,7 +43,7 @@ fun Picture(
                 modifier = Modifier
                     .fillMaxWidth()
                     .fillMaxHeight(),
-                model = picture.hsrc,
+                model = (picture.source as Image).light,
                 contentDescription = picture.explanation,
                 loading = { CircularProgressIndicator() },
                 contentScale = ContentScale.Crop
@@ -73,24 +75,4 @@ fun Picture(
             }
         }
     }
-}
-
-@Composable
-@Preview
-fun PicturePreview() {
-    Picture(
-        modifier = Modifier,
-        picture = AstronomyPicture(
-            id = Date(java.util.Date().time),
-            title = "Title",
-            explanation = null,
-            copyright = "copyright",
-            type = SourceType.Image,
-            src = "https://apod.nasa.gov/apod/image/2204/CmbDipole_cobe_960.jpg",
-            hsrc = 	"https://apod.nasa.gov/apod/image/2204/CmbDipole_cobe_960.jpg",
-            saveDate = null,
-        ),
-        onClick = {},
-        onLike = {},
-    )
 }

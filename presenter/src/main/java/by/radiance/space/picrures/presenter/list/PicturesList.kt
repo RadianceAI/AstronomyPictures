@@ -16,17 +16,21 @@ import by.radiance.space.pictures.local.entity.AstronomyPicture
 import by.radiance.space.pictures.local.entity.SourceType
 import java.sql.Date
 import androidx.compose.foundation.lazy.items
+import androidx.compose.ui.Alignment
+import by.radiance.space.pictures.domain.entity.Picture
+import by.radiance.space.pictures.domain.presenter.state.PictureUiState
+import by.radiance.space.pictures.domain.presenter.state.PicturesListUiState
 import java.util.*
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun PictureList(
     modifier: Modifier = Modifier,
-    todayPicture: AstronomyPicture?,
-    randomPicture: AstronomyPicture?,
-    savedList: List<AstronomyPicture>,
-    onClick: (AstronomyPicture) -> Unit,
-    onLike: (AstronomyPicture) -> Unit,
+    todayPicture: PictureUiState?,
+    randomPicture: PictureUiState?,
+    savedList: PicturesListUiState,
+    onClick: (Picture) -> Unit,
+    onLike: (Picture) -> Unit,
 ) {
     Scaffold(
         modifier = modifier
@@ -36,8 +40,8 @@ fun PictureList(
                 .padding(it)
         ) {
             TodayPictures(
-                todayPicture = todayPicture,
-                randomPicture = randomPicture,
+                todayPicture = (todayPicture as PictureUiState.Success).picture,
+                randomPicture = (randomPicture as PictureUiState.Success).picture,
                 onClick = onClick,
                 onLike = onLike,
             )
@@ -45,7 +49,7 @@ fun PictureList(
             LazyVerticalGrid(
                 cells = GridCells.Fixed(3),
                 content = {
-                    items(savedList) {
+                    items((savedList as PicturesListUiState.Success).pictures) {
                         Picture(
                             modifier = Modifier
                                 .height(150.dp)
@@ -63,10 +67,10 @@ fun PictureList(
 
 @Composable
 fun TodayPictures(
-    todayPicture: AstronomyPicture?,
-    randomPicture: AstronomyPicture?,
-    onClick: (AstronomyPicture) -> Unit,
-    onLike: (AstronomyPicture) -> Unit
+    todayPicture: Picture?,
+    randomPicture: Picture?,
+    onClick: (Picture) -> Unit,
+    onLike: (Picture) -> Unit
 ) {
     Row(
         modifier = Modifier
@@ -75,6 +79,7 @@ fun TodayPictures(
         Box(
             modifier = Modifier
                 .weight(1f)
+                .height(250.dp)
                 .padding(4.dp)
         ) {
             if (todayPicture != null) {
@@ -85,12 +90,16 @@ fun TodayPictures(
                     onLike = onLike
                 )
             } else {
-                CircularProgressIndicator()
+                CircularProgressIndicator(
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                )
             }
         }
         Box(
             modifier = Modifier
                 .weight(1f)
+                .height(250.dp)
                 .padding(4.dp)
         ) {
             if (randomPicture != null) {
@@ -101,80 +110,11 @@ fun TodayPictures(
                     onLike = onClick
                 )
             } else {
-                CircularProgressIndicator()
+                CircularProgressIndicator(
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                )
             }
         }
     }
-}
-
-
-@Preview
-@Composable
-fun PictureListPreview() {
-    PictureList(
-        todayPicture = AstronomyPicture(
-            id = Date(Date().time),
-            title = "CMB Dipole: Speeding Through the Universe",
-            explanation = null,
-            copyright = "copyright",
-            type = SourceType.Image,
-            src = "https://apod.nasa.gov/apod/image/2204/CmbDipole_cobe_960.jpg",
-            hsrc = 	"https://apod.nasa.gov/apod/image/2204/CmbDipole_cobe_960.jpg",
-            saveDate = null,
-        ),
-        randomPicture = AstronomyPicture(
-            id = Date(Date().time),
-            title = "Star Clusters Young and Old",
-            explanation = null,
-            copyright = "copyright",
-            type = SourceType.Image,
-            src = "https://apod.nasa.gov/apod/image/0609/m46m47_hetlage_big.jpg",
-            hsrc = 	"https://apod.nasa.gov/apod/image/0609/m46m47_hetlage_big.jpg",
-            saveDate = null,
-        ),
-        savedList = listOf(
-            AstronomyPicture(
-                id = Date(Date().time),
-                title = "Star Clusters Young and Old",
-                explanation = null,
-                copyright = "copyright",
-                type = SourceType.Image,
-                src = "https://apod.nasa.gov/apod/image/0609/m46m47_hetlage_big.jpg",
-                hsrc = 	"https://apod.nasa.gov/apod/image/0609/m46m47_hetlage_big.jpg",
-                saveDate = null,
-            ),
-            AstronomyPicture(
-                id = Date(Date().time),
-                title = "Star Clusters Young and Old",
-                explanation = null,
-                copyright = "copyright",
-                type = SourceType.Image,
-                src = "https://apod.nasa.gov/apod/image/0703/saturnOccultation_Lawrence720.jpg",
-                hsrc = 	"https://apod.nasa.gov/apod/image/0703/saturnOccultation_Lawrence720.jpg",
-                saveDate = null,
-            ),
-            AstronomyPicture(
-                id = Date(Date().time),
-                title = "Star Clusters Young and Old",
-                explanation = null,
-                copyright = "copyright",
-                type = SourceType.Image,
-                src = "https://apod.nasa.gov/apod/image/1002/NGC1333ruiz900.jpg",
-                hsrc = 	"ttps://apod.nasa.gov/apod/image/0609/m46m47_hetlage_big.jpg",
-                saveDate = null,
-            ),
-            AstronomyPicture(
-                id = Date(Date().time),
-                title = "Star Clusters Young and Old",
-                explanation = null,
-                copyright = "copyright",
-                type = SourceType.Image,
-                src = "https://apod.nasa.gov/apod/image/gamma_3c279_egret.gif",
-                hsrc = 	"https://apod.nasa.gov/apod/image/gamma_3c279_egret.gif",
-                saveDate = null,
-            ),
-        ),
-        onClick = {},
-        onLike = {}
-    )
 }
