@@ -107,7 +107,7 @@ fun TodayPictures(
                     modifier = Modifier.height(250.dp),
                     picture = randomPicture,
                     onClick = onClick,
-                    onLike = onClick
+                    onLike = onLike
                 )
             } else {
                 CircularProgressIndicator(

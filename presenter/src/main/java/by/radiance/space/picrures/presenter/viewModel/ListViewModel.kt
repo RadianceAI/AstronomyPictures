@@ -1,12 +1,12 @@
 package by.radiance.space.picrures.presenter.viewModel
 
 import androidx.lifecycle.*
+import by.radiance.space.pictures.domain.entity.Picture
 import by.radiance.space.pictures.domain.presenter.PictureListViewModel
 import by.radiance.space.pictures.domain.presenter.state.PictureUiState
 import by.radiance.space.pictures.domain.presenter.state.PicturesListUiState
-import by.radiance.space.pictures.domain.usecase.GetLocalPictureUseCase
-import by.radiance.space.pictures.domain.usecase.GetRandomPictureUseCase
-import by.radiance.space.pictures.domain.usecase.GetTodayPictureUseCase
+import by.radiance.space.pictures.domain.presenter.state.QrCodeUiState
+import by.radiance.space.pictures.domain.usecase.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -15,10 +15,13 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import java.util.*
 
+@ExperimentalCoroutinesApi
 class ListViewModel(
     private val todayPictureUseCase: GetTodayPictureUseCase,
     private val randomPictureUseCase: GetRandomPictureUseCase,
     private val localPictureUseCase: GetLocalPictureUseCase,
+    private val savePictureUseCase: SavePictureUseCase,
+    private val deletePictureUseCase: DeletePictureUseCase,
 ) : PictureListViewModel, ViewModel() {
 
     private val _today = MutableStateFlow(PictureUiState.Success(null))
@@ -32,6 +35,20 @@ class ListViewModel(
 
     override fun filter(stateDate: Date, endDate: Date) {
 
+    }
+
+    override fun save(picture: Picture) {
+        if (list.value is PicturesListUiState.Success) {
+            viewModelScope.launch {
+                if ((list.value as PicturesListUiState.Success)
+                        .pictures.find { p -> p.id == picture.id } != null
+                ) {
+                    deletePictureUseCase.delete(picture)
+                } else {
+                    savePictureUseCase.save(picture)
+                }
+            }
+        }
     }
 
     override fun init() {

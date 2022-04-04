@@ -3,7 +3,6 @@ package by.radiance.space.pictures.local.mapper
 import by.radiance.space.pictures.domain.entity.Id
 import by.radiance.space.pictures.domain.entity.Image
 import by.radiance.space.pictures.domain.entity.Picture
-import by.radiance.space.pictures.domain.entity.Video
 import by.radiance.space.pictures.local.entity.AstronomyPicture
 import by.radiance.space.pictures.local.entity.SourceType
 import java.sql.Date
@@ -19,10 +18,7 @@ class PictureMapper {
             title = picture.title,
             explanation = picture.explanation,
             copyright = picture.copyright,
-            source = when (picture.type) {
-                SourceType.Image -> Image(huge = picture.hsrc ?: "", light = picture.src ?: "")
-                SourceType.Video -> Video(thumbnail = picture.src ?: "", src = picture.hsrc ?: "")
-            },
+            source = Image(huge = picture.hsrc ?: "", light = picture.src ?: ""),
             isSaved = true,
             saveDate = picture.saveDate,
         )
@@ -35,18 +31,9 @@ class PictureMapper {
             title = picture.title,
             explanation = picture.explanation,
             copyright = picture.copyright,
-            type = when (source) {
-                is Image -> SourceType.Image
-                is Video -> SourceType.Video
-            },
-            src = when (source) {
-                is Image -> source.light
-                is Video -> source.thumbnail
-            },
-            hsrc = when (source) {
-                is Image -> source.huge
-                is Video -> source.src
-            },
+            type = SourceType.Image,
+            src = source.light,
+            hsrc = source.huge,
             saveDate = null,
         )
     }

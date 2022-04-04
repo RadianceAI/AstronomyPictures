@@ -3,7 +3,6 @@ package by.radiance.space.pictures.today.mapper
 import by.radiance.space.pictures.domain.entity.Id
 import by.radiance.space.pictures.domain.entity.Image
 import by.radiance.space.pictures.domain.entity.Picture
-import by.radiance.space.pictures.domain.entity.Video
 import by.radiance.space.pictures.today.entity.PicturePreference
 import by.radiance.space.pictures.today.utils.DateUtils
 import by.radiance.space.pictures.today.utils.MediaType
@@ -15,11 +14,7 @@ class PictureMapper {
             title = picture.title,
             explanation = picture.explanation,
             copyright = picture.copyright,
-            source = when (picture.type) {
-                MediaType.Image -> Image(huge = picture.hsrc ?: "", light = picture.src ?: "")
-                MediaType.Video -> Video(thumbnail = picture.src ?: "", src = picture.hsrc ?: "")
-                else -> Image("", "")
-            },
+            source =Image(huge = picture.hsrc ?: "", light = picture.src ?: ""),
             isSaved = picture.isSaved,
             saveDate = null,
         )
@@ -31,21 +26,9 @@ class PictureMapper {
             title = picture.title,
             explanation = picture.explanation,
             copyright = picture.copyright,
-            type = when (picture.source) {
-                is Video -> MediaType.Video
-                is Image -> MediaType.Image
-                else -> MediaType.Other
-            },
-            src = when (picture.source) {
-                is Video -> (picture.source as Video).thumbnail
-                is Image -> (picture.source as Image).light
-                else -> ""
-            },
-            hsrc = when (picture.source) {
-                is Video -> (picture.source as Video).src
-                is Image -> (picture.source as Image).huge
-                else -> ""
-            },
+            type =  MediaType.Video,
+            src = picture.source.light,
+            hsrc = picture.source.huge,
             isSaved = picture.isSaved,
             date = null,
         )

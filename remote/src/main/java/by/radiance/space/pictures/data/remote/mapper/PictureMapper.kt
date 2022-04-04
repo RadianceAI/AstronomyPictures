@@ -6,7 +6,6 @@ import by.radiance.space.pictures.data.utils.MediaType
 import by.radiance.space.pictures.domain.entity.Id
 import by.radiance.space.pictures.domain.entity.Image
 import by.radiance.space.pictures.domain.entity.Picture
-import by.radiance.space.pictures.domain.entity.Video
 import kotlin.concurrent.timerTask
 
 class PictureMapper {
@@ -17,11 +16,7 @@ class PictureMapper {
             title = picture.title,
             explanation = picture.explanation,
             copyright = picture.copyright,
-            source = when (picture.mediaType) {
-                MediaType.Image -> Image(huge = picture.hdurl?:"", light = picture.url?:"")
-                MediaType.Video -> Video(thumbnail = picture.url?:"", src = picture.url?:"")
-                else -> Image(huge = "", light = "")
-            },
+            source = Image(huge = picture.hdurl?:"", light = picture.url?:""),
             isSaved = false,
             saveDate = null,
         )

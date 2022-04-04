@@ -15,4 +15,5 @@ interface PictureListViewModel {
 
     fun filter(stateDate: Date, endDate: Date)
     fun init()
+    fun save(picture: Picture)
 }

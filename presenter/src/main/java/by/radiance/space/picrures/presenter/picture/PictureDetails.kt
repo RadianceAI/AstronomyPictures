@@ -21,6 +21,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import by.radiance.space.pictures.domain.entity.Picture
+import by.radiance.space.pictures.domain.presenter.state.PictureUiState
 import by.radiance.space.pictures.local.entity.AstronomyPicture
 import by.radiance.space.pictures.local.entity.SourceType
 import coil.compose.SubcomposeAsyncImage
@@ -30,8 +32,8 @@ import java.util.*
 @Composable
 fun PictureDetails(
     modifier: Modifier = Modifier,
-    picture: AstronomyPicture,
-    onLike: (AstronomyPicture) -> Unit,
+    picture: PictureUiState,
+    onLike: (Picture) -> Unit,
 ) {
     val cropList = listOf(ContentScale.Crop, ContentScale.FillBounds, ContentScale.FillHeight, ContentScale.FillWidth, ContentScale.Fit, ContentScale.Inside)
     var cropState by remember { mutableStateOf(cropList[0]) }
@@ -53,8 +55,8 @@ fun PictureDetails(
                         .horizontalScroll(rememberScrollState())
                         .fillMaxSize()
                         .clickable { details = !details },
-                    model = picture.hsrc,
-                    contentDescription = picture.explanation,
+                    model = (picture as PictureUiState.Success).picture?.source?.huge,
+                    contentDescription = picture.picture?.explanation,
                     loading = { CircularProgressIndicator() },
                     contentScale = cropState
                 )
@@ -67,7 +69,7 @@ fun PictureDetails(
                             .background(Color.LightGray.copy(alpha = 0.8f))
                             .clickable { details = !details }
                             .padding(8.dp),
-                        text = picture.explanation?:"",
+                        text = picture.picture?.explanation?:"",
                         style = MaterialTheme.typography.body1,
                     )
                 }
@@ -126,7 +128,7 @@ fun PictureDetails(
                     onClick = {  }
                 ) {
                     Icon(
-                        imageVector = if (picture.saveDate == null) Icons.Outlined.FavoriteBorder
+                        imageVector = if ((picture as PictureUiState.Success).picture?.saveDate == null) Icons.Outlined.FavoriteBorder
                         else Icons.Outlined.Favorite,
                         contentDescription = null,
                         modifier = modifier
@@ -136,22 +138,4 @@ fun PictureDetails(
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun PictureDetailsPreview() {
-    PictureDetails(
-        picture = AstronomyPicture(
-            id = Date(Date().time),
-            title = "Title",
-            explanation = "Our Earth is not at rest.  The Earth moves around the Sun.  The Sun orbits the center of the Milky Way Galaxy.  The Milky Way Galaxy orbits in the Local Group of Galaxies.  The Local Group falls toward the Virgo Cluster of Galaxies.  But these speeds are less than the speed that all of these objects together move relative to the cosmic microwave background radiation (CMBR).  In the featured all-sky map from the COBE satellite in 1993, microwave light in the Earth's direction of motion appears blueshifted and hence hotter, while microwave light on the opposite side of the sky is redshifted and colder.  The map indicates that the Local Group moves at about 600 kilometers per second relative to this primordial radiation.  This high speed was initially unexpected and its magnitude is still unexplained.  Why are we moving so fast?  What is out there?",
-            copyright = "copyright",
-            type = SourceType.Image,
-            src = "",
-            hsrc = 	"https://apod.nasa.gov/apod/image/2204/CmbDipole_cobe_960.jpg",
-            saveDate = null,
-        ),
-        onLike = {}
-    )
 }
