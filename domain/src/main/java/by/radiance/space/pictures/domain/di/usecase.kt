@@ -13,4 +13,5 @@ val usecase = module {
     single { DeletePictureUseCase(get()) }
     single { SetToLockScreenUseCase(get()) }
     single { SetToBackgroundUseCase(get()) }
+    single { GetPictureUseCase(get(), get(), get()) }
 }

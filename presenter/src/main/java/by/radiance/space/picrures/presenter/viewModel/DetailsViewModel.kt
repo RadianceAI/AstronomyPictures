@@ -2,6 +2,7 @@ package by.radiance.space.picrures.presenter.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import by.radiance.space.picrures.presenter.utils.toUiState
 import by.radiance.space.pictures.domain.entity.Id
 import by.radiance.space.pictures.domain.presenter.PictureViewModel
 import by.radiance.space.pictures.domain.presenter.state.PictureUiState
@@ -16,9 +17,7 @@ import kotlinx.coroutines.launch
 
 @ExperimentalCoroutinesApi
 class DetailsViewModel(
-    private val getLocalPictureUseCase: GetLocalPictureUseCase,
-    private val getRandomPictureUseCase: GetRandomPictureUseCase,
-    private val getTodayPictureUseCase: GetTodayPictureUseCase,
+    private val getPictureUseCase: GetPictureUseCase,
     private val savePictureUseCase: SavePictureUseCase,
     private val deletePictureUseCase: DeletePictureUseCase,
 ): ViewModel(), PictureViewModel {
@@ -31,19 +30,11 @@ class DetailsViewModel(
 
     override fun init(id: Id) {
         viewModelScope.launch {
-            if (id.isToday) {
-                _picture.value = PictureUiState.Success(getTodayPictureUseCase.get())
-            } else {
-                val random = getRandomPictureUseCase.get()
-                if (random.id == id) {
-                    _picture.value = PictureUiState.Success(random)
-                } else {
-                    getLocalPictureUseCase.get(id.date)
-                        .onEach { picture ->
-                            _picture.value = PictureUiState.Success(picture)
-                        }.collect()
+            getPictureUseCase.get(id)
+                .onEach { picture ->
+                    _picture.value = picture.toUiState()
                 }
-            }
+                .collect()
         }
     }
 

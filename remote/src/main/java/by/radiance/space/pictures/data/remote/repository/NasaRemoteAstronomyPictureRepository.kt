@@ -37,7 +37,7 @@ class NasaRemoteAstronomyPictureRepository(private val tokenRepository: NasaToke
         )
 
         return randomPictures.map { nasaPicture ->
-            PictureMapper().map(nasaPicture)
+            PictureMapper().map(nasaPicture, true)
         }
     }
 }

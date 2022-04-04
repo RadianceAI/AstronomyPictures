@@ -1,5 +1,6 @@
 package by.radiance.space.pictures.domain.usecase
 
+import by.radiance.space.pictures.domain.entity.Id
 import by.radiance.space.pictures.domain.entity.Picture
 import by.radiance.space.pictures.domain.repository.LocalRepository
 import kotlinx.coroutines.flow.Flow
@@ -12,7 +13,7 @@ class GetLocalPictureUseCase(
         return localRepository.getAll()
     }
 
-    fun get(date: Date): Flow<Picture> {
-        return localRepository.getPicture(date)
+    fun get(id: Id): Flow<Picture> {
+        return localRepository.getPicture(id.date)
     }
 }
