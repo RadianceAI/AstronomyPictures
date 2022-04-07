@@ -5,6 +5,7 @@ import by.radiance.space.pictures.domain.repository.LocalRepository
 import by.radiance.space.pictures.local.entity.PictureDAO
 import by.radiance.space.pictures.local.mapper.PictureMapper
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
 import java.util.*
 
@@ -20,9 +21,11 @@ class RoomAstronomyPicturesRepository(
             .map { pictures -> PictureMapper().map(pictures) }
     }
 
-    override fun getPicture(data: Date): Flow<Picture> {
+    override fun getPicture(data: Date): Flow<Picture?> {
         return pictureDAO.getPicture(java.sql.Date(data.time))
-            .map { picture -> PictureMapper().map(picture) }
+            .map { picture ->
+                picture?.let { PictureMapper().map(it) }
+            }
     }
 
     override suspend fun save(picture: Picture): Picture {

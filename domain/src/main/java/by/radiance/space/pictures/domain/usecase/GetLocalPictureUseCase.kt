@@ -4,6 +4,7 @@ import by.radiance.space.pictures.domain.entity.Id
 import by.radiance.space.pictures.domain.entity.Picture
 import by.radiance.space.pictures.domain.repository.LocalRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.filterNotNull
 import java.util.*
 
 class GetLocalPictureUseCase(
@@ -14,6 +15,6 @@ class GetLocalPictureUseCase(
     }
 
     fun get(id: Id): Flow<Picture> {
-        return localRepository.getPicture(id.date)
+        return localRepository.getPicture(id.date).filterNotNull()
     }
 }

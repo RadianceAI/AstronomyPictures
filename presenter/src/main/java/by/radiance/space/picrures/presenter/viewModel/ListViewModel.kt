@@ -1,5 +1,6 @@
 package by.radiance.space.picrures.presenter.viewModel
 
+import android.util.Log
 import androidx.lifecycle.*
 import by.radiance.space.pictures.domain.entity.Picture
 import by.radiance.space.pictures.domain.presenter.PictureListViewModel
@@ -20,8 +21,7 @@ class ListViewModel(
     private val todayPictureUseCase: GetTodayPictureUseCase,
     private val randomPictureUseCase: GetRandomPictureUseCase,
     private val localPictureUseCase: GetLocalPictureUseCase,
-    private val savePictureUseCase: SavePictureUseCase,
-    private val deletePictureUseCase: DeletePictureUseCase,
+    private val likeUseCase: LikeUseCase,
 ) : PictureListViewModel, ViewModel() {
 
     private val _today = MutableStateFlow(PictureUiState.Success(null))
@@ -38,26 +38,26 @@ class ListViewModel(
     }
 
     override fun save(picture: Picture) {
-        if (list.value is PicturesListUiState.Success) {
-            viewModelScope.launch {
-                if ((list.value as PicturesListUiState.Success)
-                        .pictures.find { p -> p.id == picture.id } != null
-                ) {
-                    deletePictureUseCase.delete(picture)
-                } else {
-                    savePictureUseCase.save(picture)
-                }
-            }
+        viewModelScope.launch {
+            likeUseCase.like(picture)
         }
     }
 
-    override fun init() {
+    init {
         viewModelScope.launch {
-            _today.value = PictureUiState.Success(todayPictureUseCase.get())
+            todayPictureUseCase.get()
+                .onEach { picture ->
+                    _today.value = PictureUiState.Success(picture)
+                }
+                .collect()
         }
 
         viewModelScope.launch {
-            _random.value = PictureUiState.Success(randomPictureUseCase.get())
+            randomPictureUseCase.get()
+                .onEach { picture ->
+                    _random.value = PictureUiState.Success(picture)
+                }
+                .collect()
         }
 
         viewModelScope.launch {
@@ -67,5 +67,8 @@ class ListViewModel(
                 }
                 .collect()
         }
+    }
+    override fun init() {
+
     }
 }

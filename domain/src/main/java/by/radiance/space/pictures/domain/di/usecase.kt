@@ -6,12 +6,13 @@ import kotlin.math.sin
 
 
 val usecase = module {
-    single { GetTodayPictureUseCase(get(), get()) }
-    single { GetRandomPictureUseCase(get(), get()) }
+    single { GetTodayPictureUseCase(get(), get(), get()) }
+    single { GetRandomPictureUseCase(get(), get(), get()) }
     single { GetLocalPictureUseCase(get()) }
     single { SavePictureUseCase(get()) }
     single { DeletePictureUseCase(get()) }
     single { SetToLockScreenUseCase(get()) }
     single { SetToBackgroundUseCase(get()) }
     single { GetPictureUseCase(get(), get(), get()) }
+    single { LikeUseCase(get(), get(), get()) }
 }

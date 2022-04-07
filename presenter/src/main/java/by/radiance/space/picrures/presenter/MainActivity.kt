@@ -6,6 +6,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -35,12 +36,11 @@ class MainActivity : ComponentActivity() {
 
                 NavHost(navController = navController, startDestination = "list") {
                     composable(route = "list") {
-                        val viewModel by viewModel<ListViewModel>()
+                        val viewModel by remember { viewModel<ListViewModel>() }
 
-
-                        val today by viewModel.today.collectAsState()
-                        val random by viewModel.random.collectAsState()
-                        val list by viewModel.list.collectAsState()
+                        val today by remember { viewModel.today }.collectAsState()
+                        val random by remember { viewModel.random }.collectAsState()
+                        val list by remember { viewModel.list }.collectAsState()
 
                         val like: (Picture) -> Unit = { picture ->
                             viewModel.save(picture)
@@ -50,8 +50,6 @@ class MainActivity : ComponentActivity() {
                             val json = GsonWrapper.gson.toJson(picture.id)
                             navController.navigate("details/$json")
                         }
-
-                        viewModel.init()
 
                         PictureList(
                             todayPicture = today,
@@ -70,13 +68,9 @@ class MainActivity : ComponentActivity() {
                             GsonWrapper.gson.fromJson(idString, Id::class.java)
                         }!!
 
-                        Log.d("WFT_WFT", "onCreate: ${id}")
+                        val viewModel by remember { viewModel<DetailsViewModel>() }
 
-                        val viewModel by viewModel<DetailsViewModel>()
-
-                        val picture by viewModel.picture.collectAsState()
-
-                        viewModel.init(id)
+                        val picture by remember { viewModel.picture(id) }.collectAsState()
 
                         PictureDetails(picture = picture, onLike = {})
                     }

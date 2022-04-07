@@ -15,7 +15,7 @@ interface PictureDAO {
     fun findPictures(startDate: Date, endDate: Date): Flow<List<AstronomyPicture>>
 
     @Query("""SELECT * FROM picture WHERE id = :id""")
-    fun getPicture(id: Date): Flow<AstronomyPicture>
+    fun getPicture(id: Date): Flow<AstronomyPicture?>
 
     @Insert
     suspend fun insert(astronomyPicture: AstronomyPicture)

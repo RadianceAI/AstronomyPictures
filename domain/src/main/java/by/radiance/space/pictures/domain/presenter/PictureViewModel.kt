@@ -9,11 +9,10 @@ import kotlinx.coroutines.flow.StateFlow
 
 @ExperimentalCoroutinesApi
 interface PictureViewModel {
-    val picture: StateFlow<PictureUiState>
     val qrCode: StateFlow<QrCodeUiState>
 
-    fun init(id: Id)
     fun save()
+    fun picture(id: Id): StateFlow<PictureUiState>
     fun setToBackground()
     fun setToLickScreen()
 }

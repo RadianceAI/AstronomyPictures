@@ -3,9 +3,13 @@ package by.radiance.space.pictures.domain.usecase
 import by.radiance.space.pictures.domain.entity.Id
 import by.radiance.space.pictures.domain.entity.Picture
 import by.radiance.space.pictures.domain.repository.LocalRepository
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.mapNotNull
 
+@ExperimentalCoroutinesApi
 class GetPictureUseCase(
     private val localRepository: LocalRepository,
     private val getRandomPictureUseCase: GetRandomPictureUseCase,
@@ -15,17 +19,13 @@ class GetPictureUseCase(
     fun get(id: Id): Flow<Picture> {
         return when {
             id.isToday -> {
-                flow {
-                    getTodayPictureUseCase.get()
-                }
+                getTodayPictureUseCase.get()
             }
             id.isRandom -> {
-                flow {
-                    getRandomPictureUseCase.get()
-                }
+                getRandomPictureUseCase.get()
             }
             else -> {
-                localRepository.getPicture(id.date)
+                localRepository.getPicture(id.date).filterNotNull()
             }
         }
     }
