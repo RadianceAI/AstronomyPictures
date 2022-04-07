@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.StateFlow
 interface PictureViewModel {
     val qrCode: StateFlow<QrCodeUiState>
 
-    fun save()
+    fun save(picture: Picture)
     fun picture(id: Id): StateFlow<PictureUiState>
     fun setToBackground()
     fun setToLickScreen()

@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import by.radiance.space.picrures.presenter.picture.PictureDetails
 import by.radiance.space.picrures.presenter.utils.toUiState
 import by.radiance.space.pictures.domain.entity.Id
+import by.radiance.space.pictures.domain.entity.Picture
 import by.radiance.space.pictures.domain.presenter.PictureViewModel
 import by.radiance.space.pictures.domain.presenter.state.PictureUiState
 import by.radiance.space.pictures.domain.presenter.state.QrCodeUiState
@@ -17,6 +18,7 @@ import kotlinx.coroutines.launch
 @ExperimentalCoroutinesApi
 class DetailsViewModel(
     private val getPictureUseCase: GetPictureUseCase,
+    private val likeUseCase: LikeUseCase,
 ): ViewModel(), PictureViewModel {
 
     private val _qrCode = MutableStateFlow<QrCodeUiState>(QrCodeUiState.Success(null))
@@ -32,8 +34,10 @@ class DetailsViewModel(
                 )
 
 
-    override fun save() {
-        TODO("not implemented")
+    override fun save(picture: Picture) {
+        viewModelScope.launch {
+            likeUseCase.like(picture)
+        }
     }
 
     override fun setToBackground() {

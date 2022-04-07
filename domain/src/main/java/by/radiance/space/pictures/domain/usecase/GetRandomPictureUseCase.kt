@@ -17,6 +17,9 @@ class GetRandomPictureUseCase(
         val savedPicture = tempRepository.getAll()
             .first()
             .firstOrNull { picture -> !picture.id.isToday }
+            ?.let {
+                it.copy(id = it.id.copy(isRandom = true))
+            }
 
         val randomPicture =
             savedPicture ?: remoteRepository.getRandomPicture(1).first().also { picture ->
@@ -29,7 +32,7 @@ class GetRandomPictureUseCase(
                 if (picture == null)
                     emit(randomPicture)
                 else
-                    emit(picture)
+                    emit(picture.copy(id = picture.id.copy(isRandom = true)))
             }
             .collect()
     }
