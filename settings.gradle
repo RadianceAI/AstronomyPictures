@@ -2,6 +2,5 @@ include ':today'
 include ':local'
 include ':remote'
 include ':domain'
-include ':app'
 rootProject.name = "AstronomyPictures"
 include ':presenter'
