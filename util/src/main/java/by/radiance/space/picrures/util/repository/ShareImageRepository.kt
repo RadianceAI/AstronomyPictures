@@ -1,4 +1,4 @@
-package by.radiance.space.picrures.presenter.utils
+package by.radiance.space.picrures.util.repository
 
 import android.content.ClipData
 import android.content.Context
@@ -8,18 +8,18 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import androidx.core.content.FileProvider
+import by.radiance.space.pictures.domain.repository.ShareRepository
 import java.io.BufferedOutputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
 
-object ShareUtils {
+class ShareImageRepository(
+    private val context: Context
+): ShareRepository {
 
-    fun shareDrawable(
-        drawableToShare: Drawable,
-        context: Context
-    ) {
-        val bitmap: Bitmap = (drawableToShare as BitmapDrawable).bitmap
+    override fun share(drawable: Drawable) {
+        val bitmap: Bitmap = (drawable as BitmapDrawable).bitmap
 
         val imagePath = File(context.filesDir, "images/")
         imagePath.mkdir()
@@ -41,6 +41,8 @@ object ShareUtils {
                 Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
         }
 
-        context.startActivity(Intent.createChooser(shareIntent, null))
+        context.startActivity(Intent.createChooser(shareIntent, null).apply {
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        })
     }
 }

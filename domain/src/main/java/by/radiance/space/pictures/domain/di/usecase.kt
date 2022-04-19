@@ -15,4 +15,5 @@ val usecase = module {
     single { SetToBackgroundUseCase(get()) }
     single { GetPictureUseCase(get(), get(), get()) }
     single { LikeUseCase(get(), get(), get()) }
+    single { ShareUseCase(get()) }
 }

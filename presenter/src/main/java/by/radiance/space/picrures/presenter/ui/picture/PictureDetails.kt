@@ -1,16 +1,15 @@
 package by.radiance.space.picrures.presenter.ui.picture
 
-import android.content.ClipData
-import android.content.Context
-import android.content.Intent
-import android.graphics.Bitmap
+import android.app.WallpaperManager
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import android.net.Uri
-import android.provider.MediaStore
-import androidx.compose.foundation.*
+import android.os.Build
+import androidx.compose.foundation.background
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Crop
@@ -27,18 +26,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.content.FileProvider.getUriForFile
 import by.radiance.space.picrures.presenter.R
 import by.radiance.space.picrures.presenter.ui.theme.AstronomyPicturesTheme
 import by.radiance.space.picrures.presenter.ui.theme.CardGray
-import by.radiance.space.picrures.presenter.utils.ShareUtils
 import by.radiance.space.pictures.domain.entity.Id
 import by.radiance.space.pictures.domain.entity.Image
 import by.radiance.space.pictures.domain.entity.Picture
 import by.radiance.space.pictures.domain.presenter.state.PictureUiState
 import by.radiance.space.pictures.domain.utils.DateHelper
 import coil.compose.SubcomposeAsyncImage
-import java.io.*
 import java.util.*
 
 
@@ -46,7 +42,8 @@ import java.util.*
 fun PictureDetails(
     modifier: Modifier = Modifier,
     picture: PictureUiState,
-    onLike: (Picture) -> Unit,
+    onShare: (Drawable) -> Unit,
+    onSetWallpaper: (Drawable, Int) -> Unit,
 ) {
     val cropList = listOf(ContentScale.Crop, ContentScale.FillBounds, ContentScale.FillHeight, ContentScale.FillWidth, ContentScale.Fit, ContentScale.Inside)
     var cropState by remember { mutableStateOf(cropList[0]) }
@@ -104,11 +101,28 @@ fun PictureDetails(
                     ]
                 }
                 BottomIcon(icon = Icons.Default.Wallpaper) {
+                    drawable?.let { wallpaper ->
+                        //todo show dialog
+                        //start loading
+                        val wallpaperManager = WallpaperManager.getInstance(context)
 
+                        val bitmap = (wallpaper as BitmapDrawable).bitmap!!
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                            wallpaperManager.setBitmap(
+                                bitmap,
+                                null,
+                                true,
+                                WallpaperManager.FLAG_SYSTEM
+                            )
+                        } else {
+                            wallpaperManager.setBitmap(bitmap)
+                        }
+                    }
                 }
                 BottomIcon(icon = Icons.Default.Share) {
                     drawable?.let { drawableToShare ->
-                        ShareUtils.shareDrawable(drawableToShare, context)
+                        //todo start loading
+                        onShare(drawableToShare)
                     }
                 }
                 BottomIcon(icon = Icons.Default.Info) {

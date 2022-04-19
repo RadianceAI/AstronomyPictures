@@ -1,5 +1,6 @@
 package by.radiance.space.picrures.presenter.viewModel
 
+import android.graphics.drawable.Drawable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import by.radiance.space.pictures.domain.entity.Id
@@ -16,6 +17,7 @@ import kotlinx.coroutines.launch
 class DetailsViewModel(
     private val getPictureUseCase: GetPictureUseCase,
     private val likeUseCase: LikeUseCase,
+    private val shareUseCase: ShareUseCase,
 ): ViewModel(), PictureViewModel {
 
     private val _qrCode = MutableStateFlow<QrCodeUiState>(QrCodeUiState.Success(null))
@@ -30,18 +32,19 @@ class DetailsViewModel(
                     PictureUiState.Success(null),
                 )
 
-
     override fun save(picture: Picture) {
         viewModelScope.launch {
             likeUseCase.like(picture)
         }
     }
 
-    override fun setToBackground() {
+    override fun setToWallpaper(wallpaper: Drawable, flag: Int) {
         TODO("not implemented")
     }
 
-    override fun setToLickScreen() {
-        TODO("not implemented")
+    override fun share(image: Drawable) {
+        viewModelScope.launch {
+            shareUseCase.share(image)
+        }
     }
 }

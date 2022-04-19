@@ -1,5 +1,6 @@
 package by.radiance.space.pictures.domain.presenter
 
+import android.graphics.drawable.Drawable
 import by.radiance.space.pictures.domain.entity.Id
 import by.radiance.space.pictures.domain.entity.Picture
 import by.radiance.space.pictures.domain.presenter.state.PictureUiState
@@ -13,6 +14,6 @@ interface PictureViewModel {
 
     fun save(picture: Picture)
     fun picture(id: Id): StateFlow<PictureUiState>
-    fun setToBackground()
-    fun setToLickScreen()
+    fun setToWallpaper(wallpaper: Drawable, flag: Int)
+    fun share(image: Drawable)
 }

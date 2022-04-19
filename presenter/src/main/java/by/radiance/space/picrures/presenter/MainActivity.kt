@@ -157,7 +157,11 @@ class MainActivity : ComponentActivity() {
 
                             val picture by remember { viewModel.picture(id) }.collectAsState()
 
-                            PictureDetails(picture = picture, onLike = {})
+                            PictureDetails(
+                                picture = picture,
+                                onShare = { image -> viewModel.share(image) },
+                                onSetWallpaper = { wallpaper, flag -> viewModel.setToWallpaper(wallpaper, flag) },
+                            )
                         }
                     }
                 }
