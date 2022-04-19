@@ -8,19 +8,34 @@ import android.os.Build
 import by.radiance.space.pictures.domain.repository.WallpaperRepository
 
 class SetWallpaperRepository(
-    private val context: Context,
+    context: Context,
 ): WallpaperRepository {
 
-    override suspend fun setWallpaper(drawable: Drawable, flags: Int) {
-        val wallpaperManager = WallpaperManager.getInstance(context)
+    private val wallpaperManager = WallpaperManager.getInstance(context)
 
-        val bitmap = (drawable as BitmapDrawable).bitmap!!
+    override fun setSystemWallpaper(wallpaper: Drawable) {
+        setWallpaper(wallpaper, WallpaperManager.FLAG_SYSTEM)
+    }
+
+    override fun setLockScreenWallpaper(wallpaper: Drawable) {
+        setWallpaper(wallpaper, WallpaperManager.FLAG_LOCK)
+    }
+
+
+    override fun setAllWallpaper(wallpaper: Drawable) {
+        val bitmap = (wallpaper as BitmapDrawable).bitmap
+        wallpaperManager.setBitmap(bitmap)
+    }
+
+    private fun setWallpaper(wallpaper: Drawable, flag: Int) {
+        val bitmap = (wallpaper as BitmapDrawable).bitmap
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             wallpaperManager.setBitmap(
                 bitmap,
                 null,
                 true,
-                WallpaperManager.FLAG_SYSTEM
+                flag
             )
         } else {
             wallpaperManager.setBitmap(bitmap)

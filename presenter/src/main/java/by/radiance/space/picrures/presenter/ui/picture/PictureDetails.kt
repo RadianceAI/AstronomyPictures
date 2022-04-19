@@ -4,6 +4,7 @@ import android.app.WallpaperManager
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Build
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -32,6 +33,7 @@ import by.radiance.space.pictures.domain.entity.Picture
 import by.radiance.space.pictures.domain.presenter.state.PictureUiState
 import by.radiance.space.pictures.domain.utils.DateHelper
 import coil.compose.SubcomposeAsyncImage
+import kotlinx.coroutines.async
 import java.util.*
 
 
@@ -40,7 +42,9 @@ fun PictureDetails(
     modifier: Modifier = Modifier,
     picture: PictureUiState,
     onShare: (Drawable) -> Unit,
-    onSetWallpaper: (Drawable, Int) -> Unit,
+    onSystemWallpaper: (Drawable) -> Unit,
+    onLockScreenWallpaper: (Drawable) -> Unit,
+    onAllWallpaper: (Drawable) -> Unit,
 ) {
     val cropList = listOf(ContentScale.Crop, ContentScale.FillBounds, ContentScale.FillHeight, ContentScale.FillWidth, ContentScale.Fit, ContentScale.Inside)
     var cropState by remember { mutableStateOf(cropList[0]) }
@@ -100,7 +104,6 @@ fun PictureDetails(
                 BottomIcon(icon = Icons.Default.Wallpaper) {
                     drawable?.let { wallpaper ->
                         openDialog = true
-                        //onSetWallpaper(wallpaper, WallpaperManager.FLAG_LOCK)
                     }
                 }
                 BottomIcon(icon = Icons.Default.Share) {
@@ -119,28 +122,19 @@ fun PictureDetails(
                 onDismiss = { openDialog = false },
                 onSystem = {
                     drawable?.let { wallpaper ->
-                        onSetWallpaper(
-                            wallpaper,
-                            WallpaperManager.FLAG_SYSTEM
-                        )
+                        onSystemWallpaper(wallpaper)
                     }
                     openDialog = false
                 },
                 onLockScreen = {
                     drawable?.let { wallpaper ->
-                        onSetWallpaper(
-                            wallpaper,
-                            WallpaperManager.FLAG_LOCK
-                        )
+                        onLockScreenWallpaper(wallpaper)
                     }
                     openDialog = false
                 },
                 onAll = {
                     drawable?.let { wallpaper ->
-                        onSetWallpaper(
-                            wallpaper,
-                            WallpaperManager.FLAG_LOCK and WallpaperManager.FLAG_SYSTEM
-                        )
+                        onAllWallpaper(wallpaper)
                     }
                     openDialog = false
                 }

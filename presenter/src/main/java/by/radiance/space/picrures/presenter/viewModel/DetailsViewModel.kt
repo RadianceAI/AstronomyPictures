@@ -1,6 +1,7 @@
 package by.radiance.space.picrures.presenter.viewModel
 
 import android.graphics.drawable.Drawable
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -10,9 +11,8 @@ import by.radiance.space.pictures.domain.presenter.PictureViewModel
 import by.radiance.space.pictures.domain.presenter.state.PictureUiState
 import by.radiance.space.pictures.domain.presenter.state.QrCodeUiState
 import by.radiance.space.pictures.domain.usecase.*
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 
 @ExperimentalCoroutinesApi
 class DetailsViewModel(
@@ -40,14 +40,26 @@ class DetailsViewModel(
         }
     }
 
-    override fun setToWallpaper(wallpaper: Drawable, flag: Int) {
-        viewModelScope.launch {
-            wallpaperUseCase.set(wallpaper, flag)
+    override fun setSystemWallpaper(wallpaper: Drawable) {
+        viewModelScope.launch(Dispatchers.IO) {
+            wallpaperUseCase.setSystemWallpaper(wallpaper)
+        }
+    }
+
+    override fun setLockScreenWallpaper(wallpaper: Drawable) {
+        viewModelScope.launch(Dispatchers.IO) {
+            wallpaperUseCase.setLockScreenWallpaper(wallpaper)
+        }
+    }
+
+    override fun setAllWallpaper(wallpaper: Drawable) {
+        viewModelScope.launch(Dispatchers.IO) {
+            wallpaperUseCase.setAllWallpaper(wallpaper)
         }
     }
 
     override fun share(image: Drawable) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             shareUseCase.share(image)
         }
     }

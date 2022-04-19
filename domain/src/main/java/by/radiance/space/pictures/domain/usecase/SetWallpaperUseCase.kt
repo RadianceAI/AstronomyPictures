@@ -7,7 +7,16 @@ import by.radiance.space.pictures.domain.repository.WallpaperRepository
 class SetWallpaperUseCase(
     private val wallpaperRepository: WallpaperRepository,
 ) {
-    suspend fun set(wallpaper: Drawable, flag: Int) {
-        wallpaperRepository.setWallpaper(wallpaper, flag)
+
+    fun setSystemWallpaper(wallpaper: Drawable) {
+        wallpaperRepository.setSystemWallpaper(wallpaper)
+    }
+
+    fun setLockScreenWallpaper(wallpaper: Drawable) {
+        wallpaperRepository.setLockScreenWallpaper(wallpaper)
+    }
+
+    fun setAllWallpaper(wallpaper: Drawable) {
+        wallpaperRepository.setAllWallpaper(wallpaper)
     }
 }

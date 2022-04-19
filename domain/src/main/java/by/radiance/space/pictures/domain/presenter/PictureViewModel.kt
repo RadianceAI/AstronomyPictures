@@ -14,6 +14,8 @@ interface PictureViewModel {
 
     fun save(picture: Picture)
     fun picture(id: Id): StateFlow<PictureUiState>
-    fun setToWallpaper(wallpaper: Drawable, flag: Int)
     fun share(image: Drawable)
+    fun setSystemWallpaper(wallpaper: Drawable)
+    fun setLockScreenWallpaper(wallpaper: Drawable)
+    fun setAllWallpaper(wallpaper: Drawable)
 }

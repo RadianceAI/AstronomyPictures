@@ -3,5 +3,7 @@ package by.radiance.space.pictures.domain.repository
 import android.graphics.drawable.Drawable
 
 interface WallpaperRepository {
-    suspend fun setWallpaper(drawable: Drawable, flags: Int)
+    fun setSystemWallpaper(wallpaper: Drawable)
+    fun setLockScreenWallpaper(wallpaper: Drawable)
+    fun setAllWallpaper(wallpaper: Drawable)
 }

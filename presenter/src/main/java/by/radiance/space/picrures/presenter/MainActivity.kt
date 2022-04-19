@@ -1,6 +1,7 @@
 package by.radiance.space.picrures.presenter
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.AnimatedVisibility
@@ -160,7 +161,19 @@ class MainActivity : ComponentActivity() {
                             PictureDetails(
                                 picture = picture,
                                 onShare = { image -> viewModel.share(image) },
-                                onSetWallpaper = { wallpaper, flag -> viewModel.setToWallpaper(wallpaper, flag) },
+                                onSystemWallpaper = { wallpaper ->
+                                    viewModel.setSystemWallpaper(
+                                        wallpaper
+                                    )
+                                },
+                                onLockScreenWallpaper = { wallpaper ->
+                                    viewModel.setLockScreenWallpaper(
+                                        wallpaper
+                                    )
+                                },
+                                onAllWallpaper = { wallpaper ->
+                                    viewModel.setAllWallpaper(wallpaper)
+                                }
                             )
                         }
                     }
