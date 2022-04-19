@@ -10,4 +10,6 @@
     <string name="apod_info_3">APOD is proud to acknowledge that it received several accolades during its short existence. In 1994, APOD was voted NASA\'s Cool Site of the Year. In 1996, APODs popularity rose to make it among the most popular astronomy sites on the web. In 1997 and 1998, APOD was mentioned among PC Magazine\'s Top 100 Web Sites.</string>
     <string name="about_image_permissions">About image permissions</string>
     <string name="permissions_details">All the images on the APOD page are credited to the owner or institution where they originated. Some of the images are copyrighted and to use these pictures publicly or commercially one must write to the owners for permission. For the copyrighted images, the copyright owner is identified in the APOD credit line (please see the caption under the image), along with a hyperlink to the owner\'s location. NASA images are in the public domain, official guidelines for their use can be found here. For images credited to other owners/institutions, please contact them directly for copyright and permissions questions.</string>
+    <string name="copyright">"Copyrigth: "</string>
+    <string name="explanation">Explanation:</string>
 </resources>
