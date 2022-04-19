@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Crop
@@ -15,9 +16,12 @@ import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import by.radiance.space.picrures.presenter.ui.theme.CardGray
 import by.radiance.space.pictures.domain.entity.Picture
 import by.radiance.space.pictures.domain.presenter.state.PictureUiState
 import coil.compose.SubcomposeAsyncImage
@@ -68,67 +72,51 @@ fun PictureDetails(
                 }
             }
 
-            Row(
+            BottomNavigation(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .background(Color.LightGray.copy(alpha = 0.8f))
-            ) {
-                IconButton(
-                    modifier = Modifier
-                        .weight(1f),
-                    onClick = {
-                        cropState = cropList[
-                                (cropList.indexOf(cropState) + 1)
-                                    .takeIf { index -> index != cropList.size }
-                                    ?: 0
-                        ]
-                    }
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Crop,
-                        contentDescription = null,
-                        modifier = modifier
-                            .padding(8.dp)
-                    )
+                    .padding(5.dp)
+                    .clip(RoundedCornerShape(5.dp, 5.dp, 16.dp, 16.dp)),
+                backgroundColor = CardGray,
+            ){
+                BottomIcon(icon = Icons.Default.Crop) {
+                    cropState = cropList[
+                            (cropList.indexOf(cropState) + 1)
+                                .takeIf { index -> index != cropList.size }
+                                ?: 0
+                    ]
                 }
-                IconButton(
-                    modifier = Modifier
-                        .weight(1f),
-                    onClick = { }
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Wallpaper,
-                        contentDescription = null,
-                        modifier = modifier
-                            .padding(8.dp)
-                    )
+                BottomIcon(icon = Icons.Default.Wallpaper) {
+
                 }
-                IconButton(
-                    modifier = Modifier
-                        .weight(1f),
-                    onClick = { }
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Share,
-                        contentDescription = null,
-                        modifier = modifier
-                            .padding(8.dp)
-                    )
+                BottomIcon(icon = Icons.Default.Share) {
+
                 }
-                IconButton(
-                    modifier = Modifier
-                        .weight(1f),
-                    onClick = {  }
+                BottomIcon(
+                    icon = if ((picture as PictureUiState.Success).picture?.saveDate == null) Icons.Outlined.FavoriteBorder else Icons.Outlined.Favorite,
                 ) {
-                    Icon(
-                        imageVector = if ((picture as PictureUiState.Success).picture?.saveDate == null) Icons.Outlined.FavoriteBorder
-                        else Icons.Outlined.Favorite,
-                        contentDescription = null,
-                        modifier = modifier
-                            .padding(8.dp)
-                    )
+
                 }
             }
         }
     }
+}
+
+@Composable
+fun RowScope.BottomIcon(
+    icon: ImageVector,
+    onClick: () -> Unit,
+) {
+    BottomNavigationItem(
+        icon = {
+            Icon(
+                icon,
+                null
+            )
+        },
+        selected = true,
+        onClick = {
+            onClick.invoke()
+        }
+    )
+
 }

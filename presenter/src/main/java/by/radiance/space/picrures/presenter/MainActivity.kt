@@ -3,12 +3,14 @@ package by.radiance.space.picrures.presenter
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
@@ -49,39 +51,52 @@ class MainActivity : ComponentActivity() {
         )
 
         setContent {
+            var bottomBarState by rememberSaveable { (mutableStateOf(true)) }
+
             AstronomyPicturesTheme {
                 val navController = rememberNavController()
                 Scaffold(
                     bottomBar = {
-                        BottomNavigation(
-                            modifier = Modifier
-                                .padding(5.dp)
-                                .clip(RoundedCornerShape(5.dp, 5.dp, 16.dp, 16.dp)),
-                            backgroundColor = CardGray,
-                        ) {
-                            val navBackStackEntry by navController.currentBackStackEntryAsState()
-                            val currentDestination = navBackStackEntry?.destination
-                            screens.forEach { screen ->
-                                BottomNavigationItem(
-                                    icon = { Icon(screen.icon, stringResource(screen.title)) },
-                                    label = { Text(stringResource(screen.title)) },
-                                    selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
-                                    onClick = {
-                                        navController.navigate(screen.route) {
-                                            popUpTo(navController.graph.findStartDestination().id) {
-                                                saveState = true
+                        AnimatedVisibility(
+                            visible = bottomBarState,
+                            content = {
+                                BottomNavigation(
+                                    modifier = Modifier
+                                        .padding(5.dp)
+                                        .clip(RoundedCornerShape(5.dp, 5.dp, 16.dp, 16.dp)),
+                                    backgroundColor = CardGray,
+                                ) {
+                                    val navBackStackEntry by navController.currentBackStackEntryAsState()
+                                    val currentDestination = navBackStackEntry?.destination
+                                    screens.forEach { screen ->
+                                        BottomNavigationItem(
+                                            icon = {
+                                                Icon(
+                                                    screen.icon,
+                                                    stringResource(screen.title)
+                                                )
+                                            },
+                                            label = { Text(stringResource(screen.title)) },
+                                            selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
+                                            onClick = {
+                                                navController.navigate(screen.route) {
+                                                    popUpTo(navController.graph.findStartDestination().id) {
+                                                        saveState = true
+                                                    }
+                                                    launchSingleTop = true
+                                                    restoreState = true
+                                                }
                                             }
-                                            launchSingleTop = true
-                                            restoreState = true
-                                        }
+                                        )
                                     }
-                                )
+                                }
                             }
-                        }
+                        )
                     }
                 ) { innerPadding ->
                     NavHost(navController = navController, startDestination = "new", modifier = Modifier.padding(innerPadding)) {
                         composable(route = Screen.New.route) {
+                            bottomBarState = true
                             val viewModel by remember { viewModel<ListViewModel>() }
 
                             val today by remember { viewModel.today }.collectAsState()
@@ -104,6 +119,7 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                         composable(route = Screen.Collection.route) {
+                            bottomBarState = true
                             val viewModel by remember { viewModel<ListViewModel>() }
 
                             val list by remember { viewModel.list }.collectAsState()
@@ -124,12 +140,15 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                         composable(route = Screen.About.route) {
+                            bottomBarState = true
                             About()
                         }
                         composable(
                             route = "details/{pictureId}",
                             arguments = listOf(navArgument("pictureId") { type = NavType.StringType })
                         ) {
+                            bottomBarState = false
+
                             val id = it.arguments?.getString("pictureId")?.let { idString ->
                                 GsonWrapper.gson.fromJson(idString, Id::class.java)
                             }!!
