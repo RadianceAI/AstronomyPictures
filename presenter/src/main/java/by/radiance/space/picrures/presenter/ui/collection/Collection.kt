@@ -1,4 +1,4 @@
-package by.radiance.space.picrures.presenter.collection
+package by.radiance.space.picrures.presenter.ui.collection
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
@@ -10,9 +10,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import by.radiance.space.picrures.presenter.picture.SmallPictureCard
-import by.radiance.space.pictures.domain.utils.DateHelper
-import by.radiance.space.pictures.domain.utils.DateHelper.MONTH_FORMAT
+import by.radiance.space.picrures.presenter.ui.picture.SmallPictureCard
 import by.radiance.space.pictures.domain.entity.Picture
 import by.radiance.space.pictures.domain.presenter.state.PicturesListUiState
 

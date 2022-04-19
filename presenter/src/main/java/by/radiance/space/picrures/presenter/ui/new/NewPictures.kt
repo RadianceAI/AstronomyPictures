@@ -1,4 +1,4 @@
-package by.radiance.space.picrures.presenter.new
+package by.radiance.space.picrures.presenter.ui.new
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
@@ -7,7 +7,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import by.radiance.space.picrures.presenter.picture.PictureCard
+import by.radiance.space.picrures.presenter.ui.picture.PictureCard
 import androidx.compose.material.Text
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.tooling.preview.Preview
@@ -16,7 +16,6 @@ import by.radiance.space.pictures.domain.entity.Id
 import by.radiance.space.pictures.domain.entity.Image
 import by.radiance.space.pictures.domain.entity.Picture
 import by.radiance.space.pictures.domain.presenter.state.PictureUiState
-import by.radiance.space.pictures.domain.presenter.state.PicturesListUiState
 import java.util.*
 
 @OptIn(ExperimentalFoundationApi::class)

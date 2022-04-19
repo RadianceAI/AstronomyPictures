@@ -4,12 +4,15 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavType
@@ -18,11 +21,13 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import by.radiance.space.picrures.presenter.collection.Collection
-import by.radiance.space.picrures.presenter.new.NewPictures
-import by.radiance.space.picrures.presenter.picture.PictureDetails
+import by.radiance.space.picrures.presenter.ui.abount.About
+import by.radiance.space.picrures.presenter.ui.collection.Collection
+import by.radiance.space.picrures.presenter.ui.new.NewPictures
+import by.radiance.space.picrures.presenter.ui.picture.PictureDetails
 import by.radiance.space.picrures.presenter.ui.screen.Screen
 import by.radiance.space.picrures.presenter.ui.theme.AstronomyPicturesTheme
+import by.radiance.space.picrures.presenter.ui.theme.CardGray
 import by.radiance.space.picrures.presenter.utils.GsonWrapper
 import by.radiance.space.picrures.presenter.viewModel.DetailsViewModel
 import by.radiance.space.picrures.presenter.viewModel.ListViewModel
@@ -48,7 +53,12 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 Scaffold(
                     bottomBar = {
-                        BottomNavigation {
+                        BottomNavigation(
+                            modifier = Modifier
+                                .padding(5.dp)
+                                .clip(RoundedCornerShape(5.dp, 5.dp, 16.dp, 16.dp)),
+                            backgroundColor = CardGray,
+                        ) {
                             val navBackStackEntry by navController.currentBackStackEntryAsState()
                             val currentDestination = navBackStackEntry?.destination
                             screens.forEach { screen ->
@@ -114,7 +124,7 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                         composable(route = Screen.About.route) {
-
+                            About()
                         }
                         composable(
                             route = "details/{pictureId}",

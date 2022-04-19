@@ -1,10 +1,7 @@
 package by.radiance.space.picrures.presenter.viewModel
 
-import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import by.radiance.space.picrures.presenter.picture.PictureDetails
-import by.radiance.space.picrures.presenter.utils.toUiState
 import by.radiance.space.pictures.domain.entity.Id
 import by.radiance.space.pictures.domain.entity.Picture
 import by.radiance.space.pictures.domain.presenter.PictureViewModel

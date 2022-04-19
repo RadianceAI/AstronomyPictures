@@ -1,4 +1,4 @@
-package by.radiance.space.picrures.presenter.picture
+package by.radiance.space.picrures.presenter.ui.picture
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

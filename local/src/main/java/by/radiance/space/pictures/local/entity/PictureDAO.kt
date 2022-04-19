@@ -8,7 +8,7 @@ import java.sql.Date
 
 @Dao
 interface PictureDAO {
-    @Query("""SELECT * FROM picture""")
+    @Query("""SELECT * FROM picture ORDER BY id DESC""")
     fun getAll(): Flow<List<AstronomyPicture>>
 
     @Query("""SELECT * FROM picture WHERE id BETWEEN :startDate AND :endDate""")
