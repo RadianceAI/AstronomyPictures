@@ -30,7 +30,7 @@ class ListViewModel(
     private val _random = MutableStateFlow(PictureUiState.Success(null))
     override val random: StateFlow<PictureUiState> = _random
 
-    private val _list = MutableStateFlow(PicturesListUiState.Success(emptyList()))
+    private val _list = MutableStateFlow(PicturesListUiState.Success(mapOf()))
     override val list: StateFlow<PicturesListUiState> = _list
 
     override fun filter(stateDate: Date, endDate: Date) {

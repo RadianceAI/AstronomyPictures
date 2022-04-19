@@ -1,26 +1,18 @@
 package by.radiance.space.picrures.presenter.picture
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Favorite
-import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -34,7 +26,7 @@ import java.util.*
 import by.radiance.space.picrures.presenter.R
 import by.radiance.space.picrures.presenter.ui.theme.AstronomyPicturesTheme
 import by.radiance.space.picrures.presenter.ui.theme.CardGray
-import by.radiance.space.picrures.presenter.utils.DateHelper
+import by.radiance.space.pictures.domain.utils.DateHelper
 
 @Composable
 fun PictureCard(

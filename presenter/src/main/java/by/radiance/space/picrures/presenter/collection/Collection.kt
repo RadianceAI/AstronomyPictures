@@ -1,18 +1,18 @@
 package by.radiance.space.picrures.presenter.collection
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.*
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import by.radiance.space.picrures.presenter.picture.PictureCard
+import by.radiance.space.picrures.presenter.picture.SmallPictureCard
+import by.radiance.space.pictures.domain.utils.DateHelper
+import by.radiance.space.pictures.domain.utils.DateHelper.MONTH_FORMAT
 import by.radiance.space.pictures.domain.entity.Picture
 import by.radiance.space.pictures.domain.presenter.state.PicturesListUiState
 
@@ -32,16 +32,36 @@ fun Collection(
                 .fillMaxSize(),
                 cells = GridCells.Fixed(3),
             content = {
-                items((list as PicturesListUiState.Success).pictures) {
-                    PictureCard(
-                        modifier = Modifier
-                            .height(150.dp)
-                            .padding(4.dp)
-                        ,
-                        picture = it,
-                        onClick = onClick,
-                        onLike = onLike
-                    )
+                (list as PicturesListUiState.Success).pictures.forEach { group ->
+                    item(
+                        span = {
+                            GridItemSpan(3)
+                        }
+                    ) {
+                        Text(
+                            modifier = Modifier.padding(8.dp),
+                            text = group.key.name
+                        )
+                    }
+
+                    val fillItemsCount = 3 - group.value.count() % 3
+
+                    items(group.value, spans = {
+                        GridItemSpan(1)
+                    }) {
+                        SmallPictureCard(
+                            modifier = Modifier
+                                .height(130.dp),
+                            picture = it,
+                            onClick = onClick,
+                        )
+                    }
+
+                    repeat((0 until fillItemsCount).count()) {
+                        item {
+                            Box(modifier = Modifier.fillMaxSize()) {}
+                        }
+                    }
                 }
             })
 
