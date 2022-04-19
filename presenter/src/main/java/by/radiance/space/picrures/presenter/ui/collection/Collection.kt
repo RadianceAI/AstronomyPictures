@@ -11,12 +11,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import by.radiance.space.picrures.presenter.ui.picture.SmallPictureCard
+import by.radiance.space.picrures.presenter.ui.utils.WindowSize
 import by.radiance.space.pictures.domain.entity.Picture
 import by.radiance.space.pictures.domain.presenter.state.PicturesListUiState
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun Collection(
+    windowHeight: WindowSize,
     modifier: Modifier = Modifier,
     list: PicturesListUiState?,
     onClick: (Picture) -> Unit,
@@ -24,15 +26,20 @@ fun Collection(
     Scaffold(
         modifier = modifier
     ) {
+        val gridCount = when (windowHeight) {
+            WindowSize.Compact -> 5
+            else -> 3
+        }
+
         LazyVerticalGrid(
             modifier = Modifier
                 .fillMaxSize(),
-                cells = GridCells.Fixed(3),
+                cells = GridCells.Fixed(gridCount),
             content = {
                 (list as PicturesListUiState.Success).pictures.forEach { group ->
                     item(
                         span = {
-                            GridItemSpan(3)
+                            GridItemSpan(gridCount)
                         }
                     ) {
                         Text(
@@ -41,7 +48,7 @@ fun Collection(
                         )
                     }
 
-                    val fillItemsCount = 3 - group.value.count() % 3
+                    val fillItemsCount = gridCount - group.value.count() % gridCount
 
                     items(group.value, spans = {
                         GridItemSpan(1)

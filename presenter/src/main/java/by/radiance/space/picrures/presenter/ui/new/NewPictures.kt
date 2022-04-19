@@ -12,6 +12,7 @@ import androidx.compose.material.Text
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.tooling.preview.Preview
 import by.radiance.space.picrures.presenter.ui.theme.AstronomyPicturesTheme
+import by.radiance.space.picrures.presenter.ui.utils.WindowSize
 import by.radiance.space.pictures.domain.entity.Id
 import by.radiance.space.pictures.domain.entity.Image
 import by.radiance.space.pictures.domain.entity.Picture
@@ -21,6 +22,7 @@ import java.util.*
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun NewPictures(
+    windowHeight: WindowSize,
     modifier: Modifier = Modifier,
     todayPicture: PictureUiState?,
     randomPicture: PictureUiState?,
@@ -30,13 +32,57 @@ fun NewPictures(
     Scaffold(
         modifier = modifier
     ) {
-        TodayPictures(
-            modifier = Modifier
-                .fillMaxSize(),
-            todayPicture = (todayPicture as PictureUiState.Success).picture,
-            randomPicture = (randomPicture as PictureUiState.Success).picture,
+
+        when (windowHeight) {
+            WindowSize.Compact -> {
+                TodayPicturesCompact(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    todayPicture = (todayPicture as PictureUiState.Success).picture,
+                    randomPicture = (randomPicture as PictureUiState.Success).picture,
+                    onClick = onClick,
+                    onLike = onLike,
+                )
+            }
+            else -> {
+                TodayPictures(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    todayPicture = (todayPicture as PictureUiState.Success).picture,
+                    randomPicture = (randomPicture as PictureUiState.Success).picture,
+                    onClick = onClick,
+                    onLike = onLike,
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun TodayPicturesCompact(
+    modifier: Modifier = Modifier,
+    todayPicture: Picture?,
+    randomPicture: Picture?,
+    onClick: (Picture) -> Unit,
+    onLike: (Picture) -> Unit
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+    ) {
+        PictureContent(
+            modifier = Modifier.weight(1f),
+            title = "Today",
+            picture = todayPicture,
             onClick = onClick,
-            onLike = onLike,
+            onLike = onLike
+        )
+        PictureContent(
+            modifier = Modifier.weight(1f),
+            title = "Random",
+            picture = randomPicture,
+            onClick = onClick,
+            onLike = onLike
         )
     }
 }
@@ -53,56 +99,55 @@ fun TodayPictures(
         modifier = modifier
             .fillMaxWidth()
     ) {
-        Column(
-            modifier = Modifier.weight(1f)
+        PictureContent(
+            modifier = Modifier.weight(1f),
+            title = "Today",
+            picture = todayPicture,
+            onClick = onClick,
+            onLike = onLike
+        )
+        PictureContent(
+            modifier = Modifier.weight(1f),
+            title = "Random",
+            picture = randomPicture,
+            onClick = onClick,
+            onLike = onLike
+        )
+    }
+}
+
+@Composable
+private fun PictureContent(
+    modifier: Modifier = Modifier,
+    title: String,
+    picture: Picture?,
+    onClick: (Picture) -> Unit,
+    onLike: (Picture) -> Unit
+) {
+    Column(
+        modifier = modifier
+    ) {
+        Text(
+            modifier = Modifier
+                .padding(start = 10.dp, end = 10.dp),
+            text = title
+        )
+        Box(
+            modifier = Modifier
+                .padding(4.dp)
         ) {
-            Text(
-                modifier = Modifier
-                    .padding(start = 10.dp, end = 10.dp),
-                text = "Today"
-            )
-            Box(
-                modifier = Modifier
-                    .padding(4.dp)
-            ) {
-                if (todayPicture != null) {
-                    PictureCard(
-                        picture = todayPicture,
-                        onClick = onClick,
-                        onLike = onLike
-                    )
-                } else {
-                    CircularProgressIndicator(
-                        modifier = Modifier
-                            .align(Alignment.Center)
-                    )
-                }
-            }
-        }
-        Column(
-            modifier = Modifier.weight(1f)
-        ) {
-            Text(
-                modifier = Modifier
-                    .padding(start = 10.dp, end = 10.dp),
-                text = "Random"
-            )
-            Box(
-                modifier = Modifier
-                    .padding(4.dp)
-            ) {
-                if (randomPicture != null) {
-                    PictureCard(
-                        picture = randomPicture,
-                        onClick = onClick,
-                        onLike = onLike
-                    )
-                } else {
-                    CircularProgressIndicator(
-                        modifier = Modifier
-                            .align(Alignment.Center)
-                    )
-                }
+            if (picture != null) {
+                PictureCard(
+                    picture = picture,
+                    onClick = onClick,
+                    onLike = onLike
+                )
+            } else {
+                CircularProgressIndicator(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .align(Alignment.Center)
+                )
             }
         }
     }
@@ -113,6 +158,7 @@ fun TodayPictures(
 fun ListPreview() {
     AstronomyPicturesTheme {
         NewPictures(
+            windowHeight = WindowSize.Compact,
             todayPicture = PictureUiState.Success(
                 Picture(
                     id = Id(Date()),

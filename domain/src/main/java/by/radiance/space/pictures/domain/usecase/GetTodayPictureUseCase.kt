@@ -1,10 +1,12 @@
 package by.radiance.space.pictures.domain.usecase
 
+import android.util.Log
 import by.radiance.space.pictures.domain.entity.Picture
 import by.radiance.space.pictures.domain.repository.LocalRepository
 import by.radiance.space.pictures.domain.repository.RemoteRepository
 import by.radiance.space.pictures.domain.repository.TempRepository
 import kotlinx.coroutines.flow.*
+import java.lang.Exception
 import java.util.*
 
 class GetTodayPictureUseCase(
@@ -18,18 +20,22 @@ class GetTodayPictureUseCase(
                 picture.id.isToday
             }
 
-        val todayPicture = savedPicture ?: remoteRepository.getPicture(Date()).also { picture ->
-            tempRepository.save(picture)
-        }
-
-        emit(todayPicture)
-        localRepository.getPicture(todayPicture.id.date)
-            .onEach { picture ->
-                if (picture == null)
-                    emit(todayPicture)
-                else
-                    emit(picture)
+        try {
+            val todayPicture = savedPicture ?: remoteRepository.getPicture(Date()).also { picture ->
+                tempRepository.save(picture)
             }
-            .collect()
+
+            emit(todayPicture)
+            localRepository.getPicture(todayPicture.id.date)
+                .onEach { picture ->
+                    if (picture == null)
+                        emit(todayPicture)
+                    else
+                        emit(picture)
+                }
+                .collect()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 }
