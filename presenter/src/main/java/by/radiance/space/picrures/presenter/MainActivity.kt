@@ -34,6 +34,7 @@ import by.radiance.space.picrures.presenter.ui.theme.CardGray
 import by.radiance.space.picrures.presenter.utils.GsonWrapper
 import by.radiance.space.picrures.presenter.viewModel.DetailsViewModel
 import by.radiance.space.picrures.presenter.viewModel.ListViewModel
+import by.radiance.space.picrures.presenter.viewModel.NewViewModel
 import by.radiance.space.pictures.domain.entity.Id
 import by.radiance.space.pictures.domain.entity.Picture
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -98,7 +99,7 @@ class MainActivity : ComponentActivity() {
                     NavHost(navController = navController, startDestination = "new", modifier = Modifier.padding(innerPadding)) {
                         composable(route = Screen.New.route) {
                             bottomBarState = true
-                            val viewModel by remember { viewModel<ListViewModel>() }
+                            val viewModel by remember { viewModel<NewViewModel>() }
 
                             val today by remember { viewModel.today }.collectAsState()
                             val random by remember { viewModel.random }.collectAsState()
@@ -125,10 +126,6 @@ class MainActivity : ComponentActivity() {
 
                             val list by remember { viewModel.list }.collectAsState()
 
-                            val like: (Picture) -> Unit = { picture ->
-                                viewModel.save(picture)
-                            }
-
                             val click: (Picture) -> Unit = { picture ->
                                 val json = GsonWrapper.gson.toJson(picture.id)
                                 navController.navigate("details/$json")
@@ -137,7 +134,6 @@ class MainActivity : ComponentActivity() {
                             Collection(
                                 list = list,
                                 onClick = click,
-                                onLike = like,
                             )
                         }
                         composable(route = Screen.About.route) {

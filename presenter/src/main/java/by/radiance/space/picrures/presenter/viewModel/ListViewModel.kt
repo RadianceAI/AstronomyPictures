@@ -18,17 +18,8 @@ import java.util.*
 
 @ExperimentalCoroutinesApi
 class ListViewModel(
-    private val todayPictureUseCase: GetTodayPictureUseCase,
-    private val randomPictureUseCase: GetRandomPictureUseCase,
     private val localPictureUseCase: GetLocalPictureUseCase,
-    private val likeUseCase: LikeUseCase,
 ) : PictureListViewModel, ViewModel() {
-
-    private val _today = MutableStateFlow(PictureUiState.Success(null))
-    override val today: StateFlow<PictureUiState> = _today
-
-    private val _random = MutableStateFlow(PictureUiState.Success(null))
-    override val random: StateFlow<PictureUiState> = _random
 
     private val _list = MutableStateFlow(PicturesListUiState.Success(mapOf()))
     override val list: StateFlow<PicturesListUiState> = _list
@@ -37,29 +28,7 @@ class ListViewModel(
 
     }
 
-    override fun save(picture: Picture) {
-        viewModelScope.launch {
-            likeUseCase.like(picture)
-        }
-    }
-
     init {
-        viewModelScope.launch {
-            todayPictureUseCase.get()
-                .onEach { picture ->
-                    _today.value = PictureUiState.Success(picture)
-                }
-                .collect()
-        }
-
-        viewModelScope.launch {
-            randomPictureUseCase.get()
-                .onEach { picture ->
-                    _random.value = PictureUiState.Success(picture)
-                }
-                .collect()
-        }
-
         viewModelScope.launch {
             localPictureUseCase.get()
                 .onEach { list ->
@@ -67,8 +36,5 @@ class ListViewModel(
                 }
                 .collect()
         }
-    }
-    override fun init() {
-
     }
 }

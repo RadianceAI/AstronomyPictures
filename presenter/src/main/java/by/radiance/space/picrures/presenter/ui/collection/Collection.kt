@@ -20,7 +20,6 @@ fun Collection(
     modifier: Modifier = Modifier,
     list: PicturesListUiState?,
     onClick: (Picture) -> Unit,
-    onLike: (Picture) -> Unit,
 ) {
     Scaffold(
         modifier = modifier
