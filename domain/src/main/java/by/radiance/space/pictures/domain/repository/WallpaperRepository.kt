@@ -1,8 +1,7 @@
 package by.radiance.space.pictures.domain.repository
 
-import by.radiance.space.pictures.domain.entity.Picture
+import android.graphics.drawable.Drawable
 
 interface WallpaperRepository {
-    suspend fun setToLockScreen(picture: Picture)
-    suspend fun setToBackground(picture: Picture)
+    suspend fun setWallpaper(drawable: Drawable, flags: Int)
 }

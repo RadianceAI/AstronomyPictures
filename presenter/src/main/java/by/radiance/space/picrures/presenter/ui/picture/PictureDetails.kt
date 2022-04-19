@@ -4,21 +4,18 @@ import android.app.WallpaperManager
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Build
-import androidx.compose.foundation.background
-import androidx.compose.foundation.horizontalScroll
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Crop
-import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.Share
-import androidx.compose.material.icons.filled.Wallpaper
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -49,7 +46,7 @@ fun PictureDetails(
     var cropState by remember { mutableStateOf(cropList[0]) }
     var details by remember { mutableStateOf(false) }
     var drawable by remember { mutableStateOf<Drawable?>(null) }
-    val context = LocalContext.current
+    var openDialog by remember { mutableStateOf(false)  }
 
     Scaffold(
         modifier = modifier
@@ -102,26 +99,12 @@ fun PictureDetails(
                 }
                 BottomIcon(icon = Icons.Default.Wallpaper) {
                     drawable?.let { wallpaper ->
-                        //todo show dialog
-                        //start loading
-                        val wallpaperManager = WallpaperManager.getInstance(context)
-
-                        val bitmap = (wallpaper as BitmapDrawable).bitmap!!
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                            wallpaperManager.setBitmap(
-                                bitmap,
-                                null,
-                                true,
-                                WallpaperManager.FLAG_SYSTEM
-                            )
-                        } else {
-                            wallpaperManager.setBitmap(bitmap)
-                        }
+                        openDialog = true
+                        //onSetWallpaper(wallpaper, WallpaperManager.FLAG_LOCK)
                     }
                 }
                 BottomIcon(icon = Icons.Default.Share) {
                     drawable?.let { drawableToShare ->
-                        //todo start loading
                         onShare(drawableToShare)
                     }
                 }
@@ -129,6 +112,39 @@ fun PictureDetails(
                     details = !details
                 }
             }
+        }
+
+        AnimatedVisibility(visible = openDialog) {
+            WallpaperDialog(
+                onDismiss = { openDialog = false },
+                onSystem = {
+                    drawable?.let { wallpaper ->
+                        onSetWallpaper(
+                            wallpaper,
+                            WallpaperManager.FLAG_SYSTEM
+                        )
+                    }
+                    openDialog = false
+                },
+                onLockScreen = {
+                    drawable?.let { wallpaper ->
+                        onSetWallpaper(
+                            wallpaper,
+                            WallpaperManager.FLAG_LOCK
+                        )
+                    }
+                    openDialog = false
+                },
+                onAll = {
+                    drawable?.let { wallpaper ->
+                        onSetWallpaper(
+                            wallpaper,
+                            WallpaperManager.FLAG_LOCK and WallpaperManager.FLAG_SYSTEM
+                        )
+                    }
+                    openDialog = false
+                }
+            )
         }
     }
 }
@@ -188,6 +204,51 @@ fun Detail(
         Text(
             text = picture.explanation ?: "",
             style = MaterialTheme.typography.body2
+        )
+    }
+}
+
+@Composable
+fun WallpaperDialog(
+    onDismiss: () -> Unit,
+    onSystem: () -> Unit,
+    onLockScreen: () -> Unit,
+    onAll: () -> Unit,
+) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        buttons = {
+            Column(
+                modifier = Modifier
+                    .padding(10.dp)
+                    .wrapContentWidth()
+            ) {
+                DialogButton(icon = Icons.Filled.Home, text = "System", onClick = onSystem)
+                DialogButton(icon = Icons.Filled.Lock, text = "Lock screen", onClick = onLockScreen)
+                DialogButton(icon = Icons.Filled.Smartphone, text = "System & Lock screen", onClick = onAll)
+            }
+        }
+    )
+}
+
+@Composable
+fun DialogButton(icon: ImageVector, text: String, onClick: () -> Unit) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onClick() }
+    ) {
+        Icon(
+            icon,
+            null,
+            Modifier
+                .padding(10.dp)
+                .align(Alignment.CenterVertically)
+        )
+        Text(
+            modifier = Modifier
+                .align(Alignment.CenterVertically),
+            text = text
         )
     }
 }

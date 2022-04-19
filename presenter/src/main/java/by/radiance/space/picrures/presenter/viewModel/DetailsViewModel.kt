@@ -3,6 +3,7 @@ package by.radiance.space.picrures.presenter.viewModel
 import android.graphics.drawable.Drawable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import by.radiance.space.pictures.domain.entity.Id
 import by.radiance.space.pictures.domain.entity.Picture
 import by.radiance.space.pictures.domain.presenter.PictureViewModel
@@ -18,6 +19,7 @@ class DetailsViewModel(
     private val getPictureUseCase: GetPictureUseCase,
     private val likeUseCase: LikeUseCase,
     private val shareUseCase: ShareUseCase,
+    private val wallpaperUseCase: SetWallpaperUseCase,
 ): ViewModel(), PictureViewModel {
 
     private val _qrCode = MutableStateFlow<QrCodeUiState>(QrCodeUiState.Success(null))
@@ -39,7 +41,9 @@ class DetailsViewModel(
     }
 
     override fun setToWallpaper(wallpaper: Drawable, flag: Int) {
-        TODO("not implemented")
+        viewModelScope.launch {
+            wallpaperUseCase.set(wallpaper, flag)
+        }
     }
 
     override fun share(image: Drawable) {

@@ -2,7 +2,6 @@ package by.radiance.space.pictures.domain.di
 
 import by.radiance.space.pictures.domain.usecase.*
 import org.koin.dsl.module
-import kotlin.math.sin
 
 
 val usecase = module {
@@ -11,8 +10,7 @@ val usecase = module {
     single { GetLocalPictureUseCase(get()) }
     single { SavePictureUseCase(get()) }
     single { DeletePictureUseCase(get()) }
-    single { SetToLockScreenUseCase(get()) }
-    single { SetToBackgroundUseCase(get()) }
+    single { SetWallpaperUseCase(get()) }
     single { GetPictureUseCase(get(), get(), get()) }
     single { LikeUseCase(get(), get(), get()) }
     single { ShareUseCase(get()) }
