@@ -12,6 +12,7 @@ import androidx.compose.material.Text
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.tooling.preview.Preview
 import by.radiance.space.picrures.presenter.ui.theme.AstronomyPicturesTheme
+import by.radiance.space.picrures.presenter.ui.utils.LoadingCard
 import by.radiance.space.picrures.presenter.ui.utils.WindowSize
 import by.radiance.space.pictures.domain.entity.Id
 import by.radiance.space.pictures.domain.entity.Image
@@ -143,11 +144,7 @@ private fun PictureContent(
                     onLike = onLike
                 )
             } else {
-                CircularProgressIndicator(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .align(Alignment.Center)
-                )
+                LoadingCard()
             }
         }
     }

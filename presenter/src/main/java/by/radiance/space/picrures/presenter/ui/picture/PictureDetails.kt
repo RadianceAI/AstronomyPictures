@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import by.radiance.space.picrures.presenter.R
 import by.radiance.space.picrures.presenter.ui.theme.AstronomyPicturesTheme
 import by.radiance.space.picrures.presenter.ui.theme.CardGray
+import by.radiance.space.picrures.presenter.ui.utils.LoadingCard
 import by.radiance.space.pictures.domain.entity.Id
 import by.radiance.space.pictures.domain.entity.Image
 import by.radiance.space.pictures.domain.entity.Picture
@@ -69,7 +70,7 @@ fun PictureDetails(
                         .fillMaxSize(),
                     model = (picture as PictureUiState.Success).picture?.source?.huge,
                     contentDescription = picture.picture?.explanation,
-                    loading = { CircularProgressIndicator() },
+                    loading = { LoadingCard() },
                     contentScale = cropState,
                     onSuccess = { painterState ->
                         drawable = painterState.result.drawable

@@ -24,6 +24,7 @@ class GetTodayPictureUseCase(
             val todayPicture = savedPicture ?: remoteRepository.getPicture(Date()).also { picture ->
                 tempRepository.save(picture)
             }
+            throw Exception()
 
             emit(todayPicture)
             localRepository.getPicture(todayPicture.id.date)

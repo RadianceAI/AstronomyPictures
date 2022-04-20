@@ -26,6 +26,7 @@ import java.util.*
 import by.radiance.space.picrures.presenter.R
 import by.radiance.space.picrures.presenter.ui.theme.AstronomyPicturesTheme
 import by.radiance.space.picrures.presenter.ui.theme.CardGray
+import by.radiance.space.picrures.presenter.ui.utils.LoadingCard
 import by.radiance.space.pictures.domain.utils.DateHelper
 
 @Composable
@@ -46,9 +47,9 @@ fun PictureCard(
                 modifier = Modifier
                     .fillMaxWidth()
                     .fillMaxHeight(),
-                model = (picture.source as Image).light,
+                model = picture.source.light,
                 contentDescription = picture.explanation,
-                loading = { CircularProgressIndicator() },
+                loading = { LoadingCard() },
                 contentScale = ContentScale.Crop
             )
             Box(
