@@ -1,5 +1,9 @@
 package by.radiance.space.picrures.presenter.ui.picture
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.Crossfade
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -87,16 +91,25 @@ fun PictureCard(
                         modifier = Modifier,
                         onClick = { onLike(picture) }
                     ) {
-                        Icon(
-                            painter = painterResource(
-                                if (picture.isSaved) R.drawable.ic_dark_pink_active
-                                else R.drawable.ic_dark_pink_defolt
-                            ),
-                            contentDescription = null,
-                            modifier = modifier
-                                .padding(8.dp),
-                            tint = Color.Unspecified,
-                        )
+                        Crossfade(targetState = picture.isSaved) { isSaved ->
+                            if (isSaved) {
+                                Icon(
+                                    painter = painterResource(R.drawable.ic_dark_pink_active),
+                                    contentDescription = null,
+                                    modifier = modifier
+                                        .padding(8.dp),
+                                    tint = Color.Unspecified,
+                                )
+                            } else {
+                                Icon(
+                                    painter = painterResource(R.drawable.ic_dark_pink_defolt),
+                                    contentDescription = null,
+                                    modifier = modifier
+                                        .padding(8.dp),
+                                    tint = Color.Unspecified,
+                                )
+                            }
+                        }
                     }
                 }
             }
