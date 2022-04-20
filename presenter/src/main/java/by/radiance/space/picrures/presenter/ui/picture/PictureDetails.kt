@@ -18,11 +18,11 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.currentBackStackEntryAsState
 import by.radiance.space.picrures.presenter.R
 import by.radiance.space.picrures.presenter.ui.theme.AstronomyPicturesTheme
 import by.radiance.space.picrures.presenter.ui.theme.CardGray
-import by.radiance.space.picrures.presenter.ui.utils.ErrorCard
-import by.radiance.space.picrures.presenter.ui.utils.LoadingCard
+import by.radiance.space.picrures.presenter.ui.utils.*
 import by.radiance.space.pictures.domain.entity.Id
 import by.radiance.space.pictures.domain.entity.Image
 import by.radiance.space.pictures.domain.entity.Picture
@@ -34,6 +34,7 @@ import java.util.*
 
 @Composable
 fun PictureDetails(
+    heightWindowSize: WindowSize,
     modifier: Modifier = Modifier,
     pictureUiState: PictureUiState,
     onShare: (Drawable) -> Unit,
@@ -48,77 +49,110 @@ fun PictureDetails(
     var openDialog by remember { mutableStateOf(false)  }
 
     Scaffold(
-        modifier = modifier
+        modifier = modifier,
+        bottomBar = {
+            AnimatedVisibility(visible = heightWindowSize != WindowSize.Compact) {
+                BottomNavigation(
+                    modifier = Modifier
+                        .padding(5.dp)
+                        .clip(RoundedCornerShape(5.dp, 5.dp, 16.dp, 16.dp)),
+                    backgroundColor = CardGray,
+                ) {
+                    BottomIcon(icon = Icons.Default.Crop) {
+                        cropState = cropList[
+                                (cropList.indexOf(cropState) + 1)
+                                    .takeIf { index -> index != cropList.size }
+                                    ?: 0
+                        ]
+                    }
+                    BottomIcon(icon = Icons.Default.Wallpaper) {
+                        drawable?.let { wallpaper ->
+                            openDialog = true
+                        }
+                    }
+                    BottomIcon(icon = Icons.Default.Share) {
+                        drawable?.let { drawableToShare ->
+                            onShare(drawableToShare)
+                        }
+                    }
+                    BottomIcon(icon = Icons.Default.Info) {
+                        details = !details
+                    }
+                }
+            }
+        }
     ) {
         Column(
             modifier = Modifier.padding(it)
         ) {
-            Box(
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxSize()
-            ) {
-                when (pictureUiState) {
-                    is PictureUiState.Success -> {
-                        SubcomposeAsyncImage(
-                            modifier = Modifier
-                                .horizontalScroll(rememberScrollState())
-                                .fillMaxSize(),
-                            model = pictureUiState.picture.source.huge,
-                            contentDescription = pictureUiState.picture.explanation,
-                            loading = { LoadingCard() },
-                            contentScale = cropState,
-                            onSuccess = { painterState ->
-                                drawable = painterState.result.drawable
+            Row {
+                if (heightWindowSize == WindowSize.Compact) {
+                    Column(
+                        modifier = Modifier
+                            .padding(5.dp)
+                            .clip(RoundedCornerShape(5.dp))
+                            .background(CardGray),
+                    ) {
+                        ColumnBottomNavigationItem(icon = Icons.Default.Crop, onClick = {
+                            cropState = cropList[
+                                    (cropList.indexOf(cropState) + 1)
+                                        .takeIf { index -> index != cropList.size }
+                                        ?: 0
+                            ]
+                        })
+                        ColumnBottomNavigationItem(icon = Icons.Default.Wallpaper, onClick = {
+                            drawable?.let { wallpaper ->
+                                openDialog = true
                             }
-                        )
-                    }
-                    is PictureUiState.Loading -> {
-                        LoadingCard(cornerSize = CornerSize(0.dp))
-                    }
-                    is PictureUiState.Error -> {
-                        ErrorCard(error = "Something went wrong", cornerSize = CornerSize(0.dp))
+                        })
+                        ColumnBottomNavigationItem(icon = Icons.Default.Share, onClick = {
+                            drawable?.let { drawableToShare ->
+                                onShare(drawableToShare)
+                            }
+                        })
+                        ColumnBottomNavigationItem(icon = Icons.Default.Info, onClick = {
+                            details = !details
+                        })
                     }
                 }
-                if (details) {
-                    if (pictureUiState is PictureUiState.Success) {
-                        pictureUiState.picture.let { picture ->
-                            Detail(
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                ) {
+                    when (pictureUiState) {
+                        is PictureUiState.Success -> {
+                            SubcomposeAsyncImage(
                                 modifier = Modifier
-                                    .background(CardGray.copy(alpha = 0.6f))
-                                    .padding(10.dp),
-                                picture = picture
+                                    .horizontalScroll(rememberScrollState())
+                                    .fillMaxSize(),
+                                model = pictureUiState.picture.source.huge,
+                                contentDescription = pictureUiState.picture.explanation,
+                                loading = { LoadingCard() },
+                                contentScale = cropState,
+                                onSuccess = { painterState ->
+                                    drawable = painterState.result.drawable
+                                }
                             )
                         }
+                        is PictureUiState.Loading -> {
+                            LoadingCard(cornerSize = CornerSize(0.dp))
+                        }
+                        is PictureUiState.Error -> {
+                            ErrorCard(error = "Something went wrong", cornerSize = CornerSize(0.dp))
+                        }
                     }
-                }
-            }
-
-            BottomNavigation(
-                modifier = Modifier
-                    .padding(5.dp)
-                    .clip(RoundedCornerShape(5.dp, 5.dp, 16.dp, 16.dp)),
-                backgroundColor = CardGray,
-            ){
-                BottomIcon(icon = Icons.Default.Crop) {
-                    cropState = cropList[
-                            (cropList.indexOf(cropState) + 1)
-                                .takeIf { index -> index != cropList.size }
-                                ?: 0
-                    ]
-                }
-                BottomIcon(icon = Icons.Default.Wallpaper) {
-                    drawable?.let { wallpaper ->
-                        openDialog = true
+                    if (details) {
+                        if (pictureUiState is PictureUiState.Success) {
+                            pictureUiState.picture.let { picture ->
+                                Detail(
+                                    modifier = Modifier
+                                        .background(CardGray.copy(alpha = 0.6f))
+                                        .padding(10.dp),
+                                    picture = picture
+                                )
+                            }
+                        }
                     }
-                }
-                BottomIcon(icon = Icons.Default.Share) {
-                    drawable?.let { drawableToShare ->
-                        onShare(drawableToShare)
-                    }
-                }
-                BottomIcon(icon = Icons.Default.Info) {
-                    details = !details
                 }
             }
         }

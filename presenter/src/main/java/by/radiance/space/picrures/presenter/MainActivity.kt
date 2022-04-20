@@ -160,6 +160,7 @@ class MainActivity : ComponentActivity() {
                                     val picture by remember { viewModel.picture(id) }.collectAsState()
 
                                     PictureDetails(
+                                        this@ScaffoldWithConstraints.heightWindowSize,
                                         pictureUiState = picture,
                                         onShare = { image -> viewModel.share(image) },
                                         onSystemWallpaper = { wallpaper ->

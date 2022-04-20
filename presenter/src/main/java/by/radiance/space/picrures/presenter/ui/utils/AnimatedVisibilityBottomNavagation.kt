@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.lerp
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
@@ -76,6 +77,68 @@ fun RowScope.BottomNavigationScreenItem(
             }
         }
     )
+}
+
+
+@Composable
+fun ColumnScope.ColumnBottomNavigationItem(
+    icon: ImageVector,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    alwaysShowLabel: Boolean = true,
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    selectedContentColor: androidx.compose.ui.graphics.Color = LocalContentColor.current,
+    unselectedContentColor: androidx.compose.ui.graphics.Color = selectedContentColor.copy(alpha = ContentAlpha.medium)
+) {
+    val ripple = rememberRipple(bounded = false, color = selectedContentColor)
+
+    val selected = true
+    val label: @Composable (() -> Unit) = {  }
+    val styledLabel: @Composable (() -> Unit)? = label.let {
+        @Composable {
+            val style = MaterialTheme.typography.caption.copy(textAlign = TextAlign.Center)
+            ProvideTextStyle(style, content = label)
+        }
+    }
+    val iconCompose: @Composable () -> Unit = {
+        Icon(
+            icon,
+            null,
+            modifier = Modifier.align(CenterHorizontally),
+        )
+    }
+
+    Box(
+        modifier
+            .selectable(
+                selected = selected,
+                onClick = {
+                    onClick()
+                },
+                enabled = enabled,
+                role = Role.Tab,
+                interactionSource = interactionSource,
+                indication = ripple
+            )
+            .weight(1f)
+            .align(Alignment.CenterHorizontally),
+        contentAlignment = Alignment.Center
+    ) {
+        BottomNavigationTransition(
+            selectedContentColor,
+            unselectedContentColor,
+            selected
+        ) { progress ->
+            val animationProgress = if (alwaysShowLabel) 1f else progress
+
+            BottomNavigationItemBaselineLayout(
+                icon = iconCompose,
+                label = styledLabel,
+                iconPositionAnimationProgress = animationProgress
+            )
+        }
+    }
 }
 
 @Composable
