@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.StateFlow
 @ExperimentalCoroutinesApi
 interface PictureViewModel {
     val qrCode: StateFlow<QrCodeUiState>
+    val progress: StateFlow<Boolean>
 
     fun save(picture: Picture)
     fun picture(id: Id): StateFlow<PictureUiState>

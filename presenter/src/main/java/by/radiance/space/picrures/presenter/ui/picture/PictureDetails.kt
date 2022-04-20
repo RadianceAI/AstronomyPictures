@@ -1,6 +1,11 @@
 package by.radiance.space.picrures.presenter.ui.picture
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
+import android.content.Context.CLIPBOARD_SERVICE
 import android.graphics.drawable.Drawable
+import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -15,10 +20,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.core.content.ContextCompat.getSystemService
 import by.radiance.space.picrures.presenter.R
 import by.radiance.space.picrures.presenter.ui.theme.AstronomyPicturesTheme
 import by.radiance.space.picrures.presenter.ui.theme.CardGray
@@ -37,6 +43,7 @@ fun PictureDetails(
     heightWindowSize: WindowSize,
     modifier: Modifier = Modifier,
     pictureUiState: PictureUiState,
+    progress: Boolean,
     onShare: (Drawable) -> Unit,
     onSystemWallpaper: (Drawable) -> Unit,
     onLockScreenWallpaper: (Drawable) -> Unit,
@@ -153,6 +160,13 @@ fun PictureDetails(
                             }
                         }
                     }
+                    if (progress) {
+                        Box(modifier = Modifier
+                            .fillMaxSize()
+                            .background(CardGray.copy(0.5f))) {
+                            CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+                        }
+                    }
                 }
             }
         }
@@ -203,11 +217,13 @@ fun RowScope.BottomIcon(
     )
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun Detail(
     modifier: Modifier = Modifier,
     picture: Picture,
 ) {
+    val context = LocalContext.current
     Column(
         modifier
             .fillMaxSize()
@@ -216,6 +232,13 @@ fun Detail(
         Text(
             text = picture.title ?: "",
             style = MaterialTheme.typography.h6,
+            modifier = Modifier
+                .combinedClickable(
+                    onClick = { },
+                    onLongClick = {
+                        copyToClipboard(context, picture.title)
+                    },
+                )
         )
         Text(
             text = DateHelper.getDate(picture.id.date),
@@ -228,7 +251,14 @@ fun Detail(
             )
             Text(
                 text = picture.copyright ?: "",
-                style = MaterialTheme.typography.body2
+                style = MaterialTheme.typography.body2,
+                modifier = Modifier
+                    .combinedClickable(
+                        onClick = { },
+                        onLongClick = {
+                            copyToClipboard(context, picture.copyright)
+                        },
+                    )
             )
         }
         Text(
@@ -237,9 +267,29 @@ fun Detail(
         )
         Text(
             text = picture.explanation ?: "",
-            style = MaterialTheme.typography.body2
+            style = MaterialTheme.typography.body2,
+            modifier = Modifier
+                .combinedClickable(
+                    onClick = { },
+                    onLongClick = {
+                        copyToClipboard(context, picture.explanation)
+                    },
+                )
         )
     }
+}
+
+private fun copyToClipboard(
+    context: Context,
+    text: String?
+) {
+    val clipboard = context.getSystemService(
+        CLIPBOARD_SERVICE
+    ) as ClipboardManager?
+    val clip: ClipData = ClipData.newPlainText("", text)
+    clipboard?.setPrimaryClip(clip)
+
+    Toast.makeText(context, "Copied to clipboard", Toast.LENGTH_SHORT).show()
 }
 
 @Composable

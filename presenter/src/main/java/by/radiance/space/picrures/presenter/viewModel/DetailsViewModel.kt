@@ -23,6 +23,9 @@ class DetailsViewModel(
     private val wallpaperUseCase: SetWallpaperUseCase,
 ): ViewModel(), PictureViewModel {
 
+    private val _progress = MutableStateFlow(false)
+    override val progress: StateFlow<Boolean> = _progress
+
     private val _qrCode = MutableStateFlow<QrCodeUiState>(QrCodeUiState.Success(null))
     override val qrCode: StateFlow<QrCodeUiState> = _qrCode
 
@@ -43,25 +46,31 @@ class DetailsViewModel(
 
     override fun setSystemWallpaper(wallpaper: Drawable) {
         viewModelScope.launch(Dispatchers.IO) {
-            wallpaperUseCase.setSystemWallpaper(wallpaper)
+            progress { wallpaperUseCase.setSystemWallpaper(wallpaper) }
         }
     }
 
     override fun setLockScreenWallpaper(wallpaper: Drawable) {
         viewModelScope.launch(Dispatchers.IO) {
-            wallpaperUseCase.setLockScreenWallpaper(wallpaper)
+            progress { wallpaperUseCase.setLockScreenWallpaper(wallpaper) }
         }
     }
 
     override fun setAllWallpaper(wallpaper: Drawable) {
         viewModelScope.launch(Dispatchers.IO) {
-            wallpaperUseCase.setAllWallpaper(wallpaper)
+            progress { wallpaperUseCase.setAllWallpaper(wallpaper) }
         }
     }
 
     override fun share(image: Drawable) {
         viewModelScope.launch(Dispatchers.IO) {
-            shareUseCase.share(image)
+            progress { shareUseCase.share(image) }
         }
+    }
+
+    private fun progress(action: () -> Unit) {
+        _progress.update { true }
+        action()
+        _progress.update { false }
     }
 }

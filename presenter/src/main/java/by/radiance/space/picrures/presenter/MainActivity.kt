@@ -158,10 +158,12 @@ class MainActivity : ComponentActivity() {
                                     val viewModel by remember { viewModel<DetailsViewModel>() }
 
                                     val picture by remember { viewModel.picture(id) }.collectAsState()
+                                    val progress by remember { viewModel.progress }.collectAsState()
 
                                     PictureDetails(
                                         this@ScaffoldWithConstraints.heightWindowSize,
                                         pictureUiState = picture,
+                                        progress = progress,
                                         onShare = { image -> viewModel.share(image) },
                                         onSystemWallpaper = { wallpaper ->
                                             viewModel.setSystemWallpaper(
