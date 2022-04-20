@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import by.radiance.space.pictures.domain.entity.Picture
 import by.radiance.space.pictures.domain.presenter.NewPicturesViewModel
 import by.radiance.space.pictures.domain.presenter.state.PictureUiState
+import by.radiance.space.pictures.domain.presenter.state.asUiState
 import by.radiance.space.pictures.domain.usecase.GetRandomPictureUseCase
 import by.radiance.space.pictures.domain.usecase.GetTodayPictureUseCase
 import by.radiance.space.pictures.domain.usecase.LikeUseCase
@@ -22,10 +23,10 @@ class NewViewModel @ExperimentalCoroutinesApi constructor(
     private val likeUseCase: LikeUseCase,
 ): ViewModel(), NewPicturesViewModel {
 
-    private val _today = MutableStateFlow(PictureUiState.Success(null))
+    private val _today = MutableStateFlow<PictureUiState>(PictureUiState.Loading)
     override val today: StateFlow<PictureUiState> = _today
 
-    private val _random = MutableStateFlow(PictureUiState.Success(null))
+    private val _random = MutableStateFlow<PictureUiState>(PictureUiState.Loading)
     override val random: StateFlow<PictureUiState> = _random
 
 
@@ -39,7 +40,7 @@ class NewViewModel @ExperimentalCoroutinesApi constructor(
         viewModelScope.launch {
             todayPictureUseCase.get()
                 .onEach { picture ->
-                    _today.value = PictureUiState.Success(picture)
+                    _today.value = picture.asUiState()
                 }
                 .collect()
         }
@@ -47,7 +48,7 @@ class NewViewModel @ExperimentalCoroutinesApi constructor(
         viewModelScope.launch {
             randomPictureUseCase.get()
                 .onEach { picture ->
-                    _random.value = PictureUiState.Success(picture)
+                    _random.value = picture.asUiState()
                 }
                 .collect()
         }

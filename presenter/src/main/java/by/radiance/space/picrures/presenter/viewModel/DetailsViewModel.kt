@@ -10,6 +10,7 @@ import by.radiance.space.pictures.domain.entity.Picture
 import by.radiance.space.pictures.domain.presenter.PictureViewModel
 import by.radiance.space.pictures.domain.presenter.state.PictureUiState
 import by.radiance.space.pictures.domain.presenter.state.QrCodeUiState
+import by.radiance.space.pictures.domain.presenter.state.asUiState
 import by.radiance.space.pictures.domain.usecase.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
@@ -27,11 +28,11 @@ class DetailsViewModel(
 
     override fun picture(id: Id): StateFlow<PictureUiState> =
             getPictureUseCase.get(id)
-                .map { PictureUiState.Success(it) }
+                .map { it.asUiState() }
                 .stateIn(
                     viewModelScope,
                     SharingStarted.WhileSubscribed(),
-                    PictureUiState.Success(null),
+                    PictureUiState.Loading,
                 )
 
     override fun save(picture: Picture) {

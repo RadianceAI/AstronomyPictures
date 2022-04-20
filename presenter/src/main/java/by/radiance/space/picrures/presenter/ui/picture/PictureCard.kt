@@ -70,7 +70,7 @@ fun PictureCard(
                     ) {
                         Text(
                             text = picture.title ?:"",
-                            style = MaterialTheme.typography.h6.copy(fontSize = 15.sp, fontWeight = FontWeight.SemiBold),
+                            style = MaterialTheme.typography.h6.copy(fontSize = 15.sp),
                             color = Color.White,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis

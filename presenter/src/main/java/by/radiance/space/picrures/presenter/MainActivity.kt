@@ -6,17 +6,11 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavDestination
-import androidx.navigation.NavDestination.Companion.hierarchy
-import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -166,7 +160,7 @@ class MainActivity : ComponentActivity() {
                                     val picture by remember { viewModel.picture(id) }.collectAsState()
 
                                     PictureDetails(
-                                        picture = picture,
+                                        pictureUiState = picture,
                                         onShare = { image -> viewModel.share(image) },
                                         onSystemWallpaper = { wallpaper ->
                                             viewModel.setSystemWallpaper(

@@ -1,10 +1,11 @@
 package by.radiance.space.pictures.domain.usecase
 
-import android.util.Log
 import by.radiance.space.pictures.domain.entity.Picture
 import by.radiance.space.pictures.domain.repository.LocalRepository
 import by.radiance.space.pictures.domain.repository.RemoteRepository
 import by.radiance.space.pictures.domain.repository.TempRepository
+import by.radiance.space.pictures.domain.utils.LoadingState
+import by.radiance.space.pictures.domain.utils.asState
 import kotlinx.coroutines.flow.*
 import java.lang.Exception
 import java.util.*
@@ -14,7 +15,7 @@ class GetTodayPictureUseCase(
     private val remoteRepository: RemoteRepository,
     private val localRepository: LocalRepository,
 ) {
-    fun get(): Flow<Picture> = flow {
+    fun get(): Flow<LoadingState<Picture>> = flow {
         val savedPicture = tempRepository.getAll().first()
             .firstOrNull { picture ->
                 picture.id.isToday
@@ -24,19 +25,18 @@ class GetTodayPictureUseCase(
             val todayPicture = savedPicture ?: remoteRepository.getPicture(Date()).also { picture ->
                 tempRepository.save(picture)
             }
-            throw Exception()
 
-            emit(todayPicture)
+            emit(todayPicture.asState())
             localRepository.getPicture(todayPicture.id.date)
                 .onEach { picture ->
                     if (picture == null)
-                        emit(todayPicture)
+                        emit(todayPicture.asState())
                     else
-                        emit(picture)
+                        emit(picture.asState())
                 }
                 .collect()
         } catch (e: Exception) {
-            e.printStackTrace()
+            emit(LoadingState.Error<Picture>(e))
         }
     }
 }

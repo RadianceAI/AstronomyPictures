@@ -29,7 +29,7 @@ fun About(
     ) {
         Text(
             text = stringResource(id = R.string.app_name),
-            style = MaterialTheme.typography.h6.copy(fontWeight = FontWeight.SemiBold),
+            style = MaterialTheme.typography.h6,
         )
         Text(
             text = stringResource(id = R.string.application_info),
@@ -37,7 +37,7 @@ fun About(
         )
         Text(
             text = stringResource(id = R.string.apod),
-            style = MaterialTheme.typography.h6.copy(fontWeight = FontWeight.SemiBold),
+            style = MaterialTheme.typography.h6,
         )
         Text(
             text = stringResource(id = R.string.apod_info_1),
@@ -53,7 +53,7 @@ fun About(
         )
         Text(
             text = stringResource(id = R.string.about_image_permissions),
-            style = MaterialTheme.typography.h6.copy(fontWeight = FontWeight.SemiBold),
+            style = MaterialTheme.typography.h6,
         )
         Text(
             text = stringResource(id = R.string.permissions_details),

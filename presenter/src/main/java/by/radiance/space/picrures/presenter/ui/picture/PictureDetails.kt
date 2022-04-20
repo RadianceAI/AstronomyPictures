@@ -1,13 +1,10 @@
 package by.radiance.space.picrures.presenter.ui.picture
 
-import android.app.WallpaperManager
-import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import android.os.Build
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -16,17 +13,15 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import by.radiance.space.picrures.presenter.R
 import by.radiance.space.picrures.presenter.ui.theme.AstronomyPicturesTheme
 import by.radiance.space.picrures.presenter.ui.theme.CardGray
+import by.radiance.space.picrures.presenter.ui.utils.ErrorCard
 import by.radiance.space.picrures.presenter.ui.utils.LoadingCard
 import by.radiance.space.pictures.domain.entity.Id
 import by.radiance.space.pictures.domain.entity.Image
@@ -34,14 +29,13 @@ import by.radiance.space.pictures.domain.entity.Picture
 import by.radiance.space.pictures.domain.presenter.state.PictureUiState
 import by.radiance.space.pictures.domain.utils.DateHelper
 import coil.compose.SubcomposeAsyncImage
-import kotlinx.coroutines.async
 import java.util.*
 
 
 @Composable
 fun PictureDetails(
     modifier: Modifier = Modifier,
-    picture: PictureUiState,
+    pictureUiState: PictureUiState,
     onShare: (Drawable) -> Unit,
     onSystemWallpaper: (Drawable) -> Unit,
     onLockScreenWallpaper: (Drawable) -> Unit,
@@ -64,27 +58,38 @@ fun PictureDetails(
                     .weight(1f)
                     .fillMaxSize()
             ) {
-                SubcomposeAsyncImage(
-                    modifier = Modifier
-                        .horizontalScroll(rememberScrollState())
-                        .fillMaxSize(),
-                    model = (picture as PictureUiState.Success).picture?.source?.huge,
-                    contentDescription = picture.picture?.explanation,
-                    loading = { LoadingCard() },
-                    contentScale = cropState,
-                    onSuccess = { painterState ->
-                        drawable = painterState.result.drawable
-                    }
-                )
-
-                if (details) {
-                    picture.picture?.let { picture ->
-                        Detail(
+                when (pictureUiState) {
+                    is PictureUiState.Success -> {
+                        SubcomposeAsyncImage(
                             modifier = Modifier
-                                .background(CardGray.copy(alpha = 0.6f))
-                                .padding(10.dp),
-                            picture = picture
+                                .horizontalScroll(rememberScrollState())
+                                .fillMaxSize(),
+                            model = pictureUiState.picture.source.huge,
+                            contentDescription = pictureUiState.picture.explanation,
+                            loading = { LoadingCard() },
+                            contentScale = cropState,
+                            onSuccess = { painterState ->
+                                drawable = painterState.result.drawable
+                            }
                         )
+                    }
+                    is PictureUiState.Loading -> {
+                        LoadingCard(cornerSize = CornerSize(0.dp))
+                    }
+                    is PictureUiState.Error -> {
+                        ErrorCard(error = "Something went wrong", cornerSize = CornerSize(0.dp))
+                    }
+                }
+                if (details) {
+                    if (pictureUiState is PictureUiState.Success) {
+                        pictureUiState.picture.let { picture ->
+                            Detail(
+                                modifier = Modifier
+                                    .background(CardGray.copy(alpha = 0.6f))
+                                    .padding(10.dp),
+                                picture = picture
+                            )
+                        }
                     }
                 }
             }
@@ -176,7 +181,7 @@ fun Detail(
     ) {
         Text(
             text = picture.title ?: "",
-            style = MaterialTheme.typography.h6.copy(fontWeight = FontWeight.SemiBold),
+            style = MaterialTheme.typography.h6,
         )
         Text(
             text = DateHelper.getDate(picture.id.date),
