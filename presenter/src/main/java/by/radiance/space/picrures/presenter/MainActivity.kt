@@ -47,7 +47,9 @@ class MainActivity : ComponentActivity() {
         )
 
         setContent {
-            AstronomyPicturesTheme {
+            AstronomyPicturesTheme(
+                darkTheme = true
+            ) {
                 var bottomBarState by rememberSaveable { (mutableStateOf(true)) }
                 val navController = rememberNavController()
 
