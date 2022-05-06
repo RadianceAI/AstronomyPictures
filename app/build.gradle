@@ -58,9 +58,11 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
     //koin
-    implementation "org.koin:koin-core:2.2.2"
-    implementation "org.koin:koin-android:2.2.2"
-    implementation "org.koin:koin-android-architecture:0.9.3"
+    implementation "io.insert-koin:koin-android:$koin_version"
+    implementation "io.insert-koin:koin-android-compat:$koin_version"
+    implementation "io.insert-koin:koin-androidx-workmanager:$koin_version"
+    implementation "io.insert-koin:koin-androidx-navigation:$koin_version"
+    implementation "io.insert-koin:koin-androidx-compose:$koin_version"
     implementation "org.koin:koin-android-viewmodel:2.2.2"
 
     //Coroutines

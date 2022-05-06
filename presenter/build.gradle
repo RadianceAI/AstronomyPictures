@@ -74,10 +74,11 @@ dependencies {
     implementation project(path: ':today')
 
     //koin
-    implementation "org.koin:koin-core:2.2.2"
-    implementation "org.koin:koin-android:2.2.2"
-    implementation "org.koin:koin-android-architecture:0.9.3"
-    implementation "org.koin:koin-android-viewmodel:2.2.2"
+    implementation "io.insert-koin:koin-android:$koin_version"
+    implementation "io.insert-koin:koin-android-compat:$koin_version"
+    implementation "io.insert-koin:koin-androidx-workmanager:$koin_version"
+    implementation "io.insert-koin:koin-androidx-navigation:$koin_version"
+    implementation "io.insert-koin:koin-androidx-compose:$koin_version"
 
     //coroutines
     //noinspection GradleDependency
@@ -98,6 +99,9 @@ dependencies {
 
     //gson
     implementation "com.google.code.gson:gson:2.8.6"
+
+    //work manager
+    implementation "androidx.work:work-runtime-ktx:$work_version"
 
     implementation 'com.android.support:multidex:1.0.3'
 }

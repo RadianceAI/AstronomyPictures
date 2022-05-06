@@ -1,6 +1,5 @@
 package by.radiance.space.picrures.presenter.ui.abount
 
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState

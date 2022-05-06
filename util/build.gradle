@@ -40,5 +40,12 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     //koin
-    implementation "org.koin:koin-core:2.2.2"
+    implementation "io.insert-koin:koin-android:$koin_version"
+    implementation "io.insert-koin:koin-android-compat:$koin_version"
+    implementation "io.insert-koin:koin-androidx-workmanager:$koin_version"
+    implementation "io.insert-koin:koin-androidx-navigation:$koin_version"
+    implementation "io.insert-koin:koin-androidx-compose:$koin_version"
+
+    //work manager
+    implementation "androidx.work:work-runtime-ktx:$work_version"
 }

@@ -1,10 +1,9 @@
 package by.radiance.space.picrures.presenter.di
 
-import androidx.lifecycle.viewmodel.compose.viewModel
 import by.radiance.space.picrures.presenter.viewModel.DetailsViewModel
 import by.radiance.space.picrures.presenter.viewModel.ListViewModel
 import by.radiance.space.picrures.presenter.viewModel.NewViewModel
-import org.koin.android.viewmodel.dsl.viewModel
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val viewModel = module {

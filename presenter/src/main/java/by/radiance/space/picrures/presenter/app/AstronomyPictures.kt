@@ -13,10 +13,12 @@ import by.radiance.space.pictures.data.di.token
 import by.radiance.space.pictures.domain.di.usecase
 import by.radiance.space.pictures.local.di.local
 import org.koin.android.ext.koin.androidContext
+import org.koin.androidx.workmanager.koin.workManagerFactory
+import org.koin.core.component.KoinComponent
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
 
-class AstronomyPictures: Application() {
+class AstronomyPictures: Application(), KoinComponent {
 
     private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
@@ -26,20 +28,18 @@ class AstronomyPictures: Application() {
         startKoin {
             androidContext(this@AstronomyPictures)
 
-            modules(
-                listOf(
-                    remote,
-                    local,
-                    today,
-                    token,
-                    usecase,
-                    utilModule,
-                    viewModel,
-                    module {
-                        single { dataStore }
-                    }
-                )
-            )
+            workManagerFactory()
+
+            modules(listOf(
+                remote,
+                local,
+                today,
+                token,
+                usecase,
+                utilModule,
+                viewModel,
+                module { single { dataStore } }
+            ))
         }
     }
 }

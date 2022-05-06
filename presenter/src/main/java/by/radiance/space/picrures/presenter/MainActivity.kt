@@ -32,7 +32,7 @@ import by.radiance.space.picrures.presenter.viewModel.NewViewModel
 import by.radiance.space.pictures.domain.entity.Id
 import by.radiance.space.pictures.domain.entity.Picture
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : ComponentActivity() {
 
