@@ -11,5 +11,5 @@ import org.koin.dsl.module
 val utilModule = module {
     single { ShareImageRepository(get()) as ShareRepository }
     single { SetWallpaperRepository(get()) as WallpaperRepository }
-    worker { WallpaperWorker(get(), get()) }
+    worker { WallpaperWorker(get(), get(), get(), get()) }
 }

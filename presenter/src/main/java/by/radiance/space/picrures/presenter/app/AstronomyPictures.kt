@@ -7,6 +7,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import by.radiance.space.picrures.presenter.di.viewModel
 import by.radiance.space.picrures.util.di.utilModule
+import by.radiance.space.picrures.util.work.WallpaperWorker
 import by.radiance.space.pictures.data.di.remote
 import by.radiance.space.pictures.data.di.today
 import by.radiance.space.pictures.data.di.token
@@ -41,5 +42,8 @@ class AstronomyPictures: Application(), KoinComponent {
                 module { single { dataStore } }
             ))
         }
+
+
+        WallpaperWorker.start(applicationContext)
     }
 }
