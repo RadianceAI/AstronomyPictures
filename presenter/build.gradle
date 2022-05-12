@@ -35,6 +35,7 @@ android {
     }
     buildFeatures {
         compose true
+        viewBinding true
     }
     composeOptions {
         kotlinCompilerExtensionVersion compose_version
@@ -102,6 +103,8 @@ dependencies {
 
     //work manager
     implementation "androidx.work:work-runtime-ktx:$work_version"
+
+    implementation 'com.android.databinding:viewbinding:7.2.0'
 
     implementation 'com.android.support:multidex:1.0.3'
 }

@@ -12,4 +12,11 @@
     <string name="permissions_details">All the images on the APOD page are credited to the owner or institution where they originated. Some of the images are copyrighted and to use these pictures publicly or commercially one must write to the owners for permission. For the copyrighted images, the copyright owner is identified in the APOD credit line (please see the caption under the image), along with a hyperlink to the owner\'s location. NASA images are in the public domain, official guidelines for their use can be found here. For images credited to other owners/institutions, please contact them directly for copyright and permissions questions.</string>
     <string name="copyright">"Copyrigth: "</string>
     <string name="explanation">Explanation:</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="configure">Configure</string>
+    <string name="add_widget">Add widget</string>
+    <string name="app_widget_description">This is an app widget description</string>
+    <string name="corner_size">Corner size:</string>
+    <string name="today">Today</string>
+    <string name="random">Random</string>
 </resources>

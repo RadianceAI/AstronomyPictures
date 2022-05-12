@@ -10,13 +10,12 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import java.lang.Exception
 
-@ExperimentalCoroutinesApi
 class GetRandomPictureUseCase(
     private val tempRepository: TempRepository,
     private val remoteRepository: RemoteRepository,
     private val localRepository: LocalRepository,
 ) {
-    fun get(): Flow<LoadingState<Picture>> = flow {
+    fun get(): Flow<LoadingState<Picture>> = channelFlow {
         val savedPicture = tempRepository.getAll()
             .first()
             .firstOrNull { picture -> !picture.id.isToday }
@@ -30,17 +29,17 @@ class GetRandomPictureUseCase(
                     tempRepository.save(picture)
                 }
 
-            emit(randomPicture.asState())
+            send(randomPicture.asState())
             localRepository.getPicture(randomPicture.id.date)
                 .onEach { picture ->
                     if (picture == null)
-                        emit(randomPicture.asState())
+                        send(randomPicture.asState())
                     else
-                        emit(picture.copy(id = picture.id.copy(isRandom = true)).asState())
+                        send(picture.copy(id = picture.id.copy(isRandom = true)).asState())
                 }
                 .collect()
         } catch (e: Exception) {
-            emit(LoadingState.Error<Picture>(e))
+            send(LoadingState.Error<Picture>(e))
         }
     }
 }

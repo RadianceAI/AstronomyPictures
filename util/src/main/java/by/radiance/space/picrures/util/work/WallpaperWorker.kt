@@ -10,6 +10,8 @@ import by.radiance.space.pictures.domain.utils.LoadingState
 import coil.ImageLoader
 import coil.request.ImageRequest
 import coil.request.SuccessResult
+import coil.transform.RoundedCornersTransformation
+import coil.transform.Transformation
 import kotlinx.coroutines.flow.*
 import java.io.IOException
 import java.io.OutputStreamWriter
@@ -38,7 +40,7 @@ class WallpaperWorker(
                         val result = (loader.execute(request) as SuccessResult).drawable
                         wallpaperUseCase.setAllWallpaper(result)
 
-                        start(appContext, DateHelper.tomorrow())
+                        start(appContext, DateHelper.tomorrow(), true)
                     }
                     else -> Unit
                 }
@@ -63,7 +65,7 @@ class WallpaperWorker(
     companion object {
         private const val TAG = "Wallpaper"
 
-        fun start(context: Context, startTime: Date = Date()) {
+        fun start(context: Context, startTime: Date = Date(), replace: Boolean = false) {
 
             val start = Calendar.getInstance().apply { time = startTime }.get(Calendar.HOUR_OF_DAY).let { if (it == 0) 24 else it }
             val now = Calendar.getInstance().apply { time = Date() }.get(Calendar.HOUR_OF_DAY)
@@ -80,7 +82,7 @@ class WallpaperWorker(
                 .getInstance(context)
                 .enqueueUniquePeriodicWork(
                     TAG,
-                    ExistingPeriodicWorkPolicy.REPLACE,
+                    if (replace) ExistingPeriodicWorkPolicy.REPLACE else ExistingPeriodicWorkPolicy.KEEP,
                     uploadWorkRequest
                 )
         }
