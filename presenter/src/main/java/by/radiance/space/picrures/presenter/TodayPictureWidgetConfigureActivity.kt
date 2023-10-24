@@ -10,7 +10,7 @@ import android.view.View
 import by.radiance.space.picrures.presenter.databinding.TodayPictureWidgetConfigureBinding
 import by.radiance.space.picrures.presenter.utils.onProgressChanged
 import by.radiance.space.pictures.domain.usecase.GetRandomPictureUseCase
-import by.radiance.space.pictures.domain.usecase.GetTodayPictureUseCase
+import by.radiance.space.pictures.domain.usecase.GetAstronomyPicturesUseCase
 import coil.ImageLoader
 import coil.request.ImageRequest
 import coil.request.SuccessResult
@@ -25,7 +25,7 @@ import org.koin.core.component.inject
 class TodayPictureWidgetConfigureActivity : Activity(), KoinComponent {
 
     private val coroutineScope = CoroutineScope(Dispatchers.IO)
-    private val todayPictureUseCase: GetTodayPictureUseCase by inject()
+    private val todayPictureUseCase: GetAstronomyPicturesUseCase by inject()
     private val randomPictureUseCase: GetRandomPictureUseCase by inject()
 
     private var appWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID

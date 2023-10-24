@@ -5,7 +5,7 @@ import org.koin.dsl.module
 
 
 val usecase = module {
-    single { GetTodayPictureUseCase(get(), get(), get()) }
+    single { GetAstronomyPicturesUseCase(get(), get(), get()) }
     single { GetRandomPictureUseCase(get(), get(), get()) }
     single { GetLocalPictureUseCase(get()) }
     single { SavePictureUseCase(get()) }

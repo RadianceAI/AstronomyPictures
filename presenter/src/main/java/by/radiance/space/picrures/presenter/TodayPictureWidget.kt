@@ -7,7 +7,7 @@ import android.graphics.drawable.BitmapDrawable
 import android.util.Log
 import android.widget.RemoteViews
 import by.radiance.space.pictures.domain.usecase.GetRandomPictureUseCase
-import by.radiance.space.pictures.domain.usecase.GetTodayPictureUseCase
+import by.radiance.space.pictures.domain.usecase.GetAstronomyPicturesUseCase
 import by.radiance.space.pictures.domain.utils.LoadingState
 import coil.ImageLoader
 import coil.request.ImageRequest
@@ -22,7 +22,7 @@ import org.koin.core.component.inject
 
 class TodayPictureWidget : AppWidgetProvider(), KoinComponent {
     private val coroutineScope = CoroutineScope(Dispatchers.IO)
-    private val todayPictureUseCase: GetTodayPictureUseCase by inject()
+    private val todayPictureUseCase: GetAstronomyPicturesUseCase by inject()
     private val randomPictureUseCase: GetRandomPictureUseCase by inject()
 
     override fun onUpdate(
@@ -65,7 +65,7 @@ class TodayPictureWidget : AppWidgetProvider(), KoinComponent {
 
 internal fun updateAppWidget(
     scope: CoroutineScope,
-    todayPictureUseCase: GetTodayPictureUseCase,
+    todayPictureUseCase: GetAstronomyPicturesUseCase,
     randomPictureUseCase: GetRandomPictureUseCase,
     context: Context,
     appWidgetManager: AppWidgetManager,

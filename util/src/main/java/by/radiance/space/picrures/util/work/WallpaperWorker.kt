@@ -3,15 +3,13 @@ package by.radiance.space.picrures.util.work
 import android.content.Context
 import android.util.Log
 import androidx.work.*
-import by.radiance.space.pictures.domain.usecase.GetTodayPictureUseCase
+import by.radiance.space.pictures.domain.usecase.GetAstronomyPicturesUseCase
 import by.radiance.space.pictures.domain.usecase.SetWallpaperUseCase
 import by.radiance.space.pictures.domain.utils.DateHelper
 import by.radiance.space.pictures.domain.utils.LoadingState
 import coil.ImageLoader
 import coil.request.ImageRequest
 import coil.request.SuccessResult
-import coil.transform.RoundedCornersTransformation
-import coil.transform.Transformation
 import kotlinx.coroutines.flow.*
 import java.io.IOException
 import java.io.OutputStreamWriter
@@ -21,7 +19,7 @@ import java.util.concurrent.TimeUnit
 class WallpaperWorker(
     private val appContext: Context,
     workerParameters: WorkerParameters,
-    private val todayPictureUseCase: GetTodayPictureUseCase,
+    private val todayPictureUseCase: GetAstronomyPicturesUseCase,
     private val wallpaperUseCase: SetWallpaperUseCase,
 ) : CoroutineWorker(appContext, workerParameters) {
 

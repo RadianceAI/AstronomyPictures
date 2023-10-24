@@ -7,4 +7,4 @@ sealed class LoadingState<T> {
     data class Error<T>(val throwable: Throwable): LoadingState<T>()
 }
 
-fun Picture.asState() = LoadingState.Success(this)
+fun <T> T.asState() = LoadingState.Success(this)
