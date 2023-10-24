@@ -1,0 +1,11 @@
+[versions]
+gradle = "7.1.3"
+kotlin-gradle = "1.5.21"
+navigation-safe-args-gradle = "2.7.4"
+
+[libraries]
+gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
+kotlin-gradle = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin-gradle" }
+navigation-safe-args-gradle = { module = "androidx.navigation:navigation-safe-args-gradle-plugin", version.ref = "navigation-safe-args-gradle" }
+
+[plugins]
