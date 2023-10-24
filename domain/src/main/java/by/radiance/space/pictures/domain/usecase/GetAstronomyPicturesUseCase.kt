@@ -21,7 +21,7 @@ class GetAstronomyPicturesUseCase(
             send(pictures.asState())
 
         } catch (e: Exception) {
-            send(LoadingState.Error(e))
+            send(LoadingState.Error<List<Picture>>(e))
         }
     }
 }

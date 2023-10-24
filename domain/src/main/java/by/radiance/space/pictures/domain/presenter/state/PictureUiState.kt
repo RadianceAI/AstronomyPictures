@@ -10,6 +10,6 @@ sealed class PictureUiState {
 }
 
 fun LoadingState<Picture>.asUiState() = when (this) {
-    is LoadingState.Success -> PictureUiState.Success(this.picture)
+    is LoadingState.Success -> PictureUiState.Success(this.data)
     is LoadingState.Error -> PictureUiState.Error(this.throwable)
 }

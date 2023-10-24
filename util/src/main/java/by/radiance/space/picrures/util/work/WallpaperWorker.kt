@@ -25,22 +25,27 @@ class WallpaperWorker(
 
     override suspend fun doWork(): Result {
         writeToFile("${DateHelper.getDate(Date(), "HH:mm:ss\n")}", appContext)
-        todayPictureUseCase.get()
-            .onEach { picture ->
-                when (picture) {
+        todayPictureUseCase.get(startDate = Date(), endDate = Date())
+            .map { pictures ->
+                when (pictures) {
                     is LoadingState.Success -> {
-                        val loader = ImageLoader(appContext)
-                        val request = ImageRequest.Builder(appContext)
-                            .data(picture.picture.source.huge)
-                            .allowHardware(false)
-                            .build()
-
-                        val result = (loader.execute(request) as SuccessResult).drawable
-                        wallpaperUseCase.setAllWallpaper(result)
-
-                        start(appContext, DateHelper.tomorrow(), true)
+                        pictures.data.firstOrNull()
                     }
-                    else -> Unit
+                    else -> null
+                }
+            }
+            .onEach { picture ->
+                if (picture != null) {
+                    val loader = ImageLoader(appContext)
+                    val request = ImageRequest.Builder(appContext)
+                        .data(picture.source.huge)
+                        .allowHardware(false)
+                        .build()
+
+                    val result = (loader.execute(request) as SuccessResult).drawable
+                    wallpaperUseCase.setAllWallpaper(result)
+
+                    start(appContext, DateHelper.tomorrow(), true)
                 }
             }
             .take(1)

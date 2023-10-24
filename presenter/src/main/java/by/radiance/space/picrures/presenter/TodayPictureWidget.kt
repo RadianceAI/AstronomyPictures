@@ -6,7 +6,6 @@ import android.content.Context
 import android.graphics.drawable.BitmapDrawable
 import android.util.Log
 import android.widget.RemoteViews
-import by.radiance.space.pictures.domain.usecase.GetRandomPictureUseCase
 import by.radiance.space.pictures.domain.usecase.GetAstronomyPicturesUseCase
 import by.radiance.space.pictures.domain.utils.LoadingState
 import coil.ImageLoader
@@ -19,11 +18,11 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.take
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import java.util.Date
 
 class TodayPictureWidget : AppWidgetProvider(), KoinComponent {
     private val coroutineScope = CoroutineScope(Dispatchers.IO)
     private val todayPictureUseCase: GetAstronomyPicturesUseCase by inject()
-    private val randomPictureUseCase: GetRandomPictureUseCase by inject()
 
     override fun onUpdate(
         context: Context,
@@ -39,12 +38,10 @@ class TodayPictureWidget : AppWidgetProvider(), KoinComponent {
             updateAppWidget(
                 coroutineScope,
                 todayPictureUseCase,
-                randomPictureUseCase,
                 context,
                 appWidgetManager,
                 appWidgetId,
                 cornerRadius,
-                source
             )
         }
     }
@@ -66,37 +63,32 @@ class TodayPictureWidget : AppWidgetProvider(), KoinComponent {
 internal fun updateAppWidget(
     scope: CoroutineScope,
     todayPictureUseCase: GetAstronomyPicturesUseCase,
-    randomPictureUseCase: GetRandomPictureUseCase,
     context: Context,
     appWidgetManager: AppWidgetManager,
     appWidgetId: Int,
     cornerRadius: Float,
-    source: Source,
 ) {
     val views = RemoteViews(context.packageName, R.layout.today_picture_widget)
 
     scope.launch {
-        when (source) {
-            Source.Today -> {
-                todayPictureUseCase.get()
-            }
-            Source.Random -> {
-                randomPictureUseCase.get()
-            }
-        }
+        todayPictureUseCase.get(Date(), Date())
             .onEach { picture ->
                 when (picture) {
                     is LoadingState.Success -> {
                         val loader = ImageLoader(context)
                         val request = ImageRequest.Builder(context)
-                            .data(picture.picture.source.light)
+                            .data(picture.data.first().source.light)
                             .allowHardware(false)
                             .transformations(RoundedCornersTransformation(cornerRadius))
                             .build()
 
                         val result = (loader.execute(request) as SuccessResult).drawable
-                        views.setImageViewBitmap(R.id.widget_image, (result as BitmapDrawable).bitmap)
+                        views.setImageViewBitmap(
+                            R.id.widget_image,
+                            (result as BitmapDrawable).bitmap
+                        )
                     }
+
                     else -> Unit
                 }
             }
