@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/astronomyPictureFragment"
-        android:name="by.radiance.space.picrures.ui.picture.AstronomyPictureFragment"
+        android:name="by.radiance.space.pictures.ui.picture.AstronomyPictureFragment"
         android:label="astronomy_picture_fragment">
         <argument
             android:name="id"
@@ -20,7 +20,7 @@
     </fragment>
     <fragment
         android:id="@+id/astronomyPictureListFragment"
-        android:name="by.radiance.space.picrures.ui.list.AstronomyPictureListFragment"
+        android:name="by.radiance.space.pictures.ui.list.AstronomyPictureListFragment"
         android:label="astronomy_picture_list_fragment"
         tools:layout="@layout/astronomy_picture_list_fragment" >
         <action
