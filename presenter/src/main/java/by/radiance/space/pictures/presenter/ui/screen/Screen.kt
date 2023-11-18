@@ -9,7 +9,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import by.radiance.space.pictures.presenter.R
 
 sealed class Screen(val route: String, @StringRes val title: Int, val icon: ImageVector) {
-    object New: Screen("new", R.string.new_screen, Icons.Filled.Image)
-    object Collection: Screen("collection", R.string.collection, Icons.Filled.Collections)
-    object About: Screen("about", R.string.about, Icons.Filled.Info)
+    data object Today: Screen("today", R.string.today_screen, Icons.Filled.Image)
+    data object Collection: Screen("collection", R.string.collection, Icons.Filled.Collections)
+    data object About: Screen("about", R.string.about, Icons.Filled.Info)
 }

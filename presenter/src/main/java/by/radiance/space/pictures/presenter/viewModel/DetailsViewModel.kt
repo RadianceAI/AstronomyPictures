@@ -7,7 +7,6 @@ import by.radiance.space.pictures.domain.entity.Id
 import by.radiance.space.pictures.domain.entity.Picture
 import by.radiance.space.pictures.domain.presenter.PictureViewModel
 import by.radiance.space.pictures.domain.presenter.state.PictureUiState
-import by.radiance.space.pictures.domain.presenter.state.QrCodeUiState
 import by.radiance.space.pictures.domain.usecase.*
 import by.radiance.space.pictures.domain.utils.LoadingState
 import kotlinx.coroutines.*
@@ -17,16 +16,11 @@ import java.util.Date
 @ExperimentalCoroutinesApi
 class DetailsViewModel(
     private val getPictureUseCase: GetAstronomyPicturesUseCase,
-    private val likeUseCase: LikeUseCase,
-    private val shareUseCase: ShareUseCase,
     private val wallpaperUseCase: SetWallpaperUseCase,
 ): ViewModel(), PictureViewModel {
 
     private val _progress = MutableStateFlow(false)
     override val progress: StateFlow<Boolean> = _progress
-
-    private val _qrCode = MutableStateFlow<QrCodeUiState>(QrCodeUiState.Success(null))
-    override val qrCode: StateFlow<QrCodeUiState> = _qrCode
 
     override fun picture(id: Id): StateFlow<PictureUiState> =
             getPictureUseCase.get(Date(), Date())
@@ -44,7 +38,6 @@ class DetailsViewModel(
 
     override fun save(picture: Picture) {
         viewModelScope.launch {
-            likeUseCase.like(picture)
         }
     }
 
@@ -68,7 +61,7 @@ class DetailsViewModel(
 
     override fun share(image: Drawable) {
         viewModelScope.launch(Dispatchers.IO) {
-            progress { shareUseCase.share(image) }
+            progress {  }
         }
     }
 

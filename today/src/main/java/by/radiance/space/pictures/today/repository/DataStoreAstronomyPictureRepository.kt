@@ -3,7 +3,6 @@ package by.radiance.space.pictures.today.repository
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
 import by.radiance.space.pictures.domain.entity.Picture
-import by.radiance.space.pictures.domain.repository.TempRepository
 import by.radiance.space.pictures.today.entity.PictureList
 import by.radiance.space.pictures.today.mapper.PictureMapper
 import by.radiance.space.pictures.today.utils.DateUtils
@@ -14,9 +13,9 @@ import java.util.*
 
 class DataStoreAstronomyPictureRepository(
     private val dataStore: DataStore<Preferences>
-): TempRepository {
+) {
 
-    override suspend fun getAll(): Flow<List<Picture>> {
+    suspend fun getAll(): Flow<List<Picture>> {
         deleteOldPictures()
 
         return dataStore.data.map { preference ->
@@ -54,7 +53,7 @@ class DataStoreAstronomyPictureRepository(
         }
     }
 
-    override suspend fun save(picture: Picture) {
+    suspend fun save(picture: Picture) {
         dataStore.edit { preference ->
             val listJson = preference[PICTURES_KEY]
 

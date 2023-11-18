@@ -9,7 +9,7 @@ import by.radiance.space.pictures.presenter.di.viewModel
 import by.radiance.space.pictures.util.di.utilModule
 import by.radiance.space.pictures.util.work.WallpaperWorker
 import by.radiance.space.pictures.data.di.remote
-import by.radiance.space.pictures.data.di.today
+import by.radiance.space.pictures.today.di.today
 import by.radiance.space.pictures.data.di.token
 import by.radiance.space.pictures.domain.di.usecase
 import by.radiance.space.pictures.local.di.local

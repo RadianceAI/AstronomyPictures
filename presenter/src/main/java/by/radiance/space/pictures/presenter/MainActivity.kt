@@ -18,8 +18,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import by.radiance.space.pictures.presenter.ui.abount.About
-import by.radiance.space.pictures.presenter.ui.collection.Collection
-import by.radiance.space.pictures.presenter.ui.new.NewPictures
+import by.radiance.space.pictures.presenter.ui.today.TodayPictureScreen
 import by.radiance.space.pictures.presenter.ui.picture.PictureDetails
 import by.radiance.space.pictures.presenter.ui.screen.Screen
 import by.radiance.space.pictures.presenter.ui.theme.AstronomyPicturesTheme
@@ -28,7 +27,7 @@ import by.radiance.space.pictures.presenter.ui.utils.*
 import by.radiance.space.pictures.presenter.utils.GsonWrapper
 import by.radiance.space.pictures.presenter.viewModel.DetailsViewModel
 import by.radiance.space.pictures.presenter.viewModel.ListViewModel
-import by.radiance.space.pictures.presenter.viewModel.NewViewModel
+import by.radiance.space.pictures.presenter.viewModel.TodayViewModel
 import by.radiance.space.pictures.domain.entity.Id
 import by.radiance.space.pictures.domain.entity.Picture
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -41,7 +40,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         val screens = listOf(
-            Screen.New,
+            Screen.Today,
             Screen.Collection,
             Screen.About,
         )
@@ -97,18 +96,16 @@ class MainActivity : ComponentActivity() {
                             }
                             NavHost(
                                 navController = navController,
-                                startDestination = Screen.New.route,
+                                startDestination = Screen.Today.route,
                                 modifier = Modifier.padding(innerPadding)
                             ) {
-                                composable(route = Screen.New.route) {
+                                composable(route = Screen.Today.route) {
                                     bottomBarState = true
-                                    val viewModel by remember { viewModel<NewViewModel>() }
+                                    val viewModel by remember { viewModel<TodayViewModel>() }
 
                                     val today by remember { viewModel.today }.collectAsState()
-                                    val random by remember { viewModel.random }.collectAsState()
 
                                     val like: (Picture) -> Unit = { picture ->
-                                        viewModel.save(picture)
                                     }
 
                                     val click: (Picture) -> Unit = { picture ->
@@ -116,10 +113,9 @@ class MainActivity : ComponentActivity() {
                                         navController.navigate("details/$json")
                                     }
 
-                                    NewPictures(
+                                    TodayPictureScreen(
                                         this@ScaffoldWithConstraints.heightWindowSize,
-                                        todayPicture = today,
-                                        randomPicture = random,
+                                        picture = today,
                                         onClick = click,
                                         onLike = like,
                                     )
@@ -127,19 +123,6 @@ class MainActivity : ComponentActivity() {
                                 composable(route = Screen.Collection.route) {
                                     bottomBarState = true
                                     val viewModel by remember { viewModel<ListViewModel>() }
-
-                                    val list by remember { viewModel.list }.collectAsState()
-
-                                    val click: (Picture) -> Unit = { picture ->
-                                        val json = GsonWrapper.gson.toJson(picture.id)
-                                        navController.navigate("details/$json")
-                                    }
-
-                                    Collection(
-                                        this@ScaffoldWithConstraints.heightWindowSize,
-                                        list = list,
-                                        onClick = click,
-                                    )
                                 }
                                 composable(route = Screen.About.route) {
                                     bottomBarState = true
