@@ -31,7 +31,7 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
-import by.radiance.space.pictures.presenter.ui.screen.Screen
+import by.radiance.space.pictures.presenter.ui.screen.ScreenType
 
 @Composable
 fun AnimatedVisibilityBottomNavigation(
@@ -54,21 +54,21 @@ fun AnimatedVisibilityBottomNavigation(
 
 @Composable
 fun RowScope.BottomNavigationScreenItem(
-    screen: Screen,
+    screenType: ScreenType,
     currentDestination: NavDestination?,
     navController: NavHostController
 ) {
     BottomNavigationItem(
         icon = {
             Icon(
-                screen.icon,
-                stringResource(screen.title)
+                screenType.icon,
+                stringResource(screenType.title)
             )
         },
-        label = { Text(stringResource(screen.title)) },
-        selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
+        label = { Text(stringResource(screenType.title)) },
+        selected = currentDestination?.hierarchy?.any { it.route == screenType.route } == true,
         onClick = {
-            navController.navigate(screen.route) {
+            navController.navigate(screenType.route) {
                 popUpTo(navController.graph.findStartDestination().id) {
                     saveState = true
                 }
@@ -143,7 +143,7 @@ fun ColumnScope.ColumnBottomNavigationItem(
 
 @Composable
 fun ColumnScope.BottomNavigationScreenItem(
-    screen: Screen,
+    screenType: ScreenType,
     currentDestination: NavDestination?,
     navController: NavHostController,
     modifier: Modifier = Modifier,
@@ -155,7 +155,7 @@ fun ColumnScope.BottomNavigationScreenItem(
 ) {
     val ripple = rememberRipple(bounded = false, color = selectedContentColor)
 
-    val selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true
+    val selected = currentDestination?.hierarchy?.any { it.route == screenType.route } == true
     val label: @Composable (() -> Unit) = {  }
     val styledLabel: @Composable (() -> Unit)? = label.let {
         @Composable {
@@ -165,8 +165,8 @@ fun ColumnScope.BottomNavigationScreenItem(
     }
     val icon: @Composable () -> Unit = {
         Icon(
-            screen.icon,
-            stringResource(screen.title),
+            screenType.icon,
+            stringResource(screenType.title),
             modifier = Modifier.align(CenterHorizontally),
         )
     }
@@ -176,7 +176,7 @@ fun ColumnScope.BottomNavigationScreenItem(
             .selectable(
                 selected = selected,
                 onClick = {
-                    navController.navigate(screen.route) {
+                    navController.navigate(screenType.route) {
                         popUpTo(navController.graph.findStartDestination().id) {
                             saveState = true
                         }

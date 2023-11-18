@@ -18,7 +18,7 @@ import java.util.*
 
 @Composable
 fun TodayPictureScreen(
-    windowHeight: WindowSize,
+    heightWindowSize: WindowSize,
     modifier: Modifier = Modifier,
     picture: PictureUiState,
     onClick: (Picture) -> Unit,
@@ -27,7 +27,7 @@ fun TodayPictureScreen(
     Scaffold(
         modifier = modifier
     ) { contentPadding ->
-        when (windowHeight) {
+        when (heightWindowSize) {
             else -> {
                 when (picture) {
                     is PictureUiState.Success -> {
@@ -55,7 +55,7 @@ fun TodayPictureScreen(
 fun TodayPictureScreenPreview() {
     AstronomyPicturesTheme {
         TodayPictureScreen(
-            windowHeight = WindowSize.Compact,
+            heightWindowSize = WindowSize.Compact,
             picture = PictureUiState.Success(
                 Picture(
                     id = Id(Date()),
