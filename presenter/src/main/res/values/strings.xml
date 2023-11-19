@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">Astronomy Pictures</string>
     <string name="today_screen">Today</string>
-    <string name="collection">Collection</string>
+    <string name="collection_screen">Collection</string>
+    <string name="details_screen">Details</string>
     <string name="about">About</string>
     <string name="application_info">This application based on APOD API.</string>
     <string name="apod">"Astronomy Picture of the Day "</string>

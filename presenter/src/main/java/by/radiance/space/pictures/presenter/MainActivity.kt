@@ -3,10 +3,12 @@ package by.radiance.space.pictures.presenter
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import by.radiance.space.pictures.presenter.ui.screen.ScreenType
-import by.radiance.space.pictures.presenter.navigation.MainComposable
+import by.radiance.space.pictures.presenter.navigation.ScreenType
+import by.radiance.space.pictures.presenter.navigation.Root
+import by.radiance.space.pictures.presenter.navigation.route.AboutRoute
+import by.radiance.space.pictures.presenter.navigation.route.CollectionRoute
+import by.radiance.space.pictures.presenter.navigation.route.DetailsRoute
 import by.radiance.space.pictures.presenter.navigation.route.TodayRoute
-import by.radiance.space.pictures.presenter.viewModel.TodayViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -23,14 +25,14 @@ class MainActivity : ComponentActivity() {
         )
 
         val routes = mapOf(
-            ScreenType.Today to TodayRoute(viewModel<TodayViewModel>()),
-            //todo: Collection, About, Details
+            ScreenType.Today to TodayRoute(viewModel()),
+            ScreenType.Collection to CollectionRoute(viewModel()),
+            ScreenType.About to AboutRoute(viewModel()),
+            ScreenType.Details to DetailsRoute(viewModel())
         )
 
-        //todo pass to MainComposable
-
         setContent {
-            MainComposable(bottomMenu = bottomMenu, activity = this)
+            Root(bottomMenu = bottomMenu, routes = routes)
         }
     }
 }

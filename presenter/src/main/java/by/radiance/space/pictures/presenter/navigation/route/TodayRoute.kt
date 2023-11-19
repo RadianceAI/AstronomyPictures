@@ -1,5 +1,6 @@
 package by.radiance.space.pictures.presenter.navigation.route
 
+import android.os.Bundle
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -18,12 +19,15 @@ class TodayRoute(
     viewModel: Lazy<TodayViewModel>,
 ) : Route<TodayViewModel>(viewModel) {
 
+    override val isNavigationBarVisible: Boolean = true
+
     @Composable
     override fun Route(
         navController: NavHostController,
+        arguments: Bundle?,
         heightWindowSize: WindowSize,
     ) {
-        val viewModel by remember { viewModel }
+        val viewModel by remember { lazyViewModel }
 
         val today by remember { viewModel.today }.collectAsState()
 

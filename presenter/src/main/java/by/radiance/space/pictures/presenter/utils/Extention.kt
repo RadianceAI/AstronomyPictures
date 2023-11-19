@@ -1,8 +1,14 @@
 package by.radiance.space.pictures.presenter.utils
 
 import android.widget.SeekBar
+import androidx.compose.animation.AnimatedContentScope
+import androidx.compose.runtime.Composable
+import androidx.navigation.NavBackStackEntry
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.compose.composable
 import by.radiance.space.pictures.domain.entity.Picture
 import by.radiance.space.pictures.domain.presenter.state.PictureUiState
+import by.radiance.space.pictures.presenter.navigation.ScreenType
 
 fun Picture.toUiState() = PictureUiState.Success(this)
 
@@ -20,4 +26,11 @@ fun SeekBar.onProgressChanged(listener: (progress: Int, fromUser: Boolean) -> Un
 
         }
     })
+}
+
+fun NavGraphBuilder.composableFromType(
+    screenType: ScreenType,
+    content: @Composable AnimatedContentScope.(NavBackStackEntry) -> Unit
+) {
+    composable(route = screenType.route, arguments = screenType.arguments, content = content)
 }

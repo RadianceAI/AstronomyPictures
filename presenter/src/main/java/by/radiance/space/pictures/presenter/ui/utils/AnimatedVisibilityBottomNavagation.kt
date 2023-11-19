@@ -10,7 +10,15 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.selection.selectable
-import androidx.compose.material.*
+import androidx.compose.material.BottomNavigation
+import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material.ContentAlpha
+import androidx.compose.material.Icon
+import androidx.compose.material.LocalContentAlpha
+import androidx.compose.material.LocalContentColor
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.ProvideTextStyle
+import androidx.compose.material.Text
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -31,7 +39,7 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
-import by.radiance.space.pictures.presenter.ui.screen.ScreenType
+import by.radiance.space.pictures.presenter.navigation.ScreenType
 
 @Composable
 fun AnimatedVisibilityBottomNavigation(
@@ -61,11 +69,11 @@ fun RowScope.BottomNavigationScreenItem(
     BottomNavigationItem(
         icon = {
             Icon(
-                screenType.icon,
-                stringResource(screenType.title)
+                screenType.icon!!,
+                stringResource(screenType.title!!)
             )
         },
-        label = { Text(stringResource(screenType.title)) },
+        label = { Text(stringResource(screenType.title!!)) },
         selected = currentDestination?.hierarchy?.any { it.route == screenType.route } == true,
         onClick = {
             navController.navigate(screenType.route) {
@@ -165,8 +173,8 @@ fun ColumnScope.BottomNavigationScreenItem(
     }
     val icon: @Composable () -> Unit = {
         Icon(
-            screenType.icon,
-            stringResource(screenType.title),
+            screenType.icon!!,
+            stringResource(screenType.title!!),
             modifier = Modifier.align(CenterHorizontally),
         )
     }
