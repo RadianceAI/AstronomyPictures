@@ -38,7 +38,7 @@ import java.util.*
 
 
 @Composable
-fun PictureDetails(
+fun PictureDetailsView(
     heightWindowSize: WindowSize,
     modifier: Modifier = Modifier,
     pictureUiState: PictureUiState,

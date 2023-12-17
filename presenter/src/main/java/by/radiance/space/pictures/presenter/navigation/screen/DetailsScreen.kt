@@ -1,28 +1,28 @@
-package by.radiance.space.pictures.presenter.navigation.route
+package by.radiance.space.pictures.presenter.navigation.screen
 
 import android.os.Bundle
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.navigation.NavHostController
 import by.radiance.space.pictures.domain.entity.Id
-import by.radiance.space.pictures.presenter.navigation.route.base.Route
-import by.radiance.space.pictures.presenter.ui.picture.PictureDetails
+import by.radiance.space.pictures.presenter.navigation.Router
+import by.radiance.space.pictures.presenter.navigation.screen.base.Screen
+import by.radiance.space.pictures.presenter.ui.picture.PictureDetailsView
 import by.radiance.space.pictures.presenter.ui.utils.WindowSize
 import by.radiance.space.pictures.presenter.utils.GsonWrapper
 import by.radiance.space.pictures.presenter.viewModel.DetailsViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
-class DetailsRoute(
-    val viewModel: Lazy<DetailsViewModel>
-) : Route<DetailsViewModel>(viewModel) {
+class DetailsScreen(
+    viewModel: Lazy<DetailsViewModel>
+) : Screen<DetailsViewModel>(viewModel) {
     override val isNavigationBarVisible: Boolean = false
 
     @Composable
-    override fun Route(
-        navController: NavHostController,
+    override fun View(
+        router: Router,
         arguments: Bundle?,
         heightWindowSize: WindowSize
     ) {
@@ -35,7 +35,7 @@ class DetailsRoute(
         val picture by remember { viewModel.picture(id) }.collectAsState()
         val progress by remember { viewModel.progress }.collectAsState()
 
-        PictureDetails(
+        PictureDetailsView(
             heightWindowSize = heightWindowSize,
             pictureUiState = picture,
             progress = progress,

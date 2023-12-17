@@ -1,24 +1,24 @@
-package by.radiance.space.pictures.presenter.navigation.route
+package by.radiance.space.pictures.presenter.navigation.screen
 
 import android.os.Bundle
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.navigation.NavHostController
-import by.radiance.space.pictures.presenter.navigation.route.base.Route
+import by.radiance.space.pictures.presenter.navigation.Router
+import by.radiance.space.pictures.presenter.navigation.screen.base.Screen
 import by.radiance.space.pictures.presenter.ui.utils.WindowSize
 import by.radiance.space.pictures.presenter.viewModel.ListViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
-class CollectionRoute(
+class CollectionScreen(
     viewModel: Lazy<ListViewModel>,
-) : Route<ListViewModel>(viewModel) {
+) : Screen<ListViewModel>(viewModel) {
 
     override val isNavigationBarVisible: Boolean = true
 
     @Composable
-    override fun Route(
-        navController: NavHostController,
+    override fun View(
+        router: Router,
         arguments: Bundle?,
         heightWindowSize: WindowSize
     ) {

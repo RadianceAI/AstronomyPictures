@@ -39,6 +39,7 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
+import by.radiance.space.pictures.presenter.navigation.Router
 import by.radiance.space.pictures.presenter.navigation.ScreenType
 
 @Composable
@@ -63,9 +64,10 @@ fun AnimatedVisibilityBottomNavigation(
 @Composable
 fun RowScope.BottomNavigationScreenItem(
     screenType: ScreenType,
-    currentDestination: NavDestination?,
-    navController: NavHostController
+    router: Router,
 ) {
+    val currentScreen by router.currentScreenAsState()
+
     BottomNavigationItem(
         icon = {
             Icon(
@@ -74,19 +76,15 @@ fun RowScope.BottomNavigationScreenItem(
             )
         },
         label = { Text(stringResource(screenType.title!!)) },
-        selected = currentDestination?.hierarchy?.any { it.route == screenType.route } == true,
+        selected = currentScreen == screenType,
         onClick = {
-            navController.navigate(screenType.route) {
-                popUpTo(navController.graph.findStartDestination().id) {
-                    saveState = true
-                }
+            router.toScreen(screenType) {
                 launchSingleTop = true
                 restoreState = true
             }
         }
     )
 }
-
 
 @Composable
 fun ColumnScope.ColumnBottomNavigationItem(
@@ -130,7 +128,7 @@ fun ColumnScope.ColumnBottomNavigationItem(
                 indication = ripple
             )
             .weight(1f)
-            .align(Alignment.CenterHorizontally),
+            .align(CenterHorizontally),
         contentAlignment = Alignment.Center
     ) {
         BottomNavigationTransition(
@@ -152,8 +150,7 @@ fun ColumnScope.ColumnBottomNavigationItem(
 @Composable
 fun ColumnScope.BottomNavigationScreenItem(
     screenType: ScreenType,
-    currentDestination: NavDestination?,
-    navController: NavHostController,
+    router: Router,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     alwaysShowLabel: Boolean = true,
@@ -163,7 +160,7 @@ fun ColumnScope.BottomNavigationScreenItem(
 ) {
     val ripple = rememberRipple(bounded = false, color = selectedContentColor)
 
-    val selected = currentDestination?.hierarchy?.any { it.route == screenType.route } == true
+    val selected = router.currentScreenAsState() == screenType
     val label: @Composable (() -> Unit) = {  }
     val styledLabel: @Composable (() -> Unit)? = label.let {
         @Composable {
@@ -184,10 +181,7 @@ fun ColumnScope.BottomNavigationScreenItem(
             .selectable(
                 selected = selected,
                 onClick = {
-                    navController.navigate(screenType.route) {
-                        popUpTo(navController.graph.findStartDestination().id) {
-                            saveState = true
-                        }
+                    router.toScreen(screenType) {
                         launchSingleTop = true
                         restoreState = true
                     }
@@ -198,20 +192,20 @@ fun ColumnScope.BottomNavigationScreenItem(
                 indication = ripple
             )
             .weight(1f)
-            .align(Alignment.CenterHorizontally),
+            .align(CenterHorizontally),
         contentAlignment = Alignment.Center
     ) {
         BottomNavigationTransition(
             selectedContentColor,
             unselectedContentColor,
-            selected
+            selected,
         ) { progress ->
             val animationProgress = if (alwaysShowLabel) 1f else progress
 
             BottomNavigationItemBaselineLayout(
                 icon = icon,
                 label = styledLabel,
-                iconPositionAnimationProgress = animationProgress
+                iconPositionAnimationProgress = animationProgress,
             )
         }
     }
@@ -219,8 +213,9 @@ fun ColumnScope.BottomNavigationScreenItem(
 
 private val BottomNavigationAnimationSpec = TweenSpec<Float>(
     durationMillis = 300,
-    easing = FastOutSlowInEasing
+    easing = FastOutSlowInEasing,
 )
+
 private val BottomNavigationItemHorizontalPadding = 12.dp
 
 @Composable
@@ -232,7 +227,8 @@ private fun BottomNavigationTransition(
 ) {
     val animationProgress by animateFloatAsState(
         targetValue = if (selected) 1f else 0f,
-        animationSpec = BottomNavigationAnimationSpec
+        animationSpec = BottomNavigationAnimationSpec,
+        label = ""
     )
 
     val color = lerp(inactiveColor, activeColor, animationProgress)
@@ -251,7 +247,10 @@ private fun BottomNavigationItemBaselineLayout(
     label: @Composable (() -> Unit)?,
     iconPositionAnimationProgress: Float
 ) {
-    Box(Modifier.layoutId("icon").padding(16.dp)) { icon() }
+    Box(
+        Modifier
+            .layoutId("icon")
+            .padding(16.dp)) { icon() }
     if (label != null) {
         Box(
             Modifier

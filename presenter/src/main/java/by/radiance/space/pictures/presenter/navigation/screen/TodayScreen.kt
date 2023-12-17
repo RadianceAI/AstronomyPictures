@@ -1,29 +1,28 @@
-package by.radiance.space.pictures.presenter.navigation.route
+package by.radiance.space.pictures.presenter.navigation.screen
 
 import android.os.Bundle
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.navigation.NavHostController
 import by.radiance.space.pictures.domain.entity.Picture
-import by.radiance.space.pictures.presenter.navigation.route.base.Route
-import by.radiance.space.pictures.presenter.ui.today.TodayPictureScreen
+import by.radiance.space.pictures.presenter.navigation.Router
+import by.radiance.space.pictures.presenter.navigation.screen.base.Screen
+import by.radiance.space.pictures.presenter.ui.today.TodayPictureScreenView
 import by.radiance.space.pictures.presenter.ui.utils.WindowSize
-import by.radiance.space.pictures.presenter.utils.GsonWrapper
 import by.radiance.space.pictures.presenter.viewModel.TodayViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
-class TodayRoute(
+class TodayScreen(
     viewModel: Lazy<TodayViewModel>,
-) : Route<TodayViewModel>(viewModel) {
+) : Screen<TodayViewModel>(viewModel) {
 
     override val isNavigationBarVisible: Boolean = true
 
     @Composable
-    override fun Route(
-        navController: NavHostController,
+    override fun View(
+        router: Router,
         arguments: Bundle?,
         heightWindowSize: WindowSize,
     ) {
@@ -35,11 +34,10 @@ class TodayRoute(
         }
 
         val click: (Picture) -> Unit = { picture ->
-            val json = GsonWrapper.gson.toJson(picture.id)
-            navController.navigate("details/$json")
+            router.toDetailsScreen(picture.id)
         }
 
-        TodayPictureScreen(
+        TodayPictureScreenView(
             heightWindowSize = heightWindowSize,
             picture = today,
             onClick = click,

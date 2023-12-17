@@ -12,35 +12,40 @@ import androidx.navigation.navArgument
 import by.radiance.space.pictures.presenter.R
 
 sealed class ScreenType(
-    val route: String,
+    val id: String,
+    val arguments: List<NamedNavArgument> = emptyList(),
+    val route: String = "$id/${arguments.toRouteArguments()}",
     @StringRes val title: Int? = null,
     val icon: ImageVector? = null,
-    val arguments: List<NamedNavArgument> = emptyList(),
 ) {
     data object Today : ScreenType(
-        route = "today",
+        id = "today",
         title = R.string.today_screen,
         icon = Icons.Filled.Image,
     )
 
     data object Collection : ScreenType(
-        route = "collection",
+        id = "collection",
         title = R.string.collection_screen,
         icon = Icons.Filled.Collections,
     )
 
     data object About : ScreenType(
-        route = "about",
+        id = "about",
         title = R.string.about,
         icon = Icons.Filled.Info,
     )
 
     data object Details : ScreenType(
-        route = "details/{pictureId}",
+        id = "details",
         arguments = listOf(pictureIdArgument),
     )
 
     companion object {
         private val pictureIdArgument = navArgument("pictureId") { type = NavType.StringType }
+
+        private fun List<NamedNavArgument>.toRouteArguments(): String {
+            return this.joinToString(separator = "/") { argument -> "{${argument.name}}" }
+        }
     }
 }

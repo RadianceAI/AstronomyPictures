@@ -1,4 +1,4 @@
-package by.radiance.space.pictures.presenter.navigation
+package by.radiance.space.pictures.presenter.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
@@ -19,8 +19,9 @@ import androidx.lifecycle.ViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
-import by.radiance.space.pictures.presenter.navigation.route.base.Route
+import by.radiance.space.pictures.presenter.navigation.Router
+import by.radiance.space.pictures.presenter.navigation.ScreenType
+import by.radiance.space.pictures.presenter.navigation.screen.base.Screen
 import by.radiance.space.pictures.presenter.ui.theme.AstronomyPicturesTheme
 import by.radiance.space.pictures.presenter.ui.theme.CardGray
 import by.radiance.space.pictures.presenter.ui.utils.AnimatedVisibilityBottomNavigation
@@ -34,29 +35,25 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @Composable
 fun Root(
-    bottomMenu: List<ScreenType>,
-    routes: Map<ScreenType, Route<out ViewModel>>,
+    router: Router,
 ) {
     AstronomyPicturesTheme(
-        darkTheme = true
+        darkTheme = true,
     ) {
         var bottomBarState by rememberSaveable { (mutableStateOf(true)) }
-        val navController = rememberNavController()
 
         ScaffoldWithConstraints(
             bottomBar = {
                 BottomBar(
                     bottomBarState = bottomBarState,
-                    navController = navController,
-                    bottomMenu = bottomMenu,
+                    router = router,
                 )
             },
             content = { innerPadding ->
                 Content(
                     bottomBarState = bottomBarState,
-                    navController = navController,
-                    bottomMenu = bottomMenu,
-                    routes = routes,
+                    bottomMenu = router.bottomMenu,
+                    router = router,
                     innerPadding = innerPadding,
                     heightWindowSize = heightWindowSize,
                     updateBottomBarVisibility = { isVisible ->
@@ -72,9 +69,8 @@ fun Root(
 @OptIn(ExperimentalCoroutinesApi::class)
 private fun Content(
     bottomBarState: Boolean,
-    navController: NavHostController,
     bottomMenu: List<ScreenType>,
-    routes: Map<ScreenType, Route<out ViewModel>>,
+    router: Router,
     innerPadding: PaddingValues,
     heightWindowSize: WindowSize,
     updateBottomBarVisibility: (Boolean) -> Unit,
@@ -87,38 +83,26 @@ private fun Content(
                     .clip(RoundedCornerShape(5.dp))
                     .background(CardGray),
             ) {
-                val navBackStackEntry by navController.currentBackStackEntryAsState()
-                val currentDestination = navBackStackEntry?.destination
-
                 bottomMenu.forEach { screen ->
                     BottomNavigationScreenItem(
-                        screen,
-                        currentDestination,
-                        navController
+                        screenType = screen,
+                        router = router,
                     )
                 }
             }
         }
-        NavHost(
-            navController = navController,
-            startDestination = ScreenType.Today.route,
-            modifier = Modifier.padding(innerPadding)
-        ) {
-            for ((screenType, routeDestination) in routes) {
-                composableFromType(screenType) {
-                    updateBottomBarVisibility(routeDestination.isNavigationBarVisible)
-                    routeDestination.Route(navController, it.arguments, heightWindowSize)
-                }
-            }
-        }
+        router.NavigationHost(
+            modifier = Modifier.padding(innerPadding),
+            updateBottomBarVisibility = updateBottomBarVisibility,
+            heightWindowSize = heightWindowSize,
+        )
     }
 }
 
 @Composable
 private fun BoxWithConstraintsScope.BottomBar(
     bottomBarState: Boolean,
-    navController: NavHostController,
-    bottomMenu: List<ScreenType>
+    router: Router,
 ) {
     AnimatedVisibilityBottomNavigation(
         visible = bottomBarState && heightWindowSize != WindowSize.Compact,
@@ -127,16 +111,11 @@ private fun BoxWithConstraintsScope.BottomBar(
             .clip(Rectangle),
         backgroundColor = CardGray,
     ) {
-        val navBackStackEntry by navController.currentBackStackEntryAsState()
-        val currentDestination = navBackStackEntry?.destination
-
-        bottomMenu.forEach { screen ->
+        router.bottomMenu.forEach { screen ->
             BottomNavigationScreenItem(
                 screen,
-                currentDestination,
-                navController
+                router,
             )
         }
     }
 }
-

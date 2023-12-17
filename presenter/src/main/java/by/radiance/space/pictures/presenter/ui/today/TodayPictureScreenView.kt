@@ -17,7 +17,7 @@ import by.radiance.space.pictures.domain.presenter.state.PictureUiState
 import java.util.*
 
 @Composable
-fun TodayPictureScreen(
+fun TodayPictureScreenView(
     heightWindowSize: WindowSize,
     modifier: Modifier = Modifier,
     picture: PictureUiState,
@@ -54,7 +54,7 @@ fun TodayPictureScreen(
 @Composable
 fun TodayPictureScreenPreview() {
     AstronomyPicturesTheme {
-        TodayPictureScreen(
+        TodayPictureScreenView(
             heightWindowSize = WindowSize.Compact,
             picture = PictureUiState.Success(
                 Picture(

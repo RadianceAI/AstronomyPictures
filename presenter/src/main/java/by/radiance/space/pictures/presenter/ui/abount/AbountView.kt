@@ -15,7 +15,7 @@ import by.radiance.space.pictures.presenter.R
 import by.radiance.space.pictures.presenter.ui.theme.AstronomyPicturesTheme
 
 @Composable
-fun About(
+fun AboutView(
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -62,6 +62,6 @@ fun About(
 @Composable
 fun AboutPreview() {
     AstronomyPicturesTheme(darkTheme = true) {
-        About()
+        AboutView()
     }
 }
