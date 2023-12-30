@@ -23,6 +23,12 @@ class GalleryScreen(
     ) {
         val viewModel by remember { lazyViewModel }
 
-        GalleryView(pictures = viewModel.pictures)
+        GalleryView(
+            pictures = viewModel.pictures,
+            cellCount = 2,
+            onClick = { picture ->
+                router.toDetailsScreen(picture.id)
+            },
+        )
     }
 }

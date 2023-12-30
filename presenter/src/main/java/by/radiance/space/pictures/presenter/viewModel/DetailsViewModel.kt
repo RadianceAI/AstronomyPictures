@@ -8,6 +8,7 @@ import by.radiance.space.pictures.domain.entity.Picture
 import by.radiance.space.pictures.domain.presenter.PictureViewModel
 import by.radiance.space.pictures.domain.presenter.state.PictureUiState
 import by.radiance.space.pictures.domain.usecase.*
+import by.radiance.space.pictures.domain.utils.DateUtil
 import by.radiance.space.pictures.domain.utils.LoadingState
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
@@ -23,7 +24,7 @@ class DetailsViewModel(
     override val progress: StateFlow<Boolean> = _progress
 
     override fun picture(id: Id): StateFlow<PictureUiState> =
-            getPictureUseCase.get(Date(), Date())
+            getPictureUseCase.get(DateUtil.parseId(id.date)!!, DateUtil.parseId(id.date)!!)
                 .map { pictures ->
                     when (pictures) {
                         is LoadingState.Error -> PictureUiState.Error(pictures.throwable)

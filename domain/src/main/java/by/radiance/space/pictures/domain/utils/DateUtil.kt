@@ -6,7 +6,7 @@ import java.util.*
 
 object DateUtil {
     const val ID_DATE_FORMAT = "yyyy-MM-dd"
-    const val CARD_DATE_FORMAT = "MMM dd, yyyy"
+    const val CARD_DATE_FORMAT = "MM.dd"
 
     const val MILLISECONDS_IN_DAY = 86400000L
 

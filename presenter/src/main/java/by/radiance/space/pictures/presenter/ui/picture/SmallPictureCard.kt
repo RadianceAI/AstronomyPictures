@@ -26,7 +26,7 @@ fun SmallPictureCard(
             .fillMaxHeight(),
         model = picture.source.light,
         contentDescription = picture.explanation,
-        loading = { LoadingCard(cornerSize = CornerSize(0.dp)) },
+        loading = { LoadingCard() },
         contentScale = ContentScale.Crop
     )
 }

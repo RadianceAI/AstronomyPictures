@@ -21,16 +21,16 @@ import by.radiance.space.pictures.presenter.ui.theme.ShimmerColorShades
 @Composable
 fun LoadingCard(
     modifier: Modifier = Modifier,
-    cornerSize: CornerSize = CornerSize(16.dp)
 ) {
-    val transition = rememberInfiniteTransition()
+    val transition = rememberInfiniteTransition(label = "")
     val translateAnim by transition.animateFloat(
         initialValue = 0f,
         targetValue = 1000f,
         animationSpec = infiniteRepeatable(
             tween(durationMillis = 1200, easing = FastOutSlowInEasing),
             RepeatMode.Reverse
-        )
+        ),
+        label = "",
     )
 
     val brush = Brush.linearGradient(
@@ -42,7 +42,6 @@ fun LoadingCard(
     Card(
         modifier = modifier
             .fillMaxSize()
-            .clip(MaterialTheme.shapes.medium.copy(all = cornerSize))
     ) {
         Box(Modifier.fillMaxSize().background(brush)) {
 

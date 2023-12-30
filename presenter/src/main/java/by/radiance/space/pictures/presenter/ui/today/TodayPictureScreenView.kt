@@ -9,7 +9,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import by.radiance.space.pictures.presenter.ui.theme.AstronomyPicturesTheme
 import by.radiance.space.pictures.presenter.ui.utils.ErrorCard
 import by.radiance.space.pictures.presenter.ui.utils.LoadingCard
-import by.radiance.space.pictures.presenter.ui.utils.WindowSize
 import by.radiance.space.pictures.domain.entity.Id
 import by.radiance.space.pictures.domain.entity.Image
 import by.radiance.space.pictures.domain.entity.Picture
@@ -31,8 +30,7 @@ fun TodayPictureScreenView(
                 PictureCard(
                     modifier = Modifier.padding(contentPadding),
                     picture = picture.picture,
-                    onClick = onClick,
-                    onLike = onLike
+                    onClick = onClick
                 )
             }
 

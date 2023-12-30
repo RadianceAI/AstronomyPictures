@@ -140,7 +140,7 @@ fun PictureDetailsView(
                             )
                         }
                         is PictureUiState.Loading -> {
-                            LoadingCard(cornerSize = CornerSize(0.dp))
+                            LoadingCard()
                         }
                         is PictureUiState.Error -> {
                             ErrorCard(error = "Something went wrong", cornerSize = CornerSize(0.dp))

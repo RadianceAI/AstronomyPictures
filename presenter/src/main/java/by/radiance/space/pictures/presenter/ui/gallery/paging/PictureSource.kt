@@ -17,7 +17,7 @@ class PictureSource(
 
     override suspend fun load(params: LoadParams<Key>): LoadResult<Key, Picture> {
         val today = Date()
-        val key = params.key ?: Key(today.minusDays(params.loadSize), today)
+        val key = params.key ?: Key(today.minusDays(params.loadSize), today.minusDays(1))
 
         return try {
             val pictures = astronomyPictureRepository.getPictures(
