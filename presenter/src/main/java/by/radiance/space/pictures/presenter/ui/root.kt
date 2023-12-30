@@ -21,7 +21,6 @@ import by.radiance.space.pictures.presenter.ui.theme.AstronomyPicturesTheme
 import by.radiance.space.pictures.presenter.ui.theme.CardGray
 import by.radiance.space.pictures.presenter.ui.utils.AnimatedVisibilityBottomNavigation
 import by.radiance.space.pictures.presenter.ui.utils.BottomNavigationScreenItem
-import by.radiance.space.pictures.presenter.ui.utils.Rectangle
 import by.radiance.space.pictures.presenter.ui.utils.ScaffoldWithConstraints
 import by.radiance.space.pictures.presenter.ui.utils.WindowSize
 import by.radiance.space.pictures.presenter.ui.utils.heightWindowSize
@@ -99,8 +98,7 @@ private fun BoxWithConstraintsScope.BottomBar(
     AnimatedVisibilityBottomNavigation(
         visible = bottomBarState && heightWindowSize != WindowSize.Compact,
         modifier = Modifier
-            .padding(5.dp)
-            .clip(Rectangle),
+            .padding(5.dp),
         backgroundColor = CardGray,
     ) {
         router.bottomMenu.forEach { screen ->

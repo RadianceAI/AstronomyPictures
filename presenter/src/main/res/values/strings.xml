@@ -20,5 +20,5 @@
     <string name="corner_size">Corner size:</string>
     <string name="today">Today</string>
     <string name="random">Random</string>
-    <string name="gallery">Gallery\n</string>
+    <string name="gallery">Gallery</string>
 </resources>

@@ -75,6 +75,7 @@ fun RowScope.BottomNavigationScreenItem(
                 stringResource(screenType.title!!)
             )
         },
+        alwaysShowLabel = false,
         label = { Text(stringResource(screenType.title!!)) },
         selected = currentScreen == screenType,
         onClick = {

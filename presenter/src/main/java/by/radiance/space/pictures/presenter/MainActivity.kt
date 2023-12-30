@@ -22,7 +22,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         val bottomMenu = listOf(
-            ScreenType.Today,
             ScreenType.Gallery,
             ScreenType.Collection,
             ScreenType.About,

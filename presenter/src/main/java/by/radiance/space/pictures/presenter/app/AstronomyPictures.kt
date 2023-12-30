@@ -43,7 +43,6 @@ class AstronomyPictures: Application(), KoinComponent {
             ))
         }
 
-
-        WallpaperWorker.start(applicationContext)
+        //WallpaperWorker.start(applicationContext)
     }
 }

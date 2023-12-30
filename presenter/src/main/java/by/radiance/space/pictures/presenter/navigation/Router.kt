@@ -71,7 +71,7 @@ class Router(
     ) {
         NavHost(
             navController = navController,
-            startDestination = ScreenType.Today.route,
+            startDestination = bottomMenu.first().route,
             modifier = modifier,
         ) {
             for ((screenType, routeDestination) in routes) {

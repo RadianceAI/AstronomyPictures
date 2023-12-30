@@ -4,8 +4,10 @@ import android.transition.Scene
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Collections
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Image
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.MonitorHeart
 import androidx.compose.material.icons.filled.PhotoLibrary
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NamedNavArgument
@@ -29,7 +31,7 @@ sealed class ScreenType(
     data object Collection : ScreenType(
         id = "collection",
         title = R.string.collection_screen,
-        icon = Icons.Filled.Collections,
+        icon = Icons.Filled.Favorite,
     )
 
     data object About : ScreenType(
