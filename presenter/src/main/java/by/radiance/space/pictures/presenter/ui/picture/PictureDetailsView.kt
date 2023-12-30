@@ -32,14 +32,13 @@ import by.radiance.space.pictures.domain.entity.Id
 import by.radiance.space.pictures.domain.entity.Image
 import by.radiance.space.pictures.domain.entity.Picture
 import by.radiance.space.pictures.domain.presenter.state.PictureUiState
-import by.radiance.space.pictures.domain.utils.DateHelper
+import by.radiance.space.pictures.domain.utils.DateUtil
 import coil.compose.SubcomposeAsyncImage
 import java.util.*
 
 
 @Composable
 fun PictureDetailsView(
-    heightWindowSize: WindowSize,
     modifier: Modifier = Modifier,
     pictureUiState: PictureUiState,
     progress: Boolean,
@@ -57,7 +56,7 @@ fun PictureDetailsView(
     Scaffold(
         modifier = modifier,
         bottomBar = {
-            AnimatedVisibility(visible = heightWindowSize != WindowSize.Compact) {
+            AnimatedVisibility(true) {
                 BottomNavigation(
                     modifier = Modifier
                         .padding(5.dp)
@@ -92,7 +91,7 @@ fun PictureDetailsView(
             modifier = Modifier.padding(it)
         ) {
             Row {
-                if (heightWindowSize == WindowSize.Compact) {
+                if (false) {
                     Column(
                         modifier = Modifier
                             .padding(5.dp)
@@ -240,7 +239,7 @@ fun Detail(
                 )
         )
         Text(
-            text = DateHelper.getDate(picture.id.date),
+            text = DateUtil.getDate(DateUtil.parseId(picture.id.date)!!),
             style = MaterialTheme.typography.body2
         )
         Row {
@@ -341,7 +340,7 @@ fun DialogButton(icon: ImageVector, text: String, onClick: () -> Unit) {
 fun DetailsPreview() {
     AstronomyPicturesTheme {
         Detail(picture = Picture(
-            id = Id(Date()),
+            id = Id("2024-12-23"),
             title = "Title",
             explanation = "Explanation",
             copyright = "cop",

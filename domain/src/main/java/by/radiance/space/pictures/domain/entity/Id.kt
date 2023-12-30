@@ -7,8 +7,5 @@ import java.util.*
 
 @Parcelize
 data class Id(
-    val date: Date,
-): Parcelable {
-    val isToday: Boolean
-        get() = DateUtils.isToday(date.time)
-}
+    val date: String,
+): Parcelable

@@ -12,7 +12,7 @@ class PictureMapper {
 
     fun map(picture: NasaAstronomyPicture, isRandom: Boolean = false): Picture {
         return Picture(
-            id = Id(DateUtils.getDate(picture.date?:"")),
+            id = Id(picture.date?:""),
             title = picture.title,
             explanation = picture.explanation,
             copyright = picture.copyright,

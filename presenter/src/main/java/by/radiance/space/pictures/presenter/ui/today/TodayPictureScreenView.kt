@@ -18,7 +18,6 @@ import java.util.*
 
 @Composable
 fun TodayPictureScreenView(
-    heightWindowSize: WindowSize,
     modifier: Modifier = Modifier,
     picture: PictureUiState,
     onClick: (Picture) -> Unit,
@@ -27,24 +26,22 @@ fun TodayPictureScreenView(
     Scaffold(
         modifier = modifier
     ) { contentPadding ->
-        when (heightWindowSize) {
-            else -> {
-                when (picture) {
-                    is PictureUiState.Success -> {
-                        PictureCard(
-                            modifier = Modifier.padding(contentPadding),
-                            picture = picture.picture,
-                            onClick = onClick,
-                            onLike = onLike
-                        )
-                    }
-                    is PictureUiState.Loading -> {
-                        LoadingCard()
-                    }
-                    is PictureUiState.Error -> {
-                        ErrorCard(error = "Picture is not ready yet.")
-                    }
-                }
+        when (picture) {
+            is PictureUiState.Success -> {
+                PictureCard(
+                    modifier = Modifier.padding(contentPadding),
+                    picture = picture.picture,
+                    onClick = onClick,
+                    onLike = onLike
+                )
+            }
+
+            is PictureUiState.Loading -> {
+                LoadingCard()
+            }
+
+            is PictureUiState.Error -> {
+                ErrorCard(error = "Picture is not ready yet.")
             }
         }
     }
@@ -55,10 +52,9 @@ fun TodayPictureScreenView(
 fun TodayPictureScreenPreview() {
     AstronomyPicturesTheme {
         TodayPictureScreenView(
-            heightWindowSize = WindowSize.Compact,
             picture = PictureUiState.Success(
                 Picture(
-                    id = Id(Date()),
+                    id = Id("2024-12-24"),
                     title = "Title",
                     explanation = "Explanation",
                     copyright = "cop",

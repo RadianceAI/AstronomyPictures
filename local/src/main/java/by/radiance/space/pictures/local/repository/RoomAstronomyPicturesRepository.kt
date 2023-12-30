@@ -34,8 +34,4 @@ class RoomAstronomyPicturesRepository(
 
         return PictureMapper().map(astronomyPicture)
     }
-
-    suspend fun delete(picture: Picture) {
-        pictureDAO.delete(java.sql.Date(picture.id.date.time))
-    }
 }

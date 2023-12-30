@@ -28,7 +28,7 @@ import by.radiance.space.pictures.presenter.R
 import by.radiance.space.pictures.presenter.ui.theme.AstronomyPicturesTheme
 import by.radiance.space.pictures.presenter.ui.theme.CardGray
 import by.radiance.space.pictures.presenter.ui.utils.LoadingCard
-import by.radiance.space.pictures.domain.utils.DateHelper
+import by.radiance.space.pictures.domain.utils.DateUtil
 
 @Composable
 fun PictureCard(
@@ -78,7 +78,7 @@ fun PictureCard(
                         )
 
                         Text(
-                            text =  DateHelper.getDate(picture.id.date),
+                            text =  DateUtil.getDate(DateUtil.parseId(picture.id.date)!!),
                             style = MaterialTheme.typography.subtitle2.copy(fontSize = 12.sp, fontWeight = FontWeight.Light),
                             color = Color.White.copy(alpha = .8f),
                             maxLines = 1,
@@ -88,7 +88,7 @@ fun PictureCard(
                         modifier = Modifier,
                         onClick = { onLike(picture) }
                     ) {
-                        Crossfade(targetState = picture.isSaved) { isSaved ->
+                        Crossfade(targetState = picture.isSaved, label = "") { isSaved ->
                             if (isSaved) {
                                 Icon(
                                     painter = painterResource(R.drawable.ic_dark_pink_active),
@@ -123,7 +123,7 @@ fun PicturePreview() {
     AstronomyPicturesTheme {
         PictureCard(
             picture = Picture(
-                id = Id(Date()),
+                id = Id("0001-01-01"),
                 title = "Title",
                 explanation = "Explanation",
                 copyright = "cop",

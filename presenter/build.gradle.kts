@@ -107,4 +107,6 @@ dependencies {
 
     implementation(libs.viewbinding)
     implementation(libs.multidex)
+
+    implementation(libs.androidx.paging.compose)
 }

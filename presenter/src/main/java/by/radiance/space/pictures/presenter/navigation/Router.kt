@@ -1,6 +1,6 @@
 package by.radiance.space.pictures.presenter.navigation
 
-import androidx.compose.foundation.layout.padding
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
@@ -13,7 +13,6 @@ import androidx.navigation.compose.NavHost
 import by.radiance.space.pictures.domain.entity.Id
 import by.radiance.space.pictures.presenter.navigation.screen.base.Screen
 import by.radiance.space.pictures.presenter.ui.utils.WindowSize
-import by.radiance.space.pictures.presenter.utils.GsonWrapper
 import by.radiance.space.pictures.presenter.utils.composableFromType
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -23,6 +22,7 @@ class Router(
     private val routes: Map<ScreenType, Screen<out ViewModel>>,
     val bottomMenu: List<ScreenType>,
 ) {
+
     fun currentScreenFlow(): Flow<ScreenType?> {
         return navController.currentBackStackEntryFlow
             .map { currentBackStackEntry ->
@@ -31,10 +31,12 @@ class Router(
                     ScreenType.Collection.id -> ScreenType.Collection
                     ScreenType.Today.id -> ScreenType.Today
                     ScreenType.Details.id -> ScreenType.Details
+                    ScreenType.Gallery.id -> ScreenType.Gallery
                     else -> null
                 }
             }
     }
+
     @Composable
     fun currentScreenAsState(): State<ScreenType?> {
         val currentScreenType = remember { currentScreenFlow() }
@@ -58,8 +60,7 @@ class Router(
     }
 
     fun toDetailsScreen(pictureId: Id) {
-        val json = GsonWrapper.gson.toJson(pictureId)
-        navController.navigate("details/$json")
+        navController.navigate("details/${pictureId.date}")
     }
 
     @Composable

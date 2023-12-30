@@ -38,7 +38,6 @@ class TodayScreen(
         }
 
         TodayPictureScreenView(
-            heightWindowSize = heightWindowSize,
             picture = today,
             onClick = click,
             onLike = like,

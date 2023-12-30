@@ -1,10 +1,12 @@
 package by.radiance.space.pictures.presenter.navigation
 
+import android.transition.Scene
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Collections
 import androidx.compose.material.icons.filled.Image
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.PhotoLibrary
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavType
@@ -39,6 +41,12 @@ sealed class ScreenType(
     data object Details : ScreenType(
         id = "details",
         arguments = listOf(pictureIdArgument),
+    )
+
+    data object Gallery : ScreenType(
+        id = "gallery",
+        title = R.string.gallery,
+        icon = Icons.Filled.PhotoLibrary,
     )
 
     companion object {

@@ -5,7 +5,7 @@ import android.util.Log
 import androidx.work.*
 import by.radiance.space.pictures.domain.usecase.GetAstronomyPicturesUseCase
 import by.radiance.space.pictures.domain.usecase.SetWallpaperUseCase
-import by.radiance.space.pictures.domain.utils.DateHelper
+import by.radiance.space.pictures.domain.utils.DateUtil
 import by.radiance.space.pictures.domain.utils.LoadingState
 import coil.ImageLoader
 import coil.request.ImageRequest
@@ -24,7 +24,7 @@ class WallpaperWorker(
 ) : CoroutineWorker(appContext, workerParameters) {
 
     override suspend fun doWork(): Result {
-        writeToFile("${DateHelper.getDate(Date(), "HH:mm:ss\n")}", appContext)
+        writeToFile("${DateUtil.getDate(Date(), "HH:mm:ss\n")}", appContext)
         todayPictureUseCase.get(startDate = Date(), endDate = Date())
             .map { pictures ->
                 when (pictures) {
@@ -45,7 +45,7 @@ class WallpaperWorker(
                     val result = (loader.execute(request) as SuccessResult).drawable
                     wallpaperUseCase.setAllWallpaper(result)
 
-                    start(appContext, DateHelper.tomorrow(), true)
+                    start(appContext, DateUtil.tomorrow(), true)
                 }
             }
             .take(1)

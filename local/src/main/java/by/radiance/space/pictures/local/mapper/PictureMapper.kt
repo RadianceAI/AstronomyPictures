@@ -3,6 +3,7 @@ package by.radiance.space.pictures.local.mapper
 import by.radiance.space.pictures.domain.entity.Id
 import by.radiance.space.pictures.domain.entity.Image
 import by.radiance.space.pictures.domain.entity.Picture
+import by.radiance.space.pictures.domain.utils.DateUtil
 import by.radiance.space.pictures.local.entity.AstronomyPicture
 import by.radiance.space.pictures.local.entity.SourceType
 import java.sql.Date
@@ -14,7 +15,7 @@ class PictureMapper {
 
     fun map(picture: AstronomyPicture): Picture {
         return Picture(
-            id = Id(picture.id),
+            id = Id(DateUtil.formatId(picture.id)),
             title = picture.title,
             explanation = picture.explanation,
             copyright = picture.copyright,
@@ -27,7 +28,7 @@ class PictureMapper {
     fun map(picture: Picture): AstronomyPicture {
         val source = picture.source
         return AstronomyPicture(
-            id = Date(picture.id.date.time),
+            id = Date(DateUtil.parseId(picture.id.date)?.time ?: 0),
             title = picture.title,
             explanation = picture.explanation,
             copyright = picture.copyright,

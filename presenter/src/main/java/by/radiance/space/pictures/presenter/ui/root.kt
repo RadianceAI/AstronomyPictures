@@ -1,5 +1,6 @@
 package by.radiance.space.pictures.presenter.ui
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
 import androidx.compose.foundation.layout.Column
@@ -16,11 +17,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelStoreOwner
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import by.radiance.space.pictures.presenter.navigation.Router
 import by.radiance.space.pictures.presenter.navigation.ScreenType
+import by.radiance.space.pictures.presenter.navigation.screen.TodayScreen
 import by.radiance.space.pictures.presenter.navigation.screen.base.Screen
 import by.radiance.space.pictures.presenter.ui.theme.AstronomyPicturesTheme
 import by.radiance.space.pictures.presenter.ui.theme.CardGray
@@ -31,7 +35,11 @@ import by.radiance.space.pictures.presenter.ui.utils.ScaffoldWithConstraints
 import by.radiance.space.pictures.presenter.ui.utils.WindowSize
 import by.radiance.space.pictures.presenter.ui.utils.heightWindowSize
 import by.radiance.space.pictures.presenter.utils.composableFromType
+import by.radiance.space.pictures.presenter.viewModel.TodayViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.koin.android.compat.ViewModelCompat.viewModel
+import org.koin.androidx.viewmodel.ViewModelOwner
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @Composable
 fun Root(
@@ -66,7 +74,6 @@ fun Root(
 }
 
 @Composable
-@OptIn(ExperimentalCoroutinesApi::class)
 private fun Content(
     bottomBarState: Boolean,
     bottomMenu: List<ScreenType>,

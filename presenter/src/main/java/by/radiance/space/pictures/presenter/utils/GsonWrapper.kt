@@ -13,26 +13,8 @@ object GsonWrapper {
     private var deser: JsonDeserializer<Date> =
         JsonDeserializer { json, typeOfT, context -> if (json == null) null else Date(json.asLong) }
 
-    private val idSer: JsonSerializer<Id> =
-        JsonSerializer { src, typeOfSrc, context ->
-            if (src == null) null else JsonObject().apply {
-                this.add("date", JsonPrimitive(src.date.time))
-                this.add("isRandom", JsonPrimitive(false))
-            }
-        }
-
-    private val idDeser: JsonDeserializer<Id> =
-        JsonDeserializer { json, typeOfT, context ->
-            if (json == null) null else Id(
-                date = Date(json.asJsonObject?.get("date")?.asLong!!),
-            )
-        }
-
     val gson = GsonBuilder()
         .registerTypeAdapter(Date::class.java, ser)
         .registerTypeAdapter(Date::class.java, deser)
-        .registerTypeAdapter(Id::class.java, idSer)
-        .registerTypeAdapter(Id::class.java, idDeser)
         .create()
-
 }

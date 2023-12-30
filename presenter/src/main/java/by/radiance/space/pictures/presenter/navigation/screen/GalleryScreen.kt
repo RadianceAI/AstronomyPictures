@@ -2,15 +2,16 @@ package by.radiance.space.pictures.presenter.navigation.screen
 
 import android.os.Bundle
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import by.radiance.space.pictures.presenter.navigation.Router
 import by.radiance.space.pictures.presenter.navigation.screen.base.Screen
-import by.radiance.space.pictures.presenter.ui.abount.AboutView
+import by.radiance.space.pictures.presenter.ui.gallery.GalleryView
 import by.radiance.space.pictures.presenter.ui.utils.WindowSize
-import by.radiance.space.pictures.presenter.viewModel.AboutViewModel
+import by.radiance.space.pictures.presenter.viewModel.GalleryViewModel
 
-class AboutScreen(
-    viewModel: Lazy<AboutViewModel>,
-) : Screen<AboutViewModel>(viewModel) {
+class GalleryScreen(
+    viewModel: Lazy<GalleryViewModel>,
+) : Screen<GalleryViewModel>(viewModel) {
 
     override val isNavigationBarVisible: Boolean = true
 
@@ -18,9 +19,10 @@ class AboutScreen(
     override fun View(
         router: Router,
         arguments: Bundle?,
-        heightWindowSize: WindowSize
+        heightWindowSize: WindowSize,
     ) {
         val viewModel by remember { lazyViewModel }
-        AboutView()
+
+        GalleryView(pictures = viewModel.pictures)
     }
 }

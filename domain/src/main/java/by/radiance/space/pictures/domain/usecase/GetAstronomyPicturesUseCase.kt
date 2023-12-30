@@ -22,6 +22,8 @@ class GetAstronomyPicturesUseCase(
             }
         } catch (e: Exception) {
             send(LoadingState.Error(e))
+        } finally {
+            close()
         }
     }
 
@@ -31,6 +33,8 @@ class GetAstronomyPicturesUseCase(
             send(pictures.asState())
         } catch (e: Exception) {
             send(LoadingState.Error(e))
+        } finally {
+            close()
         }
     }
 }

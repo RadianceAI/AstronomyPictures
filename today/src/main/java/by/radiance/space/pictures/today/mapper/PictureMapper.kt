@@ -10,7 +10,7 @@ import by.radiance.space.pictures.today.utils.MediaType
 class PictureMapper {
     fun map(picture: PicturePreference): Picture {
         return Picture(
-            id = Id(DateUtils.getDate(picture.id)),
+            id = Id(picture.id),
             title = picture.title,
             explanation = picture.explanation,
             copyright = picture.copyright,
@@ -22,7 +22,7 @@ class PictureMapper {
 
     fun map(picture: Picture): PicturePreference {
         return PicturePreference(
-            id = DateUtils.getDate(picture.id.date),
+            id = picture.id.date,
             title = picture.title,
             explanation = picture.explanation,
             copyright = picture.copyright,

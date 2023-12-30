@@ -6,11 +6,12 @@ import androidx.activity.compose.setContent
 import androidx.navigation.compose.rememberNavController
 import by.radiance.space.pictures.presenter.navigation.Router
 import by.radiance.space.pictures.presenter.navigation.ScreenType
-import by.radiance.space.pictures.presenter.ui.Root
 import by.radiance.space.pictures.presenter.navigation.screen.AboutScreen
 import by.radiance.space.pictures.presenter.navigation.screen.CollectionScreen
 import by.radiance.space.pictures.presenter.navigation.screen.DetailsScreen
+import by.radiance.space.pictures.presenter.navigation.screen.GalleryScreen
 import by.radiance.space.pictures.presenter.navigation.screen.TodayScreen
+import by.radiance.space.pictures.presenter.ui.Root
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -22,6 +23,7 @@ class MainActivity : ComponentActivity() {
 
         val bottomMenu = listOf(
             ScreenType.Today,
+            ScreenType.Gallery,
             ScreenType.Collection,
             ScreenType.About,
         )
@@ -30,11 +32,13 @@ class MainActivity : ComponentActivity() {
             ScreenType.Today to TodayScreen(viewModel()),
             ScreenType.Collection to CollectionScreen(viewModel()),
             ScreenType.About to AboutScreen(viewModel()),
-            ScreenType.Details to DetailsScreen(viewModel())
+            ScreenType.Details to DetailsScreen(viewModel()),
+            ScreenType.Gallery to GalleryScreen(viewModel()),
         )
 
         setContent {
             val navController = rememberNavController()
+
             val router = Router(
                 navController = navController,
                 routes = routes,
