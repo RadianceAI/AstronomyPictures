@@ -25,10 +25,14 @@ class GalleryScreen(
 
         GalleryView(
             pictures = viewModel.pictures,
+            scrollTo = viewModel.scrollTo,
             cellCount = 2,
             onClick = { picture ->
                 router.toDetailsScreen(picture.id)
             },
+            onDateSelected = { date ->
+                viewModel.selectDate(date)
+            }
         )
     }
 }

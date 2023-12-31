@@ -5,11 +5,14 @@ import androidx.paging.PagingState
 import by.radiance.space.pictures.domain.entity.Picture
 import by.radiance.space.pictures.domain.repository.RemoteAstronomyPictureRepository
 import by.radiance.space.pictures.domain.utils.minusDays
+import by.radiance.space.pictures.domain.utils.plusDays
 import java.util.Date
 
 class PictureSource(
     private val astronomyPictureRepository: RemoteAstronomyPictureRepository,
 ) : PagingSource<PictureSource.Key, Picture>() {
+
+    override val jumpingSupported: Boolean = true
 
     override fun getRefreshKey(state: PagingState<Key, Picture>): Key? {
         return state.closestPageToPosition(state.anchorPosition?: 0)?.prevKey
@@ -46,7 +49,7 @@ class PictureSource(
         key: Key,
         loadSize: Int,
     ): Key {
-        return Key(key.endDate.minusDays(1 + loadSize), key.endDate.minusDays(1))
+        return Key(key.endDate.plusDays(1), key.endDate.plusDays(1 + loadSize))
     }
 
     data class Key(

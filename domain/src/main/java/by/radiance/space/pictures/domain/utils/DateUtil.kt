@@ -30,6 +30,13 @@ object DateUtil {
         calendar.set(Calendar.SECOND, 0)
         return calendar.time
     }
+
+    fun APODStartDate(): Date {
+        val startDate = Calendar.getInstance()
+        startDate.set(1995, 5, 16)
+
+        return startDate.time
+    }
 }
 
 fun Date.plusDays(days: Int) : Date {
