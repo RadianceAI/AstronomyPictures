@@ -1,6 +1,5 @@
 package by.radiance.space.pictures.presenter.navigation
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
@@ -48,19 +47,31 @@ class Router(
     }
 
     fun toAboutScreen() {
-        navController.navigate(ScreenType.About.route)
+        navController.navigate(ScreenType.About.route) {
+            launchSingleTop = true
+            restoreState = true
+        }
     }
 
     fun toTodayScreen() {
-        navController.navigate(ScreenType.Today.route)
+        navController.navigate(ScreenType.Today.route) {
+            launchSingleTop = true
+            restoreState = true
+        }
     }
 
     fun toCollectionScreen() {
-        navController.navigate(ScreenType.Collection.route)
+        navController.navigate(ScreenType.Collection.route) {
+            launchSingleTop = true
+            restoreState = true
+        }
     }
 
     fun toDetailsScreen(pictureId: Id) {
-        navController.navigate("details/${pictureId.date}")
+        navController.navigate("details/${pictureId.date}") {
+            launchSingleTop = true
+            restoreState = true
+        }
     }
 
     @Composable

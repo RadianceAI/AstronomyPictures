@@ -23,7 +23,6 @@ class MainActivity : ComponentActivity() {
 
         val bottomMenu = listOf(
             ScreenType.Gallery,
-            ScreenType.Collection,
             ScreenType.About,
         )
 

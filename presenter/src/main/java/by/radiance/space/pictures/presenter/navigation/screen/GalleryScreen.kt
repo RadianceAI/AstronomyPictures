@@ -8,6 +8,7 @@ import by.radiance.space.pictures.presenter.navigation.screen.base.Screen
 import by.radiance.space.pictures.presenter.ui.gallery.GalleryView
 import by.radiance.space.pictures.presenter.ui.utils.WindowSize
 import by.radiance.space.pictures.presenter.viewModel.GalleryViewModel
+import org.koin.androidx.compose.getViewModel
 
 class GalleryScreen(
     viewModel: Lazy<GalleryViewModel>,
@@ -21,7 +22,7 @@ class GalleryScreen(
         arguments: Bundle?,
         heightWindowSize: WindowSize,
     ) {
-        val viewModel by remember { lazyViewModel }
+        val viewModel = getViewModel<GalleryViewModel>()
 
         GalleryView(
             pictures = viewModel.pictures,
@@ -31,8 +32,10 @@ class GalleryScreen(
                 router.toDetailsScreen(picture.id)
             },
             onDateSelected = { date ->
-                viewModel.selectDate(date)
-            }
+                viewModel.onDateSelected(date)
+            },
+            startDate = viewModel.startDate,
+            endDate = viewModel.endDate,
         )
     }
 }

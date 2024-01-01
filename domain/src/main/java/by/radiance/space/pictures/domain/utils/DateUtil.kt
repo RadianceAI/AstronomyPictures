@@ -3,10 +3,11 @@ package by.radiance.space.pictures.domain.utils
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.util.*
+import kotlin.math.abs
 
 object DateUtil {
-    const val ID_DATE_FORMAT = "yyyy-MM-dd"
-    const val CARD_DATE_FORMAT = "MM.dd"
+    private const val ID_DATE_FORMAT = "yyyy-MM-dd"
+    private const val CARD_DATE_FORMAT = "MM.dd"
 
     const val MILLISECONDS_IN_DAY = 86400000L
 
@@ -36,6 +37,10 @@ object DateUtil {
         startDate.set(1995, 5, 16)
 
         return startDate.time
+    }
+
+    fun daysBetweenDates(start: Date, end: Date): Int {
+        return abs((start.time - end.time) / MILLISECONDS_IN_DAY).toInt()
     }
 }
 

@@ -1,14 +1,18 @@
 package by.radiance.space.pictures.presenter.ui.gallery.paging
 
+import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import by.radiance.space.pictures.domain.entity.Picture
 import by.radiance.space.pictures.domain.repository.RemoteAstronomyPictureRepository
+import by.radiance.space.pictures.domain.utils.DateUtil
 import by.radiance.space.pictures.domain.utils.minusDays
 import by.radiance.space.pictures.domain.utils.plusDays
 import java.util.Date
 
 class PictureSource(
+    private val startDate: Date,
+    private val endDate: Date,
     private val astronomyPictureRepository: RemoteAstronomyPictureRepository,
 ) : PagingSource<PictureSource.Key, Picture>() {
 
@@ -18,9 +22,12 @@ class PictureSource(
         return state.closestPageToPosition(state.anchorPosition?: 0)?.prevKey
     }
 
+    init {
+        Log.d("TAG_TAG", "$startDate $endDate")
+    }
+
     override suspend fun load(params: LoadParams<Key>): LoadResult<Key, Picture> {
-        val today = Date()
-        val key = params.key ?: Key(today.minusDays(params.loadSize), today.minusDays(1))
+        val key = params.key ?: Key(endDate.minusDays(params.loadSize - 1), endDate)
 
         return try {
             val pictures = astronomyPictureRepository.getPictures(
@@ -32,7 +39,11 @@ class PictureSource(
                 data = pictures,
                 prevKey = if (params.key == null) null else prevKey(key, params.loadSize),
                 nextKey = nextKey(key, params.loadSize),
-            )
+                itemsBefore = if (params.key == null) 0 else itemsBefore(key),
+                itemsAfter = itemsAfter(key),
+            ).also {
+                Log.d("TAG_TAG", "page: ${it.data.size} $key ${it.itemsBefore} ${it.itemsAfter}\n")
+            }
         } catch (e: Exception) {
             LoadResult.Error(e)
         }
@@ -41,8 +52,15 @@ class PictureSource(
     private fun nextKey(
         key: Key,
         loadSize: Int,
-    ): Key {
-        return Key(key.startDate.minusDays(1 + loadSize), key.startDate.minusDays(1))
+    ): Key? {
+        if (key.startDate == startDate) return null
+
+        var newKeyStartDate = key.startDate.minusDays(loadSize)
+        if (newKeyStartDate < startDate) {
+            newKeyStartDate = startDate
+        }
+
+        return Key(newKeyStartDate, key.startDate.minusDays(1))
     }
 
     private fun prevKey(
@@ -50,6 +68,18 @@ class PictureSource(
         loadSize: Int,
     ): Key {
         return Key(key.endDate.plusDays(1), key.endDate.plusDays(1 + loadSize))
+    }
+
+    private fun itemsBefore(key: Key): Int {
+        return DateUtil.daysBetweenDates(endDate, key.endDate)
+    }
+
+    private fun itemsAfter(key: Key): Int {
+        if (key.endDate == startDate) {
+            return 0
+        }
+
+        return DateUtil.daysBetweenDates(key.startDate, startDate)
     }
 
     data class Key(

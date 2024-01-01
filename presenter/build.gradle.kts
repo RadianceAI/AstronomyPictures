@@ -61,6 +61,7 @@ dependencies {
     implementation(libs.androidx.material.icons.extended)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.activity.compose)
 
     testImplementation(libs.junit)
@@ -73,7 +74,6 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.fragment)
     implementation(libs.androidx.animation)
     implementation(libs.ui.tooling)
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
 
     //koin
     implementation(libs.koin.android.core)

@@ -1,7 +1,6 @@
 package by.radiance.space.pictures.presenter.viewModel
 
 import android.util.Log
-import androidx.compose.runtime.MutableState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
@@ -10,12 +9,12 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import by.radiance.space.pictures.domain.entity.Picture
 import by.radiance.space.pictures.domain.repository.RemoteAstronomyPictureRepository
+import by.radiance.space.pictures.domain.utils.DateUtil
+import by.radiance.space.pictures.domain.utils.minusDays
+import by.radiance.space.pictures.presenter.BuildConfig
 import by.radiance.space.pictures.presenter.ui.gallery.paging.PictureSource
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.consumeAsFlow
-import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 import java.util.Date
 
@@ -23,18 +22,44 @@ class GalleryViewModel(
     private val astronomyPictureRepository: RemoteAstronomyPictureRepository,
 ) : ViewModel() {
 
-    private val pager = Pager(config = PagingConfig(pageSize = 10, enablePlaceholders = true)) {
-        PictureSource(astronomyPictureRepository = astronomyPictureRepository)
+    init {
+        Log.d("TAG_TAG", "init")
     }
 
-    private val scrollToChannel = Channel<Int>()
+    override fun onCleared() {
+        Log.d("TAG_TAG", "onCleared")
+        super.onCleared()
+    }
+
+    val startDate = if (BuildConfig.DEBUG) Date().minusDays(105) else DateUtil.APODStartDate()
+    val endDate = Date().minusDays(1)
+
+    private val pagingConfig = PagingConfig(
+        pageSize = pageSize,
+        initialLoadSize = pageSize,
+        enablePlaceholders = true,
+    )
+
+    private val pager = Pager(config = pagingConfig) {
+        PictureSource(
+            startDate = startDate,
+            endDate = endDate,
+            astronomyPictureRepository = astronomyPictureRepository,
+        )
+    }
+
+    private val scrollToChannel = MutableSharedFlow<Int>()
 
     val pictures: Flow<PagingData<Picture>> by lazy { pager.flow.cachedIn(viewModelScope) }
-    val scrollTo: Flow<Int> = scrollToChannel.consumeAsFlow()
+    val scrollTo: Flow<Int> = scrollToChannel
 
-    fun selectDate(date: Date) {
+    fun onDateSelected(date: Date) {
         viewModelScope.launch {
-            scrollToChannel.send(0)
+            scrollToChannel.emit(DateUtil.daysBetweenDates(endDate, date))
         }
+    }
+
+    companion object {
+        private val pageSize = if (BuildConfig.DEBUG) 10 else 30
     }
 }

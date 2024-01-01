@@ -1,5 +1,6 @@
 package by.radiance.space.pictures.presenter.ui.gallery
 
+import android.util.Log
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.height
@@ -20,11 +21,15 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -45,6 +50,8 @@ fun GalleryView(
     onClick: (Picture) -> Unit,
     onDateSelected: (Date) -> Unit,
     staggered: Boolean = false,
+    startDate: Date,
+    endDate: Date,
 ) {
     val lazyItems = pictures.collectAsLazyPagingItems()
     val context = LocalContext.current
@@ -56,8 +63,8 @@ fun GalleryView(
                 showDatePicker(
                     context = context,
                     onDateSelected = onDateSelected,
-                    maxDate = Date().time,
-                    minDate = DateUtil.APODStartDate().time,
+                    maxDate = endDate.time,
+                    minDate = startDate.time,
                 )
             }
         },
@@ -83,7 +90,7 @@ fun LazyPicturesGrid(
     scrollTo: Flow<Int>,
     onClick: (Picture) -> Unit
 ) {
-    val coroutineScope = rememberCoroutineScope()
+    val lifecycleOwner = LocalLifecycleOwner.current
 
     val scrollGridToItem = if (staggered) {
         val state = rememberLazyStaggeredGridState()
@@ -105,7 +112,7 @@ fun LazyPicturesGrid(
             }
         }
 
-        state::scrollToItem
+        state::animateScrollToItem
     } else {
         val state = rememberLazyGridState()
 
@@ -126,14 +133,12 @@ fun LazyPicturesGrid(
             }
         }
 
-        state::scrollToItem
+        state::animateScrollToItem
     }
 
     LaunchedEffect(scrollTo) {
-        coroutineScope.launch {
-            scrollTo.collect { index ->
-                scrollGridToItem(index, 0)
-            }
+        scrollTo.collect { index ->
+            scrollGridToItem(index, 0)
         }
     }
 }
