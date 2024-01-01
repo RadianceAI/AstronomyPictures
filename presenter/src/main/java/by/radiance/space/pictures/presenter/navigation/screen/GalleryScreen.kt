@@ -27,6 +27,7 @@ class GalleryScreen(
         GalleryView(
             pictures = viewModel.pictures,
             scrollTo = viewModel.scrollTo,
+            staggered = false,
             cellCount = 2,
             onClick = { picture ->
                 router.toDetailsScreen(picture.id)

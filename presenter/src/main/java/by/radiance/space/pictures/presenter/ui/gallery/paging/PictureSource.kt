@@ -1,5 +1,6 @@
 package by.radiance.space.pictures.presenter.ui.gallery.paging
 
+import android.text.style.TtsSpan.DateBuilder
 import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
@@ -19,11 +20,24 @@ class PictureSource(
     override val jumpingSupported: Boolean = true
 
     override fun getRefreshKey(state: PagingState<Key, Picture>): Key? {
-        return state.closestPageToPosition(state.anchorPosition?: 0)?.prevKey
-    }
+        val anchorPosition = state.anchorPosition
 
-    init {
-        Log.d("TAG_TAG", "$startDate $endDate")
+        return if (anchorPosition == null) {
+            null
+        } else {
+            val pageSize = state.config.pageSize
+            val pageIndex = anchorPosition / pageSize
+
+            val endDateDelta = pageIndex * pageSize
+            val startDateDelta = endDateDelta + pageSize - 1
+
+            var keyStartDate = endDate.minusDays(startDateDelta)
+            if (keyStartDate < startDate) {
+                keyStartDate = startDate
+            }
+
+            Key(keyStartDate, endDate.minusDays(endDateDelta))
+        }
     }
 
     override suspend fun load(params: LoadParams<Key>): LoadResult<Key, Picture> {
@@ -67,7 +81,7 @@ class PictureSource(
         key: Key,
         loadSize: Int,
     ): Key {
-        return Key(key.endDate.plusDays(1), key.endDate.plusDays(1 + loadSize))
+        return Key(key.endDate.plusDays(1), key.endDate.plusDays(loadSize))
     }
 
     private fun itemsBefore(key: Key): Int {

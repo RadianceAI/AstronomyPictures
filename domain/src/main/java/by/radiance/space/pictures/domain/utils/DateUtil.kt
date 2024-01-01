@@ -45,11 +45,11 @@ object DateUtil {
 }
 
 fun Date.plusDays(days: Int) : Date {
-    val newTime = this.time + (days * DateUtil.MILLISECONDS_IN_DAY)
+    val newTime = this.time + (days.toLong() * DateUtil.MILLISECONDS_IN_DAY)
     return Date(newTime)
 }
 
 fun Date.minusDays(days: Int) : Date {
-    val newTime = this.time - (days * DateUtil.MILLISECONDS_IN_DAY)
+    val newTime = this.time - (days.toLong() * DateUtil.MILLISECONDS_IN_DAY)
     return Date(newTime)
 }

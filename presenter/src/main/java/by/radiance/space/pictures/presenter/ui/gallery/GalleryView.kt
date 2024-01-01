@@ -1,6 +1,5 @@
 package by.radiance.space.pictures.presenter.ui.gallery
 
-import android.util.Log
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.height
@@ -21,24 +20,18 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import by.radiance.space.pictures.domain.entity.Picture
-import by.radiance.space.pictures.domain.utils.DateUtil
 import by.radiance.space.pictures.presenter.ui.picture.PictureCard
+import by.radiance.space.pictures.presenter.ui.utils.LoadingCard
 import by.radiance.space.pictures.presenter.utils.showDatePicker
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.launch
 import java.util.Date
 
 @Composable
@@ -90,8 +83,6 @@ fun LazyPicturesGrid(
     scrollTo: Flow<Int>,
     onClick: (Picture) -> Unit
 ) {
-    val lifecycleOwner = LocalLifecycleOwner.current
-
     val scrollGridToItem = if (staggered) {
         val state = rememberLazyStaggeredGridState()
 
@@ -101,18 +92,23 @@ fun LazyPicturesGrid(
             modifier = Modifier.padding(innerPadding),
         ) {
             pageItems(lazyItems) { item ->
-                if (item == null) return@pageItems
-
-                PictureCard(
-                    modifier = Modifier
-                        .defaultMinSize(minHeight = 150.dp),
-                    picture = item,
-                    onClick = onClick,
-                )
+                if (item == null) {
+                    LoadingCard(
+                        modifier = Modifier
+                            .defaultMinSize(minHeight = 150.dp),
+                    )
+                } else {
+                    PictureCard(
+                        modifier = Modifier
+                            .defaultMinSize(minHeight = 150.dp),
+                        picture = item,
+                        onClick = onClick,
+                    )
+                }
             }
         }
 
-        state::animateScrollToItem
+        state::scrollToItem
     } else {
         val state = rememberLazyGridState()
 
@@ -122,18 +118,23 @@ fun LazyPicturesGrid(
             modifier = Modifier.padding(innerPadding),
         ) {
             pageItems(lazyItems) { item ->
-                if (item == null) return@pageItems
-
-                PictureCard(
-                    modifier = Modifier
-                        .height(150.dp),
-                    picture = item,
-                    onClick = onClick,
-                )
+                if (item == null) {
+                    LoadingCard(
+                        modifier = Modifier
+                            .height(150.dp),
+                    )
+                } else {
+                    PictureCard(
+                        modifier = Modifier
+                            .height(150.dp),
+                        picture = item,
+                        onClick = onClick,
+                    )
+                }
             }
         }
 
-        state::animateScrollToItem
+        state::scrollToItem
     }
 
     LaunchedEffect(scrollTo) {

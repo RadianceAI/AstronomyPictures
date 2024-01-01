@@ -22,22 +22,14 @@ class GalleryViewModel(
     private val astronomyPictureRepository: RemoteAstronomyPictureRepository,
 ) : ViewModel() {
 
-    init {
-        Log.d("TAG_TAG", "init")
-    }
-
-    override fun onCleared() {
-        Log.d("TAG_TAG", "onCleared")
-        super.onCleared()
-    }
-
-    val startDate = if (BuildConfig.DEBUG) Date().minusDays(105) else DateUtil.APODStartDate()
+    val startDate = if (false) Date().minusDays(105) else DateUtil.APODStartDate()
     val endDate = Date().minusDays(1)
 
     private val pagingConfig = PagingConfig(
         pageSize = pageSize,
         initialLoadSize = pageSize,
         enablePlaceholders = true,
+        jumpThreshold = 3 * pageSize,
     )
 
     private val pager = Pager(config = pagingConfig) {
@@ -60,6 +52,6 @@ class GalleryViewModel(
     }
 
     companion object {
-        private val pageSize = if (BuildConfig.DEBUG) 10 else 30
+        private val pageSize = if (false) 10 else 30
     }
 }
