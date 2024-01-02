@@ -22,7 +22,7 @@ class GalleryViewModel(
     private val astronomyPictureRepository: RemoteAstronomyPictureRepository,
 ) : ViewModel() {
 
-    val startDate = if (false) Date().minusDays(105) else DateUtil.APODStartDate()
+    val startDate = DateUtil.APODStartDate()
     val endDate = Date().minusDays(1)
 
     private val pagingConfig = PagingConfig(
@@ -52,6 +52,6 @@ class GalleryViewModel(
     }
 
     companion object {
-        private val pageSize = if (false) 10 else 30
+        private val pageSize = 30
     }
 }

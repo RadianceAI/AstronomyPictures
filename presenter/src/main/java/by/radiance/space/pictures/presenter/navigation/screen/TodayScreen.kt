@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import by.radiance.space.pictures.domain.entity.Id
 import by.radiance.space.pictures.domain.entity.Picture
 import by.radiance.space.pictures.presenter.navigation.Router
 import by.radiance.space.pictures.presenter.navigation.screen.base.Screen
@@ -33,8 +34,8 @@ class TodayScreen(
         val like: (Picture) -> Unit = { picture ->
         }
 
-        val click: (Picture) -> Unit = { picture ->
-            router.toDetailsScreen(picture.id)
+        val click: (Id) -> Unit = { id ->
+            router.toDetailsScreen(id)
         }
 
         TodayPictureScreenView(

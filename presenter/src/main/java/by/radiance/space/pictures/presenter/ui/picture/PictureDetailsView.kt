@@ -132,7 +132,9 @@ fun PictureDetailsView(
                                     .fillMaxSize(),
                                 model = pictureUiState.picture.source.huge,
                                 contentDescription = pictureUiState.picture.explanation,
-                                loading = { LoadingCard() },
+                                loading = {
+                                    CircularProgressIndicator()
+                                },
                                 contentScale = cropState,
                                 onSuccess = { painterState ->
                                     drawable = painterState.result.drawable
@@ -140,7 +142,7 @@ fun PictureDetailsView(
                             )
                         }
                         is PictureUiState.Loading -> {
-                            LoadingCard()
+                            CircularProgressIndicator()
                         }
                         is PictureUiState.Error -> {
                             ErrorCard(error = "Something went wrong", cornerSize = CornerSize(0.dp))

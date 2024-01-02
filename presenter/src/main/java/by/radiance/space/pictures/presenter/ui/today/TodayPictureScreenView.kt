@@ -8,7 +8,6 @@ import by.radiance.space.pictures.presenter.ui.picture.PictureCard
 import androidx.compose.ui.tooling.preview.Preview
 import by.radiance.space.pictures.presenter.ui.theme.AstronomyPicturesTheme
 import by.radiance.space.pictures.presenter.ui.utils.ErrorCard
-import by.radiance.space.pictures.presenter.ui.utils.LoadingCard
 import by.radiance.space.pictures.domain.entity.Id
 import by.radiance.space.pictures.domain.entity.Image
 import by.radiance.space.pictures.domain.entity.Picture
@@ -19,7 +18,7 @@ import java.util.*
 fun TodayPictureScreenView(
     modifier: Modifier = Modifier,
     picture: PictureUiState,
-    onClick: (Picture) -> Unit,
+    onClick: (Id) -> Unit,
     onLike: (Picture) -> Unit,
 ) {
     Scaffold(
@@ -35,7 +34,7 @@ fun TodayPictureScreenView(
             }
 
             is PictureUiState.Loading -> {
-                LoadingCard()
+
             }
 
             is PictureUiState.Error -> {

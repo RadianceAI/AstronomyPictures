@@ -27,16 +27,16 @@ class GalleryScreen(
         GalleryView(
             pictures = viewModel.pictures,
             scrollTo = viewModel.scrollTo,
-            staggered = false,
+            startDate = viewModel.startDate,
+            endDate = viewModel.endDate,
+            staggered = true,
             cellCount = 2,
-            onClick = { picture ->
-                router.toDetailsScreen(picture.id)
+            onClick = { id ->
+                router.toDetailsScreen(id)
             },
             onDateSelected = { date ->
                 viewModel.onDateSelected(date)
             },
-            startDate = viewModel.startDate,
-            endDate = viewModel.endDate,
         )
     }
 }
