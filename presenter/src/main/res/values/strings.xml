@@ -21,4 +21,11 @@
     <string name="today">Today</string>
     <string name="random">Random</string>
     <string name="gallery">Gallery</string>
+    <string name="system">System</string>
+    <string name="lock_screen">Lock screen</string>
+    <string name="system_and_lock_screen"><![CDATA[System & Lock screen]]></string>
+    <string name="set_wallpaper">set wallpaper</string>
+    <string name="share_image">share image</string>
+    <string name="open_image_description">open image description</string>
+    <string name="copied_to_clipboard">Copied to clipboard</string>
 </resources>

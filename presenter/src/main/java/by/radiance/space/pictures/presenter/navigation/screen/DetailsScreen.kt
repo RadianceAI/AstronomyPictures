@@ -9,7 +9,7 @@ import by.radiance.space.pictures.domain.entity.Id
 import by.radiance.space.pictures.presenter.navigation.Router
 import by.radiance.space.pictures.presenter.navigation.ScreenType
 import by.radiance.space.pictures.presenter.navigation.screen.base.Screen
-import by.radiance.space.pictures.presenter.ui.picture.PictureDetailsView
+import by.radiance.space.pictures.presenter.ui.details.PictureDetailsView
 import by.radiance.space.pictures.presenter.ui.error.ErrorCard
 import by.radiance.space.pictures.presenter.ui.utils.WindowSize
 import by.radiance.space.pictures.presenter.viewModel.DetailsViewModel

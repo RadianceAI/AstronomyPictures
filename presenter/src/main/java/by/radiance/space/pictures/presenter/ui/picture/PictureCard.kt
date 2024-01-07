@@ -13,7 +13,6 @@ import by.radiance.space.pictures.domain.entity.Id
 import by.radiance.space.pictures.domain.entity.Image
 import by.radiance.space.pictures.domain.entity.Picture
 import coil.compose.SubcomposeAsyncImage
-import java.util.*
 import by.radiance.space.pictures.presenter.ui.theme.AstronomyPicturesTheme
 import by.radiance.space.pictures.presenter.ui.theme.CardGray
 import by.radiance.space.pictures.domain.utils.DateUtil
@@ -73,8 +72,7 @@ fun PicturePreview() {
                 explanation = "Explanation",
                 copyright = "cop",
                 source = Image(light = "", huge = ""),
-                isSaved = true,
-                saveDate = Date()
+                isSaved = true
             ),
         ) {}
     }

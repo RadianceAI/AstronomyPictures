@@ -2,7 +2,6 @@ package by.radiance.space.pictures.domain.entity
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
-import java.util.*
 
 @Parcelize
 data class Picture(
@@ -12,5 +11,4 @@ data class Picture(
     val copyright: String?,
     val source: Image,
     val isSaved: Boolean,
-    val saveDate: Date?,
 ): Parcelable

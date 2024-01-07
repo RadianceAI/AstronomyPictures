@@ -21,7 +21,6 @@ class PictureMapper {
             copyright = picture.copyright,
             source = Image(huge = picture.hsrc ?: "", light = picture.src ?: ""),
             isSaved = true,
-            saveDate = picture.saveDate,
         )
     }
 

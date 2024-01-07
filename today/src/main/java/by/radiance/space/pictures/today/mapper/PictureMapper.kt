@@ -4,7 +4,6 @@ import by.radiance.space.pictures.domain.entity.Id
 import by.radiance.space.pictures.domain.entity.Image
 import by.radiance.space.pictures.domain.entity.Picture
 import by.radiance.space.pictures.today.entity.PicturePreference
-import by.radiance.space.pictures.today.utils.DateUtils
 import by.radiance.space.pictures.today.utils.MediaType
 
 class PictureMapper {
@@ -16,7 +15,6 @@ class PictureMapper {
             copyright = picture.copyright,
             source =Image(huge = picture.hsrc ?: "", light = picture.src ?: ""),
             isSaved = picture.isSaved,
-            saveDate = null,
         )
     }
 

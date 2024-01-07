@@ -35,10 +35,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavDestination
-import androidx.navigation.NavDestination.Companion.hierarchy
-import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.NavHostController
 import by.radiance.space.pictures.presenter.navigation.Router
 import by.radiance.space.pictures.presenter.navigation.ScreenType
 
@@ -88,7 +84,7 @@ fun RowScope.BottomNavigationScreenItem(
 }
 
 @Composable
-fun ColumnScope.ColumnBottomNavigationItem(
+fun ColumnScope.VerticalItem(
     icon: ImageVector,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
