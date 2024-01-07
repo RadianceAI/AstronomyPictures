@@ -70,8 +70,6 @@ private fun Content(
         if (bottomBarState && heightWindowSize == WindowSize.Compact) {
             Column(
                 modifier = Modifier
-                    .padding(5.dp)
-                    .clip(RoundedCornerShape(5.dp))
                     .background(CardGray),
             ) {
                 bottomMenu.forEach { screen ->
@@ -97,8 +95,7 @@ private fun BoxWithConstraintsScope.BottomBar(
 ) {
     AnimatedVisibilityBottomNavigation(
         visible = bottomBarState && heightWindowSize != WindowSize.Compact,
-        modifier = Modifier
-            .padding(5.dp),
+        modifier = Modifier,
         backgroundColor = CardGray,
     ) {
         router.bottomMenu.forEach { screen ->

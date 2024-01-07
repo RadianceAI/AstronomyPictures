@@ -41,6 +41,7 @@ class DetailsScreen : Screen {
         PictureDetailsView(
             pictureUiState = picture,
             progress = progress,
+            heightWindowSize = heightWindowSize,
             onShare = { image -> viewModel.share(image) },
             onSystemWallpaper = { wallpaper ->
                 viewModel.setSystemWallpaper(
