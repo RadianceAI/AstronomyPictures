@@ -7,16 +7,17 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import by.radiance.space.pictures.domain.entity.Id
 import by.radiance.space.pictures.presenter.navigation.Router
+import by.radiance.space.pictures.presenter.navigation.ScreenType
 import by.radiance.space.pictures.presenter.navigation.screen.base.Screen
 import by.radiance.space.pictures.presenter.ui.picture.PictureDetailsView
+import by.radiance.space.pictures.presenter.ui.error.ErrorCard
 import by.radiance.space.pictures.presenter.ui.utils.WindowSize
 import by.radiance.space.pictures.presenter.viewModel.DetailsViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.koin.androidx.compose.getViewModel
 
 @ExperimentalCoroutinesApi
-class DetailsScreen(
-    viewModel: Lazy<DetailsViewModel>
-) : Screen<DetailsViewModel>(viewModel) {
+class DetailsScreen : Screen {
     override val isNavigationBarVisible: Boolean = false
 
     @Composable
@@ -25,11 +26,14 @@ class DetailsScreen(
         arguments: Bundle?,
         heightWindowSize: WindowSize,
     ) {
-        val id = arguments?.getString("pictureId")?.let { idString ->
-            Id(idString)
-        }!!
+        val id = arguments?.getString(ScreenType.pictureIdArgument.name)?.let(::Id)
 
-        val viewModel by remember { lazyViewModel }
+        if (id == null) {
+            ErrorCard(error = "Something went wrong")
+            return
+        }
+
+        val viewModel = getViewModel<DetailsViewModel>()
 
         val picture by remember { viewModel.picture(id) }.collectAsState()
         val progress by remember { viewModel.progress }.collectAsState()

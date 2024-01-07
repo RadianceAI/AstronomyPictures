@@ -15,8 +15,8 @@ object DateUtil {
         return SimpleDateFormat(format).format(date)
     }
 
-    fun parseId(string: String): Date? {
-        return SimpleDateFormat(ID_DATE_FORMAT).parse(string)
+    fun parseId(string: String): Date {
+        return SimpleDateFormat(ID_DATE_FORMAT).parse(string)!!
     }
 
     fun formatId(date: Date): String {

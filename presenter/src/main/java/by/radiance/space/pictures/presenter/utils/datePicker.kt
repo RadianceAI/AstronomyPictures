@@ -21,15 +21,16 @@ fun showDatePicker(
     val dayOfMonth = today[Calendar.DAY_OF_MONTH]
 
     val datePicker = DatePickerDialog(
-        context,
+        /* context = */ context,
+        /* listener = */
         { _: DatePicker, selectedYear: Int, selectedMonth: Int, selectedDay: Int ->
             val calendar = Calendar.getInstance()
             calendar.set(selectedYear, selectedMonth, selectedDay)
             onDateSelected(calendar.time)
         },
-        year,
-        month,
-        dayOfMonth,
+        /* year = */ year,
+        /* month = */ month,
+        /* dayOfMonth = */ dayOfMonth,
     )
 
     datePicker.datePicker.minDate = minDate

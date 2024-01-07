@@ -1,4 +1,4 @@
-package by.radiance.space.pictures.presenter
+package by.radiance.space.pictures.presenter.widgets
 
 import android.app.Activity
 import android.appwidget.AppWidgetManager
@@ -10,6 +10,7 @@ import android.view.View
 import by.radiance.space.pictures.presenter.databinding.TodayPictureWidgetConfigureBinding
 import by.radiance.space.pictures.presenter.utils.onProgressChanged
 import by.radiance.space.pictures.domain.usecase.GetAstronomyPicturesUseCase
+import by.radiance.space.pictures.presenter.R
 import coil.ImageLoader
 import coil.request.ImageRequest
 import coil.request.SuccessResult
@@ -64,8 +65,12 @@ class TodayPictureWidgetConfigureActivity : Activity(), KoinComponent {
         binding.addButton.setOnClickListener(onClickListener)
         binding.seekBar.onProgressChanged { progress, _ -> setUpCornerRadius(progress) }
         binding.today.isChecked = true
-        binding.today.setOnCheckedChangeListener { _, isChecked -> if (isChecked) source = Source.Today }
-        binding.random.setOnCheckedChangeListener { _, isChecked -> if (isChecked) source = Source.Random }
+        binding.today.setOnCheckedChangeListener { _, isChecked -> if (isChecked) source =
+            Source.Today
+        }
+        binding.random.setOnCheckedChangeListener { _, isChecked -> if (isChecked) source =
+            Source.Random
+        }
 
         val intent = intent
         val extras = intent.extras

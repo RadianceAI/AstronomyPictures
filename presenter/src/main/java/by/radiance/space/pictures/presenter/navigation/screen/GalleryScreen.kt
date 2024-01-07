@@ -10,9 +10,7 @@ import by.radiance.space.pictures.presenter.ui.utils.WindowSize
 import by.radiance.space.pictures.presenter.viewModel.GalleryViewModel
 import org.koin.androidx.compose.getViewModel
 
-class GalleryScreen(
-    viewModel: Lazy<GalleryViewModel>,
-) : Screen<GalleryViewModel>(viewModel) {
+class GalleryScreen : Screen {
 
     override val isNavigationBarVisible: Boolean = true
 

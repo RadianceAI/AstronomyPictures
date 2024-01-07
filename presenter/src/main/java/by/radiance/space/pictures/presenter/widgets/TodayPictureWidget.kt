@@ -1,4 +1,4 @@
-package by.radiance.space.pictures.presenter
+package by.radiance.space.pictures.presenter.widgets
 
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
@@ -8,6 +8,7 @@ import android.util.Log
 import android.widget.RemoteViews
 import by.radiance.space.pictures.domain.usecase.GetAstronomyPicturesUseCase
 import by.radiance.space.pictures.domain.utils.LoadingState
+import by.radiance.space.pictures.presenter.R
 import coil.ImageLoader
 import coil.request.ImageRequest
 import coil.request.SuccessResult

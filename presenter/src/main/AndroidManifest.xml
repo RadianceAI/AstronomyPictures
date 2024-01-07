@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AstronomyPictures">
         <receiver
-            android:name=".TodayPictureWidget"
+            android:name=".widgets.TodayPictureWidget"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -27,7 +27,7 @@
         </receiver>
 
         <activity
-            android:name=".TodayPictureWidgetConfigureActivity"
+            android:name=".widgets.TodayPictureWidgetConfigureActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />

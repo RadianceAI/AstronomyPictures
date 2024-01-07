@@ -6,13 +6,11 @@ import androidx.lifecycle.ViewModel
 import by.radiance.space.pictures.presenter.navigation.Router
 import by.radiance.space.pictures.presenter.ui.utils.WindowSize
 
-abstract class Screen<T : ViewModel>(
-    protected val lazyViewModel: Lazy<T>,
-) {
-    abstract val isNavigationBarVisible: Boolean
+interface Screen {
+    val isNavigationBarVisible: Boolean
 
     @Composable
-    abstract fun View(
+    fun View(
         router: Router,
         arguments: Bundle?,
         heightWindowSize: WindowSize,

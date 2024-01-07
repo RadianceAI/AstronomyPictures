@@ -28,7 +28,7 @@ class PictureMapper {
     fun map(picture: Picture): AstronomyPicture {
         val source = picture.source
         return AstronomyPicture(
-            id = Date(DateUtil.parseId(picture.id.date)?.time ?: 0),
+            id = Date(DateUtil.parseId(picture.id.date).time),
             title = picture.title,
             explanation = picture.explanation,
             copyright = picture.copyright,

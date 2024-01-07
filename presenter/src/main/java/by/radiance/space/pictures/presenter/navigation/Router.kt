@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.map
 
 class Router(
     private val navController: NavHostController,
-    private val routes: Map<ScreenType, Screen<out ViewModel>>,
+    private val routes: Map<ScreenType, Screen>,
     val bottomMenu: List<ScreenType>,
 ) {
 
@@ -28,7 +28,6 @@ class Router(
                 when (currentBackStackEntry.destination.route?.split("/")?.firstOrNull()) {
                     ScreenType.About.id -> ScreenType.About
                     ScreenType.Collection.id -> ScreenType.Collection
-                    ScreenType.Today.id -> ScreenType.Today
                     ScreenType.Details.id -> ScreenType.Details
                     ScreenType.Gallery.id -> ScreenType.Gallery
                     else -> null
@@ -48,13 +47,6 @@ class Router(
 
     fun toAboutScreen() {
         navController.navigate(ScreenType.About.route) {
-            launchSingleTop = true
-            restoreState = true
-        }
-    }
-
-    fun toTodayScreen() {
-        navController.navigate(ScreenType.Today.route) {
             launchSingleTop = true
             restoreState = true
         }
@@ -87,7 +79,7 @@ class Router(
         ) {
             for ((screenType, routeDestination) in routes) {
                 composableFromType(screenType) {
-                    updateBottomBarVisibility(routeDestination.isNavigationBarVisible)
+                    updateBottomBarVisibility(bottomMenu.contains(screenType))
                     routeDestination.View(this@Router, it.arguments, heightWindowSize)
                 }
             }

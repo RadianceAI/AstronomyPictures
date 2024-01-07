@@ -22,11 +22,6 @@ sealed class ScreenType(
     @StringRes val title: Int? = null,
     val icon: ImageVector? = null,
 ) {
-    data object Today : ScreenType(
-        id = "today",
-        title = R.string.today_screen,
-        icon = Icons.Filled.Image,
-    )
 
     data object Collection : ScreenType(
         id = "collection",
@@ -52,7 +47,7 @@ sealed class ScreenType(
     )
 
     companion object {
-        private val pictureIdArgument = navArgument("pictureId") { type = NavType.StringType }
+        val pictureIdArgument = navArgument("pictureId") { type = NavType.StringType }
 
         private fun List<NamedNavArgument>.toRouteArguments(): String {
             return this.joinToString(separator = "/") { argument -> "{${argument.name}}" }

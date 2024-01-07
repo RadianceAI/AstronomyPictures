@@ -9,7 +9,6 @@ import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -33,6 +32,7 @@ import by.radiance.space.pictures.domain.entity.Image
 import by.radiance.space.pictures.domain.entity.Picture
 import by.radiance.space.pictures.domain.presenter.state.PictureUiState
 import by.radiance.space.pictures.domain.utils.DateUtil
+import by.radiance.space.pictures.presenter.ui.error.ErrorCard
 import coil.compose.SubcomposeAsyncImage
 import java.util.*
 
@@ -145,7 +145,7 @@ fun PictureDetailsView(
                             CircularProgressIndicator()
                         }
                         is PictureUiState.Error -> {
-                            ErrorCard(error = "Something went wrong", cornerSize = CornerSize(0.dp))
+                            ErrorCard(error = "Something went wrong")
                         }
                     }
                     if (details) {
@@ -241,7 +241,7 @@ fun Detail(
                 )
         )
         Text(
-            text = DateUtil.getDate(DateUtil.parseId(picture.id.date)!!),
+            text = DateUtil.getDate(DateUtil.parseId(picture.id.date)),
             style = MaterialTheme.typography.body2
         )
         Row {

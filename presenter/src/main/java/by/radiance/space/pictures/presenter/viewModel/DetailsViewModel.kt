@@ -12,7 +12,8 @@ import by.radiance.space.pictures.domain.utils.DateUtil
 import by.radiance.space.pictures.domain.utils.LoadingState
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
-import java.util.Date
+import kotlin.coroutines.CoroutineContext
+import kotlin.coroutines.EmptyCoroutineContext
 
 @ExperimentalCoroutinesApi
 class DetailsViewModel(
@@ -23,52 +24,60 @@ class DetailsViewModel(
     private val _progress = MutableStateFlow(false)
     override val progress: StateFlow<Boolean> = _progress
 
-    override fun picture(id: Id): StateFlow<PictureUiState> =
-            getPictureUseCase.get(DateUtil.parseId(id.date)!!, DateUtil.parseId(id.date)!!)
-                .map { pictures ->
-                    when (pictures) {
-                        is LoadingState.Error -> PictureUiState.Error(pictures.throwable)
-                        is LoadingState.Success -> PictureUiState.Success(pictures.data.first())
-                    }
+    override fun picture(id: Id): StateFlow<PictureUiState> {
+        return getPictureUseCase
+            .get(DateUtil.parseId(id.date), DateUtil.parseId(id.date))
+            .map { pictures ->
+                when (pictures) {
+                    is LoadingState.Error -> PictureUiState.Error(pictures.throwable)
+                    is LoadingState.Success -> PictureUiState.Success(pictures.data.first())
                 }
-                .stateIn(
-                    viewModelScope,
-                    SharingStarted.WhileSubscribed(),
-                    PictureUiState.Loading,
-                )
+            }
+            .stateIn(
+                viewModelScope,
+                SharingStarted.WhileSubscribed(),
+                PictureUiState.Loading,
+            )
+    }
 
     override fun save(picture: Picture) {
-        viewModelScope.launch {
+        withProgress(Dispatchers.IO) {
+
         }
     }
 
     override fun setSystemWallpaper(wallpaper: Drawable) {
-        viewModelScope.launch(Dispatchers.IO) {
-            progress { wallpaperUseCase.setSystemWallpaper(wallpaper) }
+        withProgress(Dispatchers.IO) {
+            wallpaperUseCase.setSystemWallpaper(wallpaper)
         }
     }
 
     override fun setLockScreenWallpaper(wallpaper: Drawable) {
-        viewModelScope.launch(Dispatchers.IO) {
-            progress { wallpaperUseCase.setLockScreenWallpaper(wallpaper) }
+        withProgress(Dispatchers.IO) {
+            wallpaperUseCase.setLockScreenWallpaper(wallpaper)
         }
     }
 
     override fun setAllWallpaper(wallpaper: Drawable) {
-        viewModelScope.launch(Dispatchers.IO) {
-            progress { wallpaperUseCase.setAllWallpaper(wallpaper) }
+        withProgress(Dispatchers.IO) {
+            wallpaperUseCase.setAllWallpaper(wallpaper)
         }
     }
 
     override fun share(image: Drawable) {
-        viewModelScope.launch(Dispatchers.IO) {
-            progress {  }
+        withProgress(Dispatchers.IO) {
+
         }
     }
 
-    private fun progress(action: () -> Unit) {
-        _progress.update { true }
-        action()
-        _progress.update { false }
+    private fun withProgress(
+        context: CoroutineContext,
+        action: () -> Unit,
+    ) {
+        viewModelScope.launch(context) {
+            _progress.update { true }
+            action()
+            _progress.update { false }
+        }
     }
 }

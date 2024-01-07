@@ -44,7 +44,7 @@ fun PicturePlaceHolder(
                     .background(CardGray.copy(alpha = 0.2f))
             ) {
                 PictureInfo(
-                    date = DateUtil.getDate(DateUtil.parseId(id.date)!!),
+                    date = DateUtil.getDate(DateUtil.parseId(id.date)),
                     title = "..."
                 )
             }

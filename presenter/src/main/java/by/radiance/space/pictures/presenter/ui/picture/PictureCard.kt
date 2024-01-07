@@ -51,7 +51,7 @@ fun PictureCard(
                     .background(CardGray.copy(alpha = 0.2f))
             ) {
                 PictureInfo(
-                    date = DateUtil.getDate(DateUtil.parseId(picture.id.date)!!),
+                    date = DateUtil.getDate(DateUtil.parseId(picture.id.date)),
                     title = picture.title ?: ""
                 )
             }

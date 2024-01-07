@@ -10,10 +10,8 @@ import by.radiance.space.pictures.presenter.navigation.screen.AboutScreen
 import by.radiance.space.pictures.presenter.navigation.screen.CollectionScreen
 import by.radiance.space.pictures.presenter.navigation.screen.DetailsScreen
 import by.radiance.space.pictures.presenter.navigation.screen.GalleryScreen
-import by.radiance.space.pictures.presenter.navigation.screen.TodayScreen
 import by.radiance.space.pictures.presenter.ui.Root
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : ComponentActivity() {
 
@@ -27,11 +25,10 @@ class MainActivity : ComponentActivity() {
         )
 
         val routes = mapOf(
-            ScreenType.Today to TodayScreen(viewModel()),
-            ScreenType.Collection to CollectionScreen(viewModel()),
-            ScreenType.About to AboutScreen(viewModel()),
-            ScreenType.Details to DetailsScreen(viewModel()),
-            ScreenType.Gallery to GalleryScreen(viewModel()),
+            ScreenType.Collection to CollectionScreen(),
+            ScreenType.About to AboutScreen(),
+            ScreenType.Details to DetailsScreen(),
+            ScreenType.Gallery to GalleryScreen(),
         )
 
         setContent {
