@@ -9,8 +9,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
 class CollectionScreen : Screen {
-    override val isNavigationBarVisible: Boolean = true
-
     @Composable
     override fun View(
         router: Router,

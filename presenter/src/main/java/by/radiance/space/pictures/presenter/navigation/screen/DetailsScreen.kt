@@ -18,8 +18,6 @@ import org.koin.androidx.compose.getViewModel
 
 @ExperimentalCoroutinesApi
 class DetailsScreen : Screen {
-    override val isNavigationBarVisible: Boolean = false
-
     @Composable
     override fun View(
         router: Router,

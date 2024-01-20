@@ -12,9 +12,19 @@ val Typography = Typography(
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp
     ),
+    h1 = TextStyle(
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 16.sp,
+        letterSpacing = 0.15.sp,
+    ),
     h6 = TextStyle(
         fontWeight = FontWeight.SemiBold,
         fontSize = 12.sp,
         letterSpacing = 0.15.sp,
     ),
+    caption = TextStyle(
+        fontWeight = FontWeight.Normal,
+        fontSize = 12.sp,
+        letterSpacing = 0.15.sp,
+    )
 )

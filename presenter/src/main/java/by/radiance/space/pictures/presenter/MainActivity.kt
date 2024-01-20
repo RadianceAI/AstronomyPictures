@@ -10,6 +10,7 @@ import by.radiance.space.pictures.presenter.navigation.screen.AboutScreen
 import by.radiance.space.pictures.presenter.navigation.screen.CollectionScreen
 import by.radiance.space.pictures.presenter.navigation.screen.DetailsScreen
 import by.radiance.space.pictures.presenter.navigation.screen.GalleryScreen
+import by.radiance.space.pictures.presenter.navigation.screen.SettingsScreen
 import by.radiance.space.pictures.presenter.ui.Root
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -22,6 +23,7 @@ class MainActivity : ComponentActivity() {
         val bottomMenu = listOf(
             ScreenType.Gallery,
             ScreenType.About,
+            ScreenType.Settings,
         )
 
         val routes = mapOf(
@@ -29,6 +31,7 @@ class MainActivity : ComponentActivity() {
             ScreenType.About to AboutScreen(),
             ScreenType.Details to DetailsScreen(),
             ScreenType.Gallery to GalleryScreen(),
+            ScreenType.Settings to SettingsScreen(),
         )
 
         setContent {
@@ -40,9 +43,7 @@ class MainActivity : ComponentActivity() {
                 bottomMenu = bottomMenu,
             )
 
-            Root(
-                router = router,
-            )
+            Root(router = router)
         }
     }
 }

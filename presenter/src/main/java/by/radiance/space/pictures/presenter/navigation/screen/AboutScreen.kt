@@ -8,9 +8,6 @@ import by.radiance.space.pictures.presenter.ui.abount.AboutView
 import by.radiance.space.pictures.presenter.ui.utils.WindowSize
 
 class AboutScreen : Screen {
-
-    override val isNavigationBarVisible: Boolean = true
-
     @Composable
     override fun View(
         router: Router,

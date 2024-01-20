@@ -30,6 +30,7 @@ class Router(
                     ScreenType.Collection.id -> ScreenType.Collection
                     ScreenType.Details.id -> ScreenType.Details
                     ScreenType.Gallery.id -> ScreenType.Gallery
+                    ScreenType.Settings.id -> ScreenType.Settings
                     else -> null
                 }
             }

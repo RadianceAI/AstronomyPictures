@@ -3,6 +3,7 @@ package by.radiance.space.pictures.presenter.utils
 import android.widget.SeekBar
 import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -31,4 +32,11 @@ fun NavGraphBuilder.composableFromType(
     content: @Composable AnimatedContentScope.(NavBackStackEntry) -> Unit
 ) {
     composable(route = screenType.route, arguments = screenType.arguments, content = content)
+}
+
+@Composable
+fun Int?.stringResource(): String? {
+    if (this == null) return null
+
+    return stringResource(this)
 }

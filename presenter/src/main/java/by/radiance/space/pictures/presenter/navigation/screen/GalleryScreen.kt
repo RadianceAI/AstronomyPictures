@@ -11,9 +11,6 @@ import by.radiance.space.pictures.presenter.viewModel.GalleryViewModel
 import org.koin.androidx.compose.getViewModel
 
 class GalleryScreen : Screen {
-
-    override val isNavigationBarVisible: Boolean = true
-
     @Composable
     override fun View(
         router: Router,

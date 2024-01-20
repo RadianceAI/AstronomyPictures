@@ -9,6 +9,7 @@ import androidx.compose.material.icons.filled.Image
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.MonitorHeart
 import androidx.compose.material.icons.filled.PhotoLibrary
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavType
@@ -44,6 +45,12 @@ sealed class ScreenType(
         id = "gallery",
         title = R.string.gallery,
         icon = Icons.Filled.PhotoLibrary,
+    )
+
+    data object Settings : ScreenType(
+        id = "settings",
+        title = R.string.settings,
+        icon = Icons.Filled.Settings,
     )
 
     companion object {
