@@ -13,6 +13,7 @@ import by.radiance.space.pictures.today.di.today
 import by.radiance.space.pictures.data.di.token
 import by.radiance.space.pictures.domain.di.usecase
 import by.radiance.space.pictures.local.di.local
+import by.radiance.space.preferencies.di.settings
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.workmanager.koin.workManagerFactory
 import org.koin.core.component.KoinComponent
@@ -37,6 +38,7 @@ class AstronomyPictures: Application(), KoinComponent {
                 today,
                 token,
                 usecase,
+                settings,
                 utilModule,
                 viewModel,
                 module { single { dataStore } }

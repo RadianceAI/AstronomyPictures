@@ -2,15 +2,12 @@ package by.radiance.space.pictures.presenter.ui.settings
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -18,28 +15,36 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import by.radiance.space.pictures.domain.entity.settings.ApplicationSettings
+import by.radiance.space.pictures.domain.entity.settings.ApplicationTheme
+import by.radiance.space.pictures.domain.entity.settings.CornersSize
 import by.radiance.space.pictures.presenter.R
+import by.radiance.space.pictures.presenter.ui.settings.model.Setting
+import by.radiance.space.pictures.presenter.ui.settings.model.SettingCategory
 import by.radiance.space.pictures.presenter.ui.theme.AstronomyPicturesTheme
+import by.radiance.space.pictures.presenter.ui.utils.ListItem
+import by.radiance.space.pictures.presenter.utils.contentDescription
+import by.radiance.space.pictures.presenter.utils.settingCategory
 import by.radiance.space.pictures.presenter.utils.stringResource
-import by.radiance.space.pictures.presenter.viewModel.settings.setting.Setting
-import by.radiance.space.pictures.presenter.viewModel.settings.setting.SettingCategory
+import okhttp3.internal.applyConnectionSpec
 
 @Composable
 fun SettingsView(
-    options: List<SettingCategory>,
+    applicationSettings: ApplicationSettings,
+    categories: List<SettingCategory>,
     onSettingChanged: (Setting, Setting.SettingChange) -> Unit,
 ) {
     var selectedSettings by remember { mutableStateOf<SettingCategory?>(null) }
 
     AnimatedVisibility(visible = selectedSettings == null) {
         Column {
-            options.forEach { option ->
+            categories.forEach { category ->
                 SettingRow(
-                    option = option,
+                    applicationSettings = applicationSettings,
+                    option = category,
                     onClicked = {
                         selectedSettings = it
                     }
@@ -49,40 +54,59 @@ fun SettingsView(
     }
 
     AnimatedVisibility(visible = selectedSettings != null) {
-        selectedSettings?.let {
+        selectedSettings?.let { category ->
             Column {
-                Icon(
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .clickable {
-                            selectedSettings = null
-                        },
-                    imageVector = Icons.Filled.ArrowBack,
-                    contentDescription = stringResource(R.string.back),
-                )
-                Box(
-                    modifier = Modifier.weight(1f),
-                ) {
-                    SettingCategoryView(
-                        settingCategory = it,
-                        onSettingChanged = onSettingChanged,
-                    )
+                CategoryHeader(category = category) {
+                    selectedSettings = null
                 }
+                SettingCategoryView(
+                    modifier = Modifier.weight(1f),
+                    applicationSettings = applicationSettings,
+                    settingCategory = category,
+                    onSettingChanged = onSettingChanged,
+                )
             }
         }
     }
 }
 
 @Composable
-fun SettingRow(
+private fun CategoryHeader(
+    category: SettingCategory,
+    onClicked: () -> Unit
+) {
+    Row(
+        modifier = Modifier.padding(5.dp)
+            .clickable {
+                onClicked.invoke()
+            },
+    ) {
+        Icon(
+            modifier = Modifier
+                .align(Alignment.CenterVertically)
+                .padding(5.dp),
+            imageVector = Icons.Filled.ArrowBack,
+            contentDescription = stringResource(R.string.back),
+        )
+        Title(
+            modifier = Modifier.align(Alignment.CenterVertically),
+            title = stringResource(category.title),
+            contentDescription = category.contentDescription(),
+        )
+    }
+}
+
+@Composable
+private fun SettingRow(
+    applicationSettings: ApplicationSettings,
     option: SettingCategory,
     onClicked: (SettingCategory) -> Unit,
 ) {
-    Box(
-        modifier = Modifier
-            .clickable {
-                onClicked(option)
-            },
+    ListItem(
+        applicationSettings = applicationSettings,
+        onClick = {
+            onClicked(option)
+        }
     ) {
         Title(
             icon = option.icon,
@@ -98,14 +122,21 @@ fun SettingRow(
 fun RowPreview() {
     AstronomyPicturesTheme {
         SettingRow(
-            option = SettingCategory(
-                icon = Icons.Filled.Star,
-                title = R.string.app_name,
-                description = R.string.app_name,
-                settings = listOf()
-            ),
+            applicationSettings = ApplicationSettings(ApplicationTheme.Dark, CornersSize(0)),
+            option = settingCategory,
             onClicked = {
             },
+        )
+    }
+}
+
+@Preview
+@Composable
+fun HeaderPreview() {
+    AstronomyPicturesTheme {
+        CategoryHeader(
+            category = settingCategory,
+            onClicked = {}
         )
     }
 }

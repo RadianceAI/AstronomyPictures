@@ -1,4 +1,4 @@
-package by.radiance.space.pictures.presenter.viewModel.settings.setting
+package by.radiance.space.pictures.presenter.ui.settings.model
 
 import androidx.compose.ui.graphics.vector.ImageVector
 

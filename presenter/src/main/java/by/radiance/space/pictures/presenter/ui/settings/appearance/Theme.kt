@@ -2,6 +2,7 @@ package by.radiance.space.pictures.presenter.ui.settings.appearance
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -11,6 +12,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import by.radiance.space.pictures.domain.entity.settings.ApplicationSettings
+import by.radiance.space.pictures.domain.entity.settings.ApplicationTheme
 import by.radiance.space.pictures.presenter.R
 import by.radiance.space.pictures.presenter.ui.theme.AstronomyPicturesTheme
 
@@ -25,7 +28,8 @@ fun Theme(
             modifier = Modifier
                 .border(
                     width = 2.dp,
-                    color = if (isSelected) MaterialTheme.colors.secondary else Color.LightGray,
+                    color = if (isSelected) MaterialTheme.colors.primary else Color.LightGray,
+                    shape = MaterialTheme.shapes.medium.copy(all = CornerSize(8.dp))
                 ),
         ) {
             Text(
@@ -47,23 +51,7 @@ fun DarkTheme() {
 
 @Preview
 @Composable
-fun DarkThemeSelected() {
-    AstronomyPicturesTheme {
-        Theme(isDark = true, isSelected = true, title = R.string.theme)
-    }
-}
-
-@Preview
-@Composable
 fun LightTheme() {
-    AstronomyPicturesTheme {
-        Theme(isDark = false, isSelected = false, title = R.string.theme)
-    }
-}
-
-@Preview
-@Composable
-fun LightThemeSelected() {
     AstronomyPicturesTheme {
         Theme(isDark = false, isSelected = true, title = R.string.theme)
     }

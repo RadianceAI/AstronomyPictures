@@ -54,6 +54,7 @@ dependencies {
     implementation(project(":domain"))
     implementation(project(":local"))
     implementation(project(":today"))
+    implementation(project(":settings"))
 
     implementation(libs.core.ktx)
     implementation(libs.ui.ui)

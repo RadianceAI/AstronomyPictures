@@ -37,6 +37,8 @@ uiTestJunit4 = "1.5.4"
 uiToolingPreview = "1.5.4"
 viewbinding = "8.1.2"
 workRuntimeKtx = "2.8.1"
+agp = "8.1.2"
+kotlin = "1.9.10"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
@@ -89,4 +91,6 @@ ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "uiTooli
 viewbinding = { module = "com.android.databinding:viewbinding", version.ref = "viewbinding" }
 
 [plugins]
+androidLibrary = { id = "com.android.library", version.ref = "agp" }
+jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 

@@ -1,20 +1,20 @@
 package by.radiance.space.pictures.presenter.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.unit.dp
+import by.radiance.space.pictures.domain.entity.settings.ApplicationSettings
+import by.radiance.space.pictures.domain.entity.settings.ApplicationTheme
 import by.radiance.space.pictures.presenter.navigation.Router
 import by.radiance.space.pictures.presenter.navigation.ScreenType
 import by.radiance.space.pictures.presenter.ui.theme.AstronomyPicturesTheme
@@ -27,10 +27,11 @@ import by.radiance.space.pictures.presenter.ui.utils.heightWindowSize
 
 @Composable
 fun Root(
+    darkTheme: Boolean,
     router: Router,
 ) {
     AstronomyPicturesTheme(
-        darkTheme = true,
+        darkTheme = darkTheme,
     ) {
         var bottomBarState by rememberSaveable { (mutableStateOf(true)) }
 

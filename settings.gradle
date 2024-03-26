@@ -5,3 +5,4 @@ include ':domain'
 rootProject.name = "AstronomyPictures"
 include ':presenter'
 include ':util'
+include ':settings'

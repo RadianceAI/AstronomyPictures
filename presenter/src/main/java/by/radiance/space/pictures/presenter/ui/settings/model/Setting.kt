@@ -1,4 +1,4 @@
-package by.radiance.space.pictures.presenter.viewModel.settings.setting
+package by.radiance.space.pictures.presenter.ui.settings.model
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -11,26 +11,36 @@ sealed class Setting(
 ) {
     interface SettingChange
 
-    class Picker(
+    class Picker<T : Any>(
         id: String,
         icon: ImageVector,
         title: Int,
         description: Int?,
-        val options: List<Option>,
-        val selectedItemIndex: Int,
+        val options: List<T>,
+        val preview: @Composable (T) -> Unit,
     ) : Setting(id, icon, title, description) {
 
-        fun change(index: Int) : SettingChange {
+        fun change(index: Int): SettingChange {
             return Change(index)
         }
 
-        data class Option(
-            val title: Int?,
-            val description: Int?,
-            val view: @Composable (isSelected: Boolean) -> Unit,
-        )
-
         data class Change(val index: Int) : SettingChange
+    }
+
+    class Slider(
+        id: String,
+        icon: ImageVector,
+        title: Int,
+        description: Int?,
+        val value: () -> Int,
+        val preview: @Composable (value: Int) -> Unit,
+    ) : Setting(id, icon, title, description) {
+
+        fun change(size: Int): SettingChange {
+            return Change(size)
+        }
+
+        data class Change(val size: Int) : SettingChange
     }
 
     class Switch(
@@ -42,7 +52,7 @@ sealed class Setting(
         val preview: (@Composable () -> Unit)?,
     ) : Setting(id, icon, title, description) {
 
-        fun change(isEnabled: Boolean) : SettingChange {
+        fun change(isEnabled: Boolean): SettingChange {
             return Change(isEnabled)
         }
 
