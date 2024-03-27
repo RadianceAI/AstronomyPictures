@@ -1,7 +1,7 @@
 package by.radiance.space.pictures.presenter.ui.gallery
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -15,6 +15,7 @@ import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridS
 import androidx.compose.material.FabPosition
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CalendarMonth
@@ -33,6 +34,9 @@ import by.radiance.space.pictures.domain.entity.toId
 import by.radiance.space.pictures.domain.utils.minusDays
 import by.radiance.space.pictures.presenter.ui.picture.PictureCard
 import by.radiance.space.pictures.presenter.ui.picture.PicturePlaceHolder
+import by.radiance.space.pictures.presenter.ui.theme.arrangement
+import by.radiance.space.pictures.presenter.ui.theme.listArrangementSpace
+import by.radiance.space.pictures.presenter.ui.utils.SafeArea
 import by.radiance.space.pictures.presenter.utils.showDatePicker
 import kotlinx.coroutines.flow.Flow
 import java.util.Date
@@ -66,15 +70,17 @@ fun GalleryView(
         },
         floatingActionButtonPosition = FabPosition.End,
     ) { innerPadding ->
-       LazyPicturesGrid(
-           staggered = staggered,
-           cellCount = cellCount,
-           innerPadding = innerPadding,
-           lazyItems = lazyItems,
-           scrollTo = scrollTo,
-           onClick = onClick,
-           endDate = endDate,
-       )
+        SafeArea {
+            LazyPicturesGrid(
+                staggered = staggered,
+                cellCount = cellCount,
+                innerPadding = innerPadding,
+                lazyItems = lazyItems,
+                scrollTo = scrollTo,
+                onClick = onClick,
+                endDate = endDate,
+            )
+        }
     }
 }
 
@@ -95,6 +101,8 @@ fun LazyPicturesGrid(
             state = state,
             columns = StaggeredGridCells.Fixed(cellCount),
             modifier = Modifier.padding(innerPadding),
+            verticalItemSpacing = MaterialTheme.listArrangementSpace,
+            horizontalArrangement = MaterialTheme.arrangement
         ) {
             pageItems(lazyItems) { item, index ->
                 PictureItem(
@@ -123,6 +131,8 @@ fun LazyPicturesGrid(
             state = state,
             columns = GridCells.Fixed(cellCount),
             modifier = Modifier.padding(innerPadding),
+            verticalArrangement = MaterialTheme.arrangement,
+            horizontalArrangement = MaterialTheme.arrangement
         ) {
             pageItems(lazyItems) { item, index ->
                 PictureItem(

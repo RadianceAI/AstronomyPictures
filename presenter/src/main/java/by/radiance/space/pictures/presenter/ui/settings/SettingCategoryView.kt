@@ -1,29 +1,34 @@
 package by.radiance.space.pictures.presenter.ui.settings
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import by.radiance.space.pictures.domain.entity.settings.ApplicationSettings
+import androidx.compose.ui.tooling.preview.Preview
 import by.radiance.space.pictures.presenter.ui.settings.model.Setting
 import by.radiance.space.pictures.presenter.ui.settings.model.SettingCategory
 import by.radiance.space.pictures.presenter.ui.settings.setting.PickerSetting
 import by.radiance.space.pictures.presenter.ui.settings.setting.SliderSettings
+import by.radiance.space.pictures.presenter.ui.theme.AstronomyPicturesTheme
+import by.radiance.space.pictures.presenter.ui.theme.arrangement
 import by.radiance.space.pictures.presenter.ui.utils.ListItem
+import by.radiance.space.pictures.presenter.utils.category
 
 @Composable
 fun SettingCategoryView(
     modifier: Modifier = Modifier,
-    applicationSettings: ApplicationSettings,
     settingCategory: SettingCategory,
     onSettingChanged: (Setting, Setting.SettingChange) -> Unit,
 ) {
     Column(
         modifier = modifier,
+        verticalArrangement = MaterialTheme.arrangement,
     ) {
         settingCategory.settings.forEach { setting ->
             when (setting) {
                 is Setting.Picker<*> -> {
-                    ListItem(applicationSettings) {
+                    ListItem {
                         PickerSetting(
                             setting = setting as Setting.Picker<Any>,
                             onOptionSelected = { change ->
@@ -33,11 +38,9 @@ fun SettingCategoryView(
                     }
                 }
                 is Setting.Slider -> {
-                    ListItem(applicationSettings) {
+                    ListItem {
                         SliderSettings(
                             setting = setting,
-                            steps = 25,
-                            valueRange = 0f..25f,
                             onOptionChanged = { change ->
                                 onSettingChanged(setting, change)
                             }
@@ -49,5 +52,16 @@ fun SettingCategoryView(
                 }
             }
         }
+    }
+}
+
+@Preview
+@Composable
+private fun Preview() {
+    AstronomyPicturesTheme {
+        SettingCategoryView(
+            settingCategory = category,
+            onSettingChanged = { _, _ -> }
+        )
     }
 }

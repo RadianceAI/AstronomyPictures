@@ -6,7 +6,13 @@ import androidx.compose.foundation.layout.BoxWithConstraintsScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeContent
+import androidx.compose.foundation.layout.safeContentPadding
+import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -15,10 +21,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import by.radiance.space.pictures.domain.entity.settings.ApplicationSettings
 import by.radiance.space.pictures.domain.entity.settings.ApplicationTheme
+import by.radiance.space.pictures.domain.entity.settings.CornersSize
 import by.radiance.space.pictures.presenter.navigation.Router
 import by.radiance.space.pictures.presenter.navigation.ScreenType
 import by.radiance.space.pictures.presenter.ui.theme.AstronomyPicturesTheme
 import by.radiance.space.pictures.presenter.ui.theme.CardGray
+import by.radiance.space.pictures.presenter.ui.theme.safeArea
 import by.radiance.space.pictures.presenter.ui.utils.AnimatedVisibilityBottomNavigation
 import by.radiance.space.pictures.presenter.ui.utils.BottomNavigationScreenItem
 import by.radiance.space.pictures.presenter.ui.utils.ScaffoldWithConstraints
@@ -28,10 +36,12 @@ import by.radiance.space.pictures.presenter.ui.utils.heightWindowSize
 @Composable
 fun Root(
     darkTheme: Boolean,
+    cornersSize: CornersSize,
     router: Router,
 ) {
     AstronomyPicturesTheme(
         darkTheme = darkTheme,
+        cornersSize = cornersSize,
     ) {
         var bottomBarState by rememberSaveable { (mutableStateOf(true)) }
 
@@ -82,7 +92,8 @@ private fun Content(
             }
         }
         router.NavigationHost(
-            modifier = Modifier.padding(innerPadding),
+            modifier = Modifier
+                .padding(innerPadding),
             updateBottomBarVisibility = updateBottomBarVisibility,
             heightWindowSize = heightWindowSize,
         )

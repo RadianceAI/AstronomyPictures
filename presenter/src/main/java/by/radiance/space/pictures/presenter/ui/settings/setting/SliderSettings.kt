@@ -8,16 +8,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import by.radiance.space.pictures.presenter.ui.settings.Title
 import by.radiance.space.pictures.presenter.ui.settings.model.Setting
+import by.radiance.space.pictures.presenter.ui.theme.AstronomyPicturesTheme
+import by.radiance.space.pictures.presenter.utils.slider
 
 @Composable
 fun SliderSettings(
     modifier: Modifier = Modifier,
     setting: Setting.Slider,
-    steps: Int,
-    valueRange:  ClosedFloatingPointRange<Float>,
     onOptionChanged: (Setting.SettingChange) -> Unit,
 ) {
     Column(
@@ -25,9 +26,7 @@ fun SliderSettings(
     ) {
         val (slider, setSlider) = remember { mutableFloatStateOf(setting.value().toFloat()) }
 
-        Title(
-            setting = setting,
-        )
+        Title(setting = setting)
 
         Box(modifier = Modifier.padding(start = 16.dp, end = 16.dp)) {
             setting.preview(slider.toInt())
@@ -40,8 +39,19 @@ fun SliderSettings(
             onValueChangeFinished = {
                 onOptionChanged(setting.change(slider.toInt()))
             },
-            steps = steps,
-            valueRange = valueRange
+            steps = setting.steps,
+            valueRange = setting.valueRange,
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun Preview() {
+    AstronomyPicturesTheme {
+        SliderSettings(
+            setting = slider,
+            onOptionChanged = {}
         )
     }
 }

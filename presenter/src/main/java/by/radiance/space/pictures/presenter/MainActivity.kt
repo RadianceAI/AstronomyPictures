@@ -6,8 +6,10 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.navigation.compose.rememberNavController
 import by.radiance.space.pictures.domain.entity.settings.ApplicationTheme
+import by.radiance.space.pictures.domain.entity.settings.CornersSize
 import by.radiance.space.pictures.domain.repository.SettingRepository
 import by.radiance.space.pictures.presenter.navigation.Router
 import by.radiance.space.pictures.presenter.navigation.ScreenType
@@ -42,7 +44,9 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             val navController = rememberNavController()
-            val theme by get<SettingRepository>().theme.collectAsState(ApplicationTheme.System)
+            val settings = get<SettingRepository>()
+            val theme by settings.theme.collectAsState(ApplicationTheme.System)
+            val cornersSize by settings.cornerSize.collectAsState(CornersSize(0))
 
             val router = Router(
                 navController = navController,
@@ -56,6 +60,7 @@ class MainActivity : ComponentActivity() {
                     ApplicationTheme.Light -> false
                     ApplicationTheme.System -> isSystemInDarkTheme()
                 },
+                cornersSize = cornersSize,
                 router = router,
             )
         }

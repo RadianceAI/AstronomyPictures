@@ -13,48 +13,51 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import by.radiance.space.pictures.presenter.R
 import by.radiance.space.pictures.presenter.ui.theme.AstronomyPicturesTheme
+import by.radiance.space.pictures.presenter.ui.utils.SafeArea
 
 @Composable
 fun AboutView(
     modifier: Modifier = Modifier
 ) {
-    Column(
-        modifier = modifier
-            .verticalScroll(rememberScrollState())
-            .padding(10.dp)
-    ) {
-        Text(
-            text = stringResource(id = R.string.app_name),
-            style = MaterialTheme.typography.h6,
-        )
-        Text(
-            text = stringResource(id = R.string.application_info),
-            style = MaterialTheme.typography.body2,
-        )
-        Text(
-            text = stringResource(id = R.string.apod),
-            style = MaterialTheme.typography.h6,
-        )
-        Text(
-            text = stringResource(id = R.string.apod_info_1),
-            style = MaterialTheme.typography.body2,
-        )
-        Text(
-            text = stringResource(id = R.string.apod_info_2),
-            style = MaterialTheme.typography.body2,
-        )
-        Text(
-            text = stringResource(id = R.string.apod_info_3),
-            style = MaterialTheme.typography.body2,
-        )
-        Text(
-            text = stringResource(id = R.string.about_image_permissions),
-            style = MaterialTheme.typography.h6,
-        )
-        Text(
-            text = stringResource(id = R.string.permissions_details),
-            style = MaterialTheme.typography.body2,
-        )
+    SafeArea {
+        Column(
+            modifier = modifier
+                .verticalScroll(rememberScrollState())
+                .padding(10.dp)
+        ) {
+            Text(
+                text = stringResource(id = R.string.app_name),
+                style = MaterialTheme.typography.h6,
+            )
+            Text(
+                text = stringResource(id = R.string.application_info),
+                style = MaterialTheme.typography.body2,
+            )
+            Text(
+                text = stringResource(id = R.string.apod),
+                style = MaterialTheme.typography.h6,
+            )
+            Text(
+                text = stringResource(id = R.string.apod_info_1),
+                style = MaterialTheme.typography.body2,
+            )
+            Text(
+                text = stringResource(id = R.string.apod_info_2),
+                style = MaterialTheme.typography.body2,
+            )
+            Text(
+                text = stringResource(id = R.string.apod_info_3),
+                style = MaterialTheme.typography.body2,
+            )
+            Text(
+                text = stringResource(id = R.string.about_image_permissions),
+                style = MaterialTheme.typography.h6,
+            )
+            Text(
+                text = stringResource(id = R.string.permissions_details),
+                style = MaterialTheme.typography.body2,
+            )
+        }
     }
 }
 

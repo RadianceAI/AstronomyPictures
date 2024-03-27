@@ -1,14 +1,9 @@
 package by.radiance.space.pictures.presenter.ui.settings
 
-import android.content.res.Resources
-import android.icu.text.CaseMap.Title
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.shape.CornerSize
-import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -28,8 +23,12 @@ import by.radiance.space.pictures.presenter.utils.contentDescription
 import by.radiance.space.pictures.presenter.utils.stringResource
 
 @Composable
-fun Title(modifier: Modifier = Modifier, setting: Setting) {
+fun Title(
+    modifier: Modifier = Modifier,
+    setting: Setting
+) {
     Title(
+        modifier = modifier,
         icon = setting.icon,
         title = stringResource(setting.title),
         description = setting.description.stringResource(),
@@ -82,7 +81,7 @@ fun Title(
 
 @Preview
 @Composable
-fun TitlePreview() {
+private fun TitlePreview() {
     AstronomyPicturesTheme {
         ListItem {
             Title(
@@ -97,7 +96,7 @@ fun TitlePreview() {
 
 @Preview
 @Composable
-fun TitlePreviewWithoutDescription() {
+private fun TitlePreviewWithoutDescription() {
     AstronomyPicturesTheme {
         ListItem {
             Title(

@@ -12,25 +12,13 @@ import androidx.compose.ui.unit.dp
 import by.radiance.space.pictures.domain.entity.settings.ApplicationSettings
 import by.radiance.space.pictures.domain.entity.settings.ApplicationTheme
 
-
 @Composable
 fun ListItem(
-    applicationSettings: ApplicationSettings,
-    onClick: (() -> Unit)? = null,
-    body: @Composable () -> Unit,
-) {
-    ListItem(CornerSize(applicationSettings.cornersSize.size), onClick, body)
-}
-
-@Composable
-fun ListItem(
-    cornerSize: CornerSize = CornerSize(5.dp),
     onClick: (() -> Unit)? = null,
     body: @Composable () -> Unit,
 ) {
     Card(
-        modifier = Modifier.padding(5.dp),
-        shape = MaterialTheme.shapes.medium.copy(all = cornerSize),
+        shape = MaterialTheme.shapes.medium,
     ) {
         Box(modifier = Modifier.clickable { onClick?.invoke() }) {
             body.invoke()

@@ -17,6 +17,7 @@ sealed class Setting(
         title: Int,
         description: Int?,
         val options: List<T>,
+        val isSelected: (T) -> Boolean,
         val preview: @Composable (T) -> Unit,
     ) : Setting(id, icon, title, description) {
 
@@ -32,6 +33,8 @@ sealed class Setting(
         icon: ImageVector,
         title: Int,
         description: Int?,
+        val steps: Int,
+        val valueRange: ClosedFloatingPointRange<Float>,
         val value: () -> Int,
         val preview: @Composable (value: Int) -> Unit,
     ) : Setting(id, icon, title, description) {
