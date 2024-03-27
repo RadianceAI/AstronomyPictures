@@ -41,4 +41,6 @@
     <string name="dark_theme">Dark</string>
     <string name="system_theme">System</string>
     <string name="corners_size">Corners size</string>
+    <string name="safeArea">Safe area</string>
+    <string name="list_arrangement">List arrangement</string>
 </resources>

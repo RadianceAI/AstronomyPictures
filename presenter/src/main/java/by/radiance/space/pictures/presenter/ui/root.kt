@@ -19,9 +19,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import by.radiance.space.pictures.domain.entity.settings.ApplicationSettings
 import by.radiance.space.pictures.domain.entity.settings.ApplicationTheme
 import by.radiance.space.pictures.domain.entity.settings.CornersSize
+import by.radiance.space.pictures.domain.entity.settings.ListArrangement
+import by.radiance.space.pictures.domain.entity.settings.SafeArea
 import by.radiance.space.pictures.presenter.navigation.Router
 import by.radiance.space.pictures.presenter.navigation.ScreenType
 import by.radiance.space.pictures.presenter.ui.theme.AstronomyPicturesTheme
@@ -37,11 +40,15 @@ import by.radiance.space.pictures.presenter.ui.utils.heightWindowSize
 fun Root(
     darkTheme: Boolean,
     cornersSize: CornersSize,
+    safeArea: SafeArea,
+    listArrangement: ListArrangement,
     router: Router,
 ) {
     AstronomyPicturesTheme(
         darkTheme = darkTheme,
-        cornersSize = cornersSize,
+        cornersSize = cornersSize.size,
+        safeArea = safeArea.size.dp,
+        listArrangement = listArrangement.size.dp,
     ) {
         var bottomBarState by rememberSaveable { (mutableStateOf(true)) }
 

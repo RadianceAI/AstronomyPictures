@@ -13,6 +13,7 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import by.radiance.space.pictures.domain.entity.settings.CornersSize
+import by.radiance.space.pictures.domain.entity.settings.ListArrangement
 
 private val DarkColorPalette = darkColors(
     primary = Purple200,
@@ -38,12 +39,11 @@ private val LightColorPalette = lightColors(
 @Composable
 fun AstronomyPicturesTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    cornersSize: CornersSize = CornersSize(0),
+    cornersSize: Int = 0,
+    safeArea: Dp = 0.dp,
+    listArrangement: Dp = 0.dp,
     content: @Composable () -> Unit,
 ) {
-    val rememberArrangement = remember { 15.dp }
-    val rememberSafeArea = remember { 15.dp }
-
     val colors = if (darkTheme) {
         DarkColorPalette
     } else {
@@ -51,13 +51,13 @@ fun AstronomyPicturesTheme(
     }
 
     CompositionLocalProvider(
-        LocalListArrangement provides rememberArrangement,
-        LocalSafeArea provides rememberSafeArea,
+        LocalListArrangement provides listArrangement,
+        LocalSafeArea provides safeArea,
     ) {
         MaterialTheme(
             colors = colors,
             typography = Typography,
-            shapes = Shapes(cornersSize.size),
+            shapes = Shapes(cornersSize),
             content = content
         )
     }

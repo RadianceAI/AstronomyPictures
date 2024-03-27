@@ -6,6 +6,8 @@ import androidx.lifecycle.viewModelScope
 import by.radiance.space.pictures.domain.entity.settings.ApplicationSettings
 import by.radiance.space.pictures.domain.entity.settings.ApplicationTheme
 import by.radiance.space.pictures.domain.entity.settings.CornersSize
+import by.radiance.space.pictures.domain.entity.settings.ListArrangement
+import by.radiance.space.pictures.domain.entity.settings.SafeArea
 import by.radiance.space.pictures.domain.repository.SettingRepository
 import by.radiance.space.pictures.presenter.ui.settings.model.Setting
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,10 +26,9 @@ class SettingsViewModel(
 
     init {
         viewModelScope.launch {
-            settingRepository.cornerSize
-                .zip(settingRepository.theme, ::Pair)
-                .collect { (cornersSize, applicationTheme) ->
-                    settingsEmitter.emit(createSettings(applicationTheme, cornersSize).also {
+            settingRepository.settings
+                .collect { setting ->
+                    settingsEmitter.emit(setting.also {
                         Log.d("TAG_TAG", "$it")
                     })
                 }
@@ -35,15 +36,33 @@ class SettingsViewModel(
     }
 
     fun changeSetting(setting: Setting, changes: Setting.SettingChange) {
-        when (changes) {
-            is Setting.Picker.Change -> {
-                viewModelScope.launch {
-                    settingRepository.editTheme(ApplicationTheme.fromIndex(changes.index))
+        when (setting.id) {
+            "Appearance.Theme" -> {
+                if (changes is Setting.Picker.Change) {
+                    viewModelScope.launch {
+                        settingRepository.editTheme(ApplicationTheme.fromIndex(changes.index))
+                    }
                 }
             }
-            is Setting.Slider.Change -> {
-                viewModelScope.launch {
-                    settingRepository.editCornerSize(CornersSize(changes.size))
+            "Appearance.CornersSize" -> {
+                if (changes is Setting.Slider.Change) {
+                    viewModelScope.launch {
+                        settingRepository.editCornerSize(CornersSize(changes.size))
+                    }
+                }
+            }
+            "Appearance.SafeArea" -> {
+                if (changes is Setting.Slider.Change) {
+                    viewModelScope.launch {
+                        settingRepository.editSafeArea(SafeArea(changes.size))
+                    }
+                }
+            }
+            "Appearance.ListArrangement" -> {
+                if (changes is Setting.Slider.Change) {
+                    viewModelScope.launch {
+                        settingRepository.editListArrangement(ListArrangement(changes.size))
+                    }
                 }
             }
         }
@@ -52,10 +71,14 @@ class SettingsViewModel(
     private fun createSettings(
         selectedTheme: ApplicationTheme = ApplicationTheme.Dark,
         cornersSize: CornersSize = CornersSize(0),
+        safeArea: SafeArea = SafeArea(0),
+        listArrangement: ListArrangement = ListArrangement(0)
     ): ApplicationSettings {
         return ApplicationSettings(
             theme = selectedTheme,
             cornersSize = cornersSize,
+            safeArea = safeArea,
+            listArrangement = listArrangement,
         )
     }
 }

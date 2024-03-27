@@ -2,6 +2,8 @@ package by.radiance.space.pictures.presenter.ui.settings
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -14,6 +16,7 @@ import by.radiance.space.pictures.presenter.ui.theme.AstronomyPicturesTheme
 import by.radiance.space.pictures.presenter.ui.theme.arrangement
 import by.radiance.space.pictures.presenter.ui.utils.ListItem
 import by.radiance.space.pictures.presenter.utils.category
+import by.radiance.space.pictures.presenter.utils.settingCategory
 
 @Composable
 fun SettingCategoryView(
@@ -22,7 +25,8 @@ fun SettingCategoryView(
     onSettingChanged: (Setting, Setting.SettingChange) -> Unit,
 ) {
     Column(
-        modifier = modifier,
+        modifier = modifier
+            .verticalScroll(rememberScrollState()),
         verticalArrangement = MaterialTheme.arrangement,
     ) {
         settingCategory.settings.forEach { setting ->
