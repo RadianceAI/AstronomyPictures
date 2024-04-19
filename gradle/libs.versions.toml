@@ -39,6 +39,7 @@ viewbinding = "8.1.2"
 workRuntimeKtx = "2.8.1"
 agp = "8.1.2"
 kotlin = "1.9.10"
+uiToolingVersion = "1.6.4"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
@@ -89,6 +90,7 @@ room-compile = { module = "androidx.room:room-compiler", version.ref = "room-ktx
 ui-ui = { module = "androidx.compose.ui:ui", version.ref = "ui" }
 ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "uiTooling" }
 viewbinding = { module = "com.android.databinding:viewbinding", version.ref = "viewbinding" }
+androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling", version.ref = "uiToolingVersion" }
 
 [plugins]
 androidLibrary = { id = "com.android.library", version.ref = "agp" }

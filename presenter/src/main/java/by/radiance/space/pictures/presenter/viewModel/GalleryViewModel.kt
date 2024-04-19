@@ -11,7 +11,6 @@ import by.radiance.space.pictures.domain.entity.Picture
 import by.radiance.space.pictures.domain.repository.RemoteAstronomyPictureRepository
 import by.radiance.space.pictures.domain.utils.DateUtil
 import by.radiance.space.pictures.domain.utils.minusDays
-import by.radiance.space.pictures.presenter.BuildConfig
 import by.radiance.space.pictures.presenter.ui.gallery.paging.PictureSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow

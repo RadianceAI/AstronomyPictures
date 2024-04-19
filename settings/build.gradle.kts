@@ -39,7 +39,6 @@ dependencies {
     implementation(libs.appcompat)
     implementation(libs.material)
 
-
     //koin
     implementation(libs.koin.android.core)
     implementation(libs.koin.android.compat)

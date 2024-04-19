@@ -1,7 +1,9 @@
 package by.radiance.space.pictures.presenter.ui.gallery
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -25,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -34,6 +37,7 @@ import by.radiance.space.pictures.domain.entity.toId
 import by.radiance.space.pictures.domain.utils.minusDays
 import by.radiance.space.pictures.presenter.ui.picture.PictureCard
 import by.radiance.space.pictures.presenter.ui.picture.PicturePlaceHolder
+import by.radiance.space.pictures.presenter.ui.progress.Progress
 import by.radiance.space.pictures.presenter.ui.theme.arrangement
 import by.radiance.space.pictures.presenter.ui.theme.listArrangementSpace
 import by.radiance.space.pictures.presenter.ui.utils.SafeArea
@@ -81,6 +85,10 @@ fun GalleryView(
                 endDate = endDate,
             )
         }
+    }
+
+    if (lazyItems.loadState.source.refresh is LoadState.Loading) {
+        Progress(modifier = Modifier.fillMaxSize())
     }
 }
 

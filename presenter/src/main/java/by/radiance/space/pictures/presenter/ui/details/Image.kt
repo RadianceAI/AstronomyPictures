@@ -27,25 +27,13 @@ fun Image(
         is PictureUiState.Success -> {
             SubcomposeAsyncImage(
                 modifier = Modifier
-                    .horizontalScroll(rememberScrollState())
-                    .verticalScroll(rememberScrollState())
                     .fillMaxSize(),
                 model = pictureUiState.picture.source.huge,
                 contentDescription = pictureUiState.picture.explanation,
                 loading = {
                     Progress()
                 },
-                contentScale = when(heightWindowSize) {
-                    WindowSize.Compact -> {
-                        ContentScale.FillHeight
-                    }
-                    WindowSize.Medium -> {
-                        ContentScale.FillHeight
-                    }
-                    WindowSize.Expanded -> {
-                        ContentScale.FillWidth
-                    }
-                } ,
+                contentScale =  ContentScale.Fit ,
                 onSuccess = { painterState ->
                     onDrawableReceived(painterState.result.drawable)
                 }

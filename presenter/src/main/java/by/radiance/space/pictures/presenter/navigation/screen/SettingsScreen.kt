@@ -3,9 +3,13 @@ package by.radiance.space.pictures.presenter.navigation.screen
 import android.os.Bundle
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FormatSize
+import androidx.compose.material.icons.filled.GridView
+import androidx.compose.material.icons.filled.Padding
 import androidx.compose.material.icons.filled.Palette
 import androidx.compose.material.icons.filled.RoundedCorner
 import androidx.compose.material.icons.filled.SafetyDivider
+import androidx.compose.material.icons.filled.ViewArray
+import androidx.compose.material.icons.filled.ViewCompactAlt
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -93,7 +97,7 @@ class SettingsScreen : Screen {
     private fun SafeAreaSlider(safeArea: () -> SafeArea) =
         Setting.Slider(
             id = "Appearance.SafeArea",
-            icon = Icons.Filled.SafetyDivider,
+            icon = Icons.Filled.ViewCompactAlt,
             title = R.string.safeArea,
             description = null,
             steps = 25,
@@ -108,7 +112,7 @@ class SettingsScreen : Screen {
     private fun ListArrangementSlider(listArrangement: () -> ListArrangement) =
         Setting.Slider(
             id = "Appearance.ListArrangement",
-            icon = Icons.Filled.FormatSize,
+            icon = Icons.Filled.GridView,
             title = R.string.list_arrangement,
             description = null,
             steps = 25,

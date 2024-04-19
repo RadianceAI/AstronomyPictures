@@ -166,7 +166,7 @@ private fun Content(
                 }
 
                 AnimatedVisibility(visible = progress) {
-                    Progress(modifier = Modifier.background(CardGray.copy(0.5f)))
+                    Progress(modifier = Modifier.fillMaxSize().background(CardGray.copy(0.5f)))
                 }
             }
         }
