@@ -5,14 +5,14 @@ import by.radiance.space.pictures.data.remote.mapper.PictureMapper
 import by.radiance.space.pictures.data.token.NasaTokenRepository
 import by.radiance.space.pictures.data.utils.DateUtils
 import by.radiance.space.pictures.domain.entity.Picture
-import by.radiance.space.pictures.domain.repository.RemoteAstronomyPictureRepository
+import by.radiance.space.source.RemoteSource
 import java.util.*
 
 class NasaRemoteAstronomyPictureRepository(
     private val tokenRepository: NasaTokenRepository,
     private val astronomyPictureAPI: AstronomyPicturesAPI,
     private val pictureMapper: PictureMapper,
-) : RemoteAstronomyPictureRepository {
+) : RemoteSource {
 
     override suspend fun getPictures(startDate: Date, endDate: Date): List<Picture> {
         val rawPictures = astronomyPictureAPI.get(

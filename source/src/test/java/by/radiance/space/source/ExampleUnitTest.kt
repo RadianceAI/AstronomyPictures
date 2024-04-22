@@ -1,4 +1,4 @@
-package by.radiance.flexibletheme
+package by.radiance.space.source
 
 import org.junit.Test
 

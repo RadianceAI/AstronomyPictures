@@ -12,7 +12,7 @@ interface PictureDAO {
     fun getAll(): Flow<List<AstronomyPicture>>
 
     @Query("""SELECT * FROM picture WHERE id BETWEEN :startDate AND :endDate""")
-    fun findPictures(startDate: Date, endDate: Date): Flow<List<AstronomyPicture>>
+    suspend fun getPictures(startDate: Date, endDate: Date): List<AstronomyPicture>
 
     @Query("""SELECT * FROM picture WHERE id = :id""")
     fun getPicture(id: Date): Flow<AstronomyPicture?>

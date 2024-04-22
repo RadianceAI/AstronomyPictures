@@ -1,4 +1,3 @@
-include ':today'
 include ':local'
 include ':remote'
 include ':domain'
@@ -6,4 +5,4 @@ rootProject.name = "AstronomyPictures"
 include ':presenter'
 include ':util'
 include ':settings'
-include ':flexibletheme'
+include ':source'

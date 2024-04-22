@@ -4,7 +4,7 @@ import by.radiance.space.pictures.data.remote.client.AstronomyPictureClient
 import by.radiance.space.pictures.data.remote.client.AstronomyPicturesAPI
 import by.radiance.space.pictures.data.remote.mapper.PictureMapper
 import by.radiance.space.pictures.data.remote.repository.NasaRemoteAstronomyPictureRepository
-import by.radiance.space.pictures.domain.repository.RemoteAstronomyPictureRepository
+import by.radiance.space.source.RemoteSource
 import org.koin.dsl.module
 import retrofit2.Retrofit
 
@@ -16,7 +16,7 @@ val remote = module {
         get<Retrofit>().create(AstronomyPicturesAPI::class.java)
     }
 
-    single<RemoteAstronomyPictureRepository> {
+    single<RemoteSource> {
         NasaRemoteAstronomyPictureRepository(get(), get(), get())
     }
 }

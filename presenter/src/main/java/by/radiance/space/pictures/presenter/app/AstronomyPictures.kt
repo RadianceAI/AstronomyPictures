@@ -7,13 +7,12 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import by.radiance.space.pictures.presenter.di.viewModel
 import by.radiance.space.pictures.util.di.utilModule
-import by.radiance.space.pictures.util.work.WallpaperWorker
 import by.radiance.space.pictures.data.di.remote
-import by.radiance.space.pictures.today.di.today
 import by.radiance.space.pictures.data.di.token
 import by.radiance.space.pictures.domain.di.usecase
 import by.radiance.space.pictures.local.di.local
 import by.radiance.space.preferencies.di.settings
+import by.radiance.space.source.di.source
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.workmanager.koin.workManagerFactory
 import org.koin.core.component.KoinComponent
@@ -35,16 +34,14 @@ class AstronomyPictures: Application(), KoinComponent {
             modules(listOf(
                 remote,
                 local,
-                today,
                 token,
                 usecase,
                 settings,
                 utilModule,
                 viewModel,
+                source,
                 module { single { dataStore } }
             ))
         }
-
-        //WallpaperWorker.start(applicationContext)
     }
 }

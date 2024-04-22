@@ -1,11 +1,10 @@
 package by.radiance.space.pictures.presenter.ui.gallery.paging
 
-import android.text.style.TtsSpan.DateBuilder
 import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import by.radiance.space.pictures.domain.entity.Picture
-import by.radiance.space.pictures.domain.repository.RemoteAstronomyPictureRepository
+import by.radiance.space.pictures.domain.repository.AstronomyPictureRepository
 import by.radiance.space.pictures.domain.utils.DateUtil
 import by.radiance.space.pictures.domain.utils.minusDays
 import by.radiance.space.pictures.domain.utils.plusDays
@@ -14,7 +13,7 @@ import java.util.Date
 class PictureSource(
     private val startDate: Date,
     private val endDate: Date,
-    private val astronomyPictureRepository: RemoteAstronomyPictureRepository,
+    private val astronomyPictureRepository: AstronomyPictureRepository,
 ) : PagingSource<PictureSource.Key, Picture>() {
 
     override val jumpingSupported: Boolean = true

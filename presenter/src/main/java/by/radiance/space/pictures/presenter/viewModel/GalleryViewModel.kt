@@ -1,6 +1,5 @@
 package by.radiance.space.pictures.presenter.viewModel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
@@ -8,7 +7,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import by.radiance.space.pictures.domain.entity.Picture
-import by.radiance.space.pictures.domain.repository.RemoteAstronomyPictureRepository
+import by.radiance.space.pictures.domain.repository.AstronomyPictureRepository
 import by.radiance.space.pictures.domain.utils.DateUtil
 import by.radiance.space.pictures.domain.utils.minusDays
 import by.radiance.space.pictures.presenter.ui.gallery.paging.PictureSource
@@ -18,7 +17,7 @@ import kotlinx.coroutines.launch
 import java.util.Date
 
 class GalleryViewModel(
-    private val astronomyPictureRepository: RemoteAstronomyPictureRepository,
+    private val astronomyPictureRepository: AstronomyPictureRepository,
 ) : ViewModel() {
 
     val startDate = DateUtil.APODStartDate()

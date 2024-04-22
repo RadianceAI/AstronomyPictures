@@ -2,7 +2,7 @@
 package by.radiance.space.pictures.domain.usecase
 
 import by.radiance.space.pictures.domain.entity.Picture
-import by.radiance.space.pictures.domain.repository.RemoteAstronomyPictureRepository
+import by.radiance.space.pictures.domain.repository.AstronomyPictureRepository
 import by.radiance.space.pictures.domain.utils.LoadingState
 import by.radiance.space.pictures.domain.utils.asState
 import kotlinx.coroutines.flow.Flow
@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.channelFlow
 import java.util.Date
 
 class GetAstronomyPicturesUseCase(
-    private val remoteRepository: RemoteAstronomyPictureRepository,
+    private val remoteRepository: AstronomyPictureRepository,
 ) {
     fun get(date: Date): Flow<LoadingState<Picture>> = channelFlow {
         try {
